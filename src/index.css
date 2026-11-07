@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Design tokens as CSS custom properties (Tailwind v4 @theme) */
+@theme {
+  --color-bg: #050505;
+  --color-bg-alt: #08090B;
+  --color-surface: #101113;
+  --color-card: #0B0D0E;
+  --color-border: #292C2C;
+  --color-text: #F2F3F0;
+  --color-muted: #A5A7A3;
+  --color-accent: #C8E9A9;
+  --color-accent-muted: #91B77A;
+  --color-purple: #9678C9;
+  --font-sans: 'Inter', 'Manrope', system-ui, sans-serif;
+}
+
+/* Global styles */
+html, body, #root {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+}
