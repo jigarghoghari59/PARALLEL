@@ -39,7 +39,7 @@ function cleanJsonText(rawText) {
  */
 export async function generateJson(prompt, systemInstruction = "", schema = null) {
   const apiKey = process.env.GEMINI_API_KEY;
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
   // Check API key availability
   if (!apiKey || apiKey === "mock" || process.env.MOCK_AI === "true") {

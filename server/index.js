@@ -48,7 +48,7 @@ app.use("/api/", limiter);
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
-    model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+    model: process.env.GEMINI_MODEL || "gemini-3.8-flash",
     timestamp: new Date().toISOString(),
   });
 });

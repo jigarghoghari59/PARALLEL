@@ -5,28 +5,29 @@ const INITIALIZED_KEY = "parallel.initialized";
 
 export const SAMPLE_UNIVERSES = [
   {
-    id: "uni-robotics-01",
-    originalDecision: "What if I had chosen Mechanical Engineering instead of Computer Engineering?",
+    id: "uni-computer-eng-01",
+    originalDecision: "Choose Computer Engineering",
     category: "Career",
     durationYears: 10,
     createdAt: Date.now() - 86400000 * 3,
     bookmarked: true,
     realities: [
       {
-        id: "real-original",
-        universeId: "uni-robotics-01",
-        name: "Software Architecture Path",
+        id: "real-software-dev",
+        universeId: "uni-computer-eng-01",
+        name: "Software Developer",
         type: "original",
         parentRealityId: null,
         parentEventId: null,
-        summary: "Continuing in computer engineering led to senior systems architecture in cloud tech.",
-        career: "Cloud Architect",
-        industry: "Enterprise Software",
+        summary: "You stayed the course in computer engineering, scaling complex cloud systems and distributed web applications.",
+        career: "Senior Software Developer",
+        industry: "Tech Industry",
         location: "San Francisco, CA",
-        skills: ["Distributed Systems", "Kubernetes", "Go", "System Design"],
-        opportunities: ["Tech Lead at high-growth startup", "Early equity buyout"],
-        challenges: ["High burnout risk", "Sedentary routine"],
-        outcome: "Financial security with rapid career progression in enterprise software.",
+        skills: ["Distributed Systems", "TypeScript", "System Architecture", "Cloud Native"],
+        opportunities: ["Staff Engineer at hypergrowth scale-up", "Open source protocol leadership"],
+        challenges: ["Fast-paced framework churn", "Screen fatigue"],
+        outcome: "Deep technical mastery and financial independence within the core software sector.",
+        image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80",
         events: [
           {
             id: "evt-01",
@@ -57,20 +58,21 @@ export const SAMPLE_UNIVERSES = [
         ]
       },
       {
-        id: "real-robotics",
-        universeId: "uni-robotics-01",
-        name: "The Robotics Path",
+        id: "real-mechanical-eng",
+        universeId: "uni-computer-eng-01",
+        name: "Mechanical Engineer",
         type: "alternative",
-        parentRealityId: "real-original",
+        parentRealityId: "real-software-dev",
         parentEventId: "evt-01",
-        summary: "Pivoting into mechatronics and humanoid robotics engineering with hands-on hardware builds.",
+        summary: "Pivoted from pure code into physical computing, robotics actuators, and autonomous hardware engineering.",
         career: "Autonomous Systems Roboticist",
-        industry: "Robotics & Automation",
+        industry: "Robotics",
         location: "Tokyo, Japan",
         skills: ["ROS 2", "Kinematics", "C++", "Computer Vision"],
         opportunities: ["Lead researcher on bipedal walking algorithms", "Global robotics summit speaker"],
-        challenges: ["Hardware iteration cycles are long and capital-intensive", "Language barrier abroad"],
-        outcome: "Groundbreaking patents in robotic manipulation and fulfilling cross-border career.",
+        challenges: ["Hardware turnaround cycles", "International supply chain bottlenecks"],
+        outcome: "Pioneered adaptive manipulation algorithms with international patents.",
+        image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
         events: [
           {
             id: "evt-r1",
@@ -84,55 +86,53 @@ export const SAMPLE_UNIVERSES = [
             opportunities: ["Direct mentor under Prof. Takahashi"],
             challenges: ["Intense cultural adjustment"],
             consequences: "Co-authored high-impact paper on compliant actuators."
-          },
-          {
-            id: "evt-r2",
-            order: 2,
-            year: 2030,
-            age: 28,
-            title: "Senior Roboticist at Humanoid Lab",
-            description: "Spearheaded autonomous manipulation for next-gen warehouse robots.",
-            category: "Career",
-            skills: ["Actuator Design", "Sensor Fusion"],
-            opportunities: ["Venture funding offer for spin-off"],
-            challenges: ["Supply chain bottlenecks"],
-            consequences: "Filed 3 core utility patents in robotic dexterity."
           }
         ]
       },
       {
-        id: "real-automotive",
-        universeId: "uni-robotics-01",
-        name: "EV Powertrain Researcher",
+        id: "real-product-manager",
+        universeId: "uni-computer-eng-01",
+        name: "Product Manager",
         type: "alternative",
-        parentRealityId: "real-original",
-        parentEventId: "evt-01",
-        summary: "Focusing on electric vehicle battery cell simulation and thermal management.",
-        career: "Battery Systems Engineer",
-        industry: "CleanTech & Automotive",
-        location: "Munich, Germany",
-        skills: ["Thermal Modeling", "MATLAB", "SolidWorks"],
-        opportunities: ["Formula E tech partnership"],
-        challenges: ["Rigid automotive safety regulations"],
-        outcome: "Key contributor to next-generation solid-state battery architecture.",
-        events: []
-      },
-      {
-        id: "real-aerospace",
-        universeId: "uni-robotics-01",
-        name: "Orbital Mechanics Specialist",
-        type: "alternative",
-        parentRealityId: "real-original",
+        parentRealityId: "real-software-dev",
         parentEventId: null,
-        summary: "Designing satellite deployment mechanisms for private space propulsion ventures.",
-        career: "Aerospace Systems Analyst",
-        industry: "Space Technology",
-        location: "Austin, TX",
-        skills: ["Orbital Dynamics", "Nastran", "Aerodynamics"],
-        opportunities: ["Launch control room lead"],
-        challenges: ["Defense clearance delays"],
-        outcome: "Instrumental in 4 successful orbital insertion missions.",
-        events: []
+        summary: "You chose to lead products instead of building them. You're now a Product Manager at a top tech company, shaping the future of technology.",
+        career: "Principal Product Manager",
+        industry: "Tech Product",
+        location: "New York, NY",
+        skills: ["Strategy", "Leadership", "Business", "User Research"],
+        opportunities: ["Product Leadership, Startup Founder Fellowship"],
+        challenges: ["High Responsibility, Market Pressure"],
+        outcome: "A fulfilling career with global impact.",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+        events: [
+          {
+            id: "evt-pm1",
+            order: 1,
+            year: 2027,
+            age: 25,
+            title: "Associate Product Manager",
+            description: "Transitioned from engineering into product strategy, leading search infrastructure.",
+            category: "Career",
+            skills: ["Roadmapping"],
+            opportunities: ["Executive mentorship"],
+            challenges: ["Balancing user needs with timeline constraints"],
+            consequences: "Launched feature utilized by 10M+ daily active users."
+          },
+          {
+            id: "evt-pm2",
+            order: 2,
+            year: 2030,
+            age: 28,
+            title: "Director of Product Evolution",
+            description: "Spearheaded autonomous collaborative platform vision across 4 continents.",
+            category: "Milestone",
+            skills: ["Executive Strategy"],
+            opportunities: ["Board of advisors invitation"],
+            challenges: ["Cross-timezone org friction"],
+            consequences: "Grew product line annual recurring revenue by 340%."
+          }
+        ]
       }
     ]
   },
@@ -159,67 +159,7 @@ export const SAMPLE_UNIVERSES = [
         opportunities: ["Exhibition in Milan Design Week"],
         challenges: ["Seasonal tourism revenue dips"],
         outcome: "Recognized as a leading minimalist atelier.",
-        events: []
-      },
-      {
-        id: "real-kyoto-02",
-        universeId: "uni-tokyo-02",
-        name: "Digital Nomad Agency",
-        type: "alternative",
-        parentRealityId: null,
-        parentEventId: null,
-        summary: "Ran a remote creative agency from temples and machiyas across Kansai.",
-        career: "Creative Technologist",
-        industry: "Agency",
-        location: "Osaka, Japan",
-        skills: ["Remote Ops", "Creative Coding"],
-        opportunities: ["Global clientele"],
-        challenges: ["Timezone coordination"],
-        outcome: "High freedom with diverse international portfolio.",
-        events: []
-      }
-    ]
-  },
-  {
-    id: "uni-biotech-03",
-    originalDecision: "What if I went into Computational Biology instead of Tech?",
-    category: "Education",
-    durationYears: 10,
-    createdAt: Date.now() - 86400000 * 14,
-    bookmarked: true,
-    realities: [
-      {
-        id: "real-bio-01",
-        universeId: "uni-biotech-03",
-        name: "Protein Folding AI Researcher",
-        type: "alternative",
-        parentRealityId: null,
-        parentEventId: null,
-        summary: "Trained molecular dynamics transformers for targeted antibody therapeutics.",
-        career: "Principal Bioinformatician",
-        industry: "Biotech & AI",
-        location: "Boston, MA",
-        skills: ["PyTorch", "Structural Biology", "Cryo-EM"],
-        opportunities: ["Clinical trial candidate synthesis"],
-        challenges: ["Complex laboratory validation"],
-        outcome: "Co-founded a clinical-stage drug discovery company.",
-        events: []
-      },
-      {
-        id: "real-bio-02",
-        universeId: "uni-biotech-03",
-        name: "Academic Professor",
-        type: "alternative",
-        parentRealityId: null,
-        parentEventId: null,
-        summary: "Secured tenure track researching algorithmic genomics.",
-        career: "Associate Professor",
-        industry: "Higher Education",
-        location: "Cambridge, UK",
-        skills: ["Grant Writing", "Genomics", "Mentorship"],
-        opportunities: ["EU Horizon Research Grant"],
-        challenges: ["Academic administration"],
-        outcome: "Trained 12 PhD candidates with 20+ published papers.",
+        image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
         events: []
       }
     ]
@@ -231,7 +171,6 @@ function getRaw() {
   
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
-    // Seed initial demo data so the app looks like the reference design out of the box
     const hasInitialized = localStorage.getItem(INITIALIZED_KEY);
     if (!hasInitialized) {
       setRaw(SAMPLE_UNIVERSES);
