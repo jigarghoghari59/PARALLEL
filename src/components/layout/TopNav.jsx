@@ -1,7 +1,8 @@
 // src/components/layout/TopNav.jsx
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Bell, ChevronDown, Menu, X } from "lucide-react";
+import { settingsService } from "../../services/settingsService";
 
 const NAV_LINKS = [
   { to: "/", label: "Dashboard" },
@@ -13,7 +14,17 @@ const NAV_LINKS = [
 
 export const TopNav = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [profile, setProfile] = useState(() => settingsService.getProfile());
+
+  useEffect(() => {
+    const handleProfileUpdate = (e) => {
+      if (e.detail) setProfile(e.detail);
+    };
+    window.addEventListener("parallel:profile-updated", handleProfileUpdate);
+    return () => window.removeEventListener("parallel:profile-updated", handleProfileUpdate);
+  }, []);
 
   const isActive = (to) => {
     if (to === "/") return location.pathname === "/";
@@ -82,17 +93,22 @@ export const TopNav = () => {
         </button>
 
         <button
-          aria-label="User Profile"
-          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#0B0D0E] border border-[#292C2C] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors ml-1"
+          onClick={() => navigate("/settings")}
+          aria-label="User Settings"
+          title="Open Settings"
+          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#0B0D0E] border border-[#292C2C] hover:border-[#C8E9A9]/50 focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors ml-1 group"
         >
           <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-tr from-zinc-800 to-zinc-600 border border-zinc-700/50">
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80"
-              alt="avatar"
-              className="w-full h-full object-cover grayscale opacity-85"
+              src={
+                profile.avatar ||
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80"
+              }
+              alt={profile.name || "avatar"}
+              className="w-full h-full object-cover grayscale opacity-85 group-hover:scale-110 transition-transform"
             />
           </div>
-          <ChevronDown size={13} className="text-[#A5A7A3]" />
+          <ChevronDown size={13} className="text-[#A5A7A3] group-hover:text-[#F2F3F0] transition-colors" />
         </button>
 
         {/* Mobile menu button */}
