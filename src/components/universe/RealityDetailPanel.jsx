@@ -10,6 +10,7 @@ import {
   X,
   Target,
   GitBranch,
+  Clock,
 } from "lucide-react";
 
 export const RealityDetailPanel = ({
@@ -155,6 +156,14 @@ export const RealityDetailPanel = ({
         >
           <span>Explore This Reality</span>
           <ArrowRight size={14} />
+        </button>
+
+        <button
+          onClick={() => navigate(`/simulate/${universeId}/${reality.id}`)}
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-full bg-[#141618] hover:bg-[#1a1e22] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-[#F2F3F0] font-semibold text-xs transition-colors"
+        >
+          <Clock size={13} className="text-[#C8E9A9]" />
+          <span>Experience a Day</span>
         </button>
 
         {onExploreMoreBranches && (

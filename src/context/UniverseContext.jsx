@@ -62,6 +62,13 @@ export const UniverseProvider = ({ children }) => {
     return updated;
   };
 
+  const addSimulation = (universeId, realityId, simulation) => {
+    const updated = universeService.addSimulation(universeId, realityId, simulation);
+    sync();
+    showToast("Day simulation saved to quantum memory");
+    return updated;
+  };
+
   // Compute stats — zero-safe
   const stats = {
     totalUniverses: universes.length,
@@ -83,6 +90,7 @@ export const UniverseProvider = ({ children }) => {
         toggleBookmark,
         getComparison,
         saveComparison,
+        addSimulation,
         stats,
         refresh: sync,
         showToast,

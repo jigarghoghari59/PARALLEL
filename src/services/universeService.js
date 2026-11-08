@@ -1,7 +1,7 @@
 // src/services/universeService.js
 
 const STORAGE_KEY = "parallel.universes";
-const INITIALIZED_KEY = "parallel.initialized_v3";
+const INITIALIZED_KEY = "parallel.initialized_v4";
 
 export const SAMPLE_UNIVERSES = [
   {
@@ -178,6 +178,72 @@ export const SAMPLE_UNIVERSES = [
             opportunities: ["Founding consortium advisor", "Multi-national industrial partnerships"],
             challenges: ["Navigating international standards and workforce displacement ethics"],
             consequences: "Cemented status as an internationally recognized pioneer in building intelligent machines."
+          }
+        ],
+        simulations: [
+          {
+            id: "sim-mech-day-01",
+            dayLabel: "Day 1",
+            overview: {
+              career: "Robotics Engineer",
+              location: "Bangalore, India",
+              lifestyle: "Balanced & Active",
+              happiness: "92%",
+              quote: "Sometimes, a different choice leads to a happier you.",
+              highlights: [
+                "Led a successful robotics project",
+                "Traveled to Japan for research",
+                "Maintained a healthy lifestyle"
+              ]
+            },
+            entries: [
+              {
+                time: "07:00 AM",
+                iconType: "sun",
+                title: "Morning Routine",
+                description: "You wake up in your cozy apartment in Bangalore, ready for a productive day.",
+                experience: "Calm anticipation of the robotics testing run ahead.",
+                important: false,
+                image: "https://images.unsplash.com/photo-1540518614846-7ede433c457b?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                time: "10:00 AM",
+                iconType: "briefcase",
+                title: "At Work",
+                description: "You're working on a cutting-edge robotics project at a top tech firm.",
+                experience: "Activating compliant actuators on the humanoid test rig.",
+                important: false,
+                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                time: "02:00 PM",
+                iconType: "code",
+                title: "Big Decision",
+                description: "You get an opportunity to lead a new AI robotics team.",
+                experience: "Heart beats with excitement during executive review.",
+                important: true,
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                time: "07:00 PM",
+                iconType: "dumbbell",
+                title: "Personal Time",
+                description: "Gym, good food and friends.",
+                experience: "Unwinding and staying grounded with loved ones.",
+                important: false,
+                image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                time: "11:00 PM",
+                iconType: "moon",
+                title: "End of the Day",
+                description: "You reflect on your journey — and feel content.",
+                experience: "Peaceful reflection looking over Bangalore skyline.",
+                important: false,
+                image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=300&q=80"
+              }
+            ],
+            generatedAt: 1761480000000
           }
         ]
       },
@@ -548,8 +614,8 @@ function getRaw() {
   
   try {
     const parsed = JSON.parse(raw);
-    const hasInitializedV3 = localStorage.getItem(INITIALIZED_KEY);
-    if (!hasInitializedV3) {
+    const hasInitializedV4 = localStorage.getItem(INITIALIZED_KEY);
+    if (!hasInitializedV4) {
       // Reset to updated 6 rich universes matching the reference UI
       setRaw(SAMPLE_UNIVERSES);
       localStorage.setItem(INITIALIZED_KEY, "true");
@@ -636,6 +702,28 @@ export const universeService = {
       cachedAt: Date.now(),
     };
     return this.update(universeId, { comparisons });
+  },
+  addSimulation(universeId, realityId, simulation) {
+    const list = getRaw();
+    const uni = list.find((u) => u.id === universeId);
+    if (!uni) return null;
+    const reality = uni.realities?.find((r) => r.id === realityId);
+    if (!reality) return null;
+    if (!Array.isArray(reality.simulations)) reality.simulations = [];
+
+    const simWithId = {
+      id: simulation.id || `sim-${Date.now()}`,
+      dayLabel: `Day ${reality.simulations.length + 1}`,
+      generatedAt: Date.now(),
+      ...simulation,
+    };
+    reality.simulations = [
+      simWithId,
+      ...reality.simulations.filter((s) => s.id !== simWithId.id),
+    ].slice(0, 5);
+
+    setRaw(list);
+    return reality.simulations;
   },
   resetToSample() {
     setRaw(SAMPLE_UNIVERSES);
