@@ -1,6 +1,6 @@
 // src/pages/Explorer.jsx
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -33,6 +33,7 @@ import {
 } from "../components/universe/CustomNodes";
 import { RealityDetailPanel } from "../components/universe/RealityDetailPanel";
 import { generateTreeElements } from "../utils/layoutTree";
+import { BranchModal } from "../components/timeline/BranchModal";
 
 // Register custom React Flow node components
 const nodeTypes = {
@@ -114,6 +115,7 @@ function ZoomToolbar({ zoomLevel, onZoomChange }) {
 function ExplorerContent() {
   const { universeId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { universes, stats } = useUniverse();
 
   // Find universe from URL param or fallback to latest
@@ -134,6 +136,18 @@ function ExplorerContent() {
   const [selectedRealityId, setSelectedRealityId] = useState(null);
   const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
 
+  // Branch modal state
+  const [branchModalOpen, setBranchModalOpen] = useState(false);
+  const [branchTargetReality, setBranchTargetReality] = useState(null);
+
+  // Focus node passed via navigation state (e.g. from TimelineDetails after branching)
+  useEffect(() => {
+    if (location.state?.focusedRealityId) {
+      setSelectedRealityId(location.state.focusedRealityId);
+      setMobilePanelOpen(true);
+    }
+  }, [location.state?.focusedRealityId]);
+
   // Filter realities if category filter is active
   const filteredUniverse = useMemo(() => {
     if (!universe) return null;
@@ -152,17 +166,20 @@ function ExplorerContent() {
     };
   }, [universe, selectedCategory]);
 
-  // Default selection to 3rd reality (e.g. Reality C / Product Manager) or original
+  // Default selection to focused node or 3rd reality or original
   useEffect(() => {
     if (filteredUniverse?.realities?.length) {
       if (!selectedRealityId) {
-        // Choose Reality C if available (index 2), or index 0
-        const defaultTarget =
-          filteredUniverse.realities[2] || filteredUniverse.realities[0];
-        setSelectedRealityId(defaultTarget.id);
+        if (location.state?.focusedRealityId) {
+          setSelectedRealityId(location.state.focusedRealityId);
+        } else {
+          const defaultTarget =
+            filteredUniverse.realities[2] || filteredUniverse.realities[0];
+          setSelectedRealityId(defaultTarget.id);
+        }
       }
     }
-  }, [filteredUniverse, selectedRealityId]);
+  }, [filteredUniverse, selectedRealityId, location.state]);
 
   const handleSelectReality = useCallback((reality) => {
     if (reality?.id) {
@@ -171,15 +188,25 @@ function ExplorerContent() {
     }
   }, []);
 
-  const handleExploreMoreBranches = useCallback(() => {
-    navigate("/create", {
-      state: {
-        prefill: `What if I branched further from ${
-          filteredUniverse?.originalDecision || "this turning point"
-        }?`,
-      },
-    });
-  }, [navigate, filteredUniverse]);
+  const handleExploreMoreBranches = useCallback(
+    (targetReality) => {
+      const target =
+        targetReality ||
+        filteredUniverse?.realities?.find((r) => r.id === selectedRealityId) ||
+        filteredUniverse?.realities?.[0] ||
+        null;
+      setBranchTargetReality(target);
+      setBranchModalOpen(true);
+    },
+    [filteredUniverse, selectedRealityId]
+  );
+
+  const handleBranchSuccess = useCallback((childReality) => {
+    if (childReality?.id) {
+      setSelectedRealityId(childReality.id);
+      setMobilePanelOpen(true);
+    }
+  }, []);
 
   // Generate initial React Flow nodes and edges
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
@@ -424,6 +451,17 @@ function ExplorerContent() {
             />
           </div>
         </div>
+      )}
+
+      {/* ================= BRANCH MODAL ================= */}
+      {universe && (
+        <BranchModal
+          open={branchModalOpen}
+          onClose={() => setBranchModalOpen(false)}
+          universe={universe}
+          initialReality={branchTargetReality || selectedReality}
+          onSuccess={handleBranchSuccess}
+        />
       )}
     </div>
   );

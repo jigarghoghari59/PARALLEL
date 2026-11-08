@@ -9,6 +9,7 @@ import {
   Compass,
   X,
   Target,
+  GitBranch,
 } from "lucide-react";
 
 export const RealityDetailPanel = ({
@@ -155,6 +156,16 @@ export const RealityDetailPanel = ({
           <span>Explore This Reality</span>
           <ArrowRight size={14} />
         </button>
+
+        {onExploreMoreBranches && (
+          <button
+            onClick={onExploreMoreBranches}
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-[#292C2C] text-[#F2F3F0] font-semibold text-xs transition-colors"
+          >
+            <GitBranch size={13} className="text-[#C8E9A9]" />
+            <span>Explore More Branches</span>
+          </button>
+        )}
 
         <p className="text-[10px] text-center text-[#A5A7A3]/70">
           Speculative fiction narrative • Non-predictive

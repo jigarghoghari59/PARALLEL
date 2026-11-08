@@ -1,7 +1,7 @@
 // src/services/universeService.js
 
 const STORAGE_KEY = "parallel.universes";
-const INITIALIZED_KEY = "parallel.initialized";
+const INITIALIZED_KEY = "parallel.initialized_v2";
 
 export const SAMPLE_UNIVERSES = [
   {
@@ -60,32 +60,84 @@ export const SAMPLE_UNIVERSES = [
       {
         id: "real-mechanical-eng",
         universeId: "uni-computer-eng-01",
-        name: "Mechanical Engineer",
+        name: "Mechanical Engineering",
         type: "alternative",
         parentRealityId: "real-software-dev",
         parentEventId: "evt-01",
-        summary: "Pivoted from pure code into physical computing, robotics actuators, and autonomous hardware engineering.",
-        career: "Autonomous Systems Roboticist",
-        industry: "Robotics",
-        location: "Tokyo, Japan",
-        skills: ["ROS 2", "Kinematics", "C++", "Computer Vision"],
-        opportunities: ["Lead researcher on bipedal walking algorithms", "Global robotics summit speaker"],
-        challenges: ["Hardware turnaround cycles", "International supply chain bottlenecks"],
-        outcome: "Pioneered adaptive manipulation algorithms with international patents.",
+        summary: "A different path, a different you. You pivoted from pure software into physical computing, robotics and intelligent automation.",
+        career: "Robotics Engineer",
+        industry: "Automation",
+        location: "Bangalore, India",
+        skills: ["Robotics", "AI", "Engineering", "Mechanical Design"],
+        opportunities: ["Research", "Startups", "Innovation"],
+        challenges: ["High Technical Demands"],
+        outcome: "A Pioneer in Robotics Field",
         image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
         events: [
           {
-            id: "evt-r1",
+            id: "evt-m1",
             order: 1,
-            year: 2027,
-            age: 25,
-            title: "Robotics Lab Fellowship",
-            description: "Accepted into Tokyo Robotics Institute research exchange.",
-            category: "Education",
-            skills: ["Kinematics", "ROS 2"],
-            opportunities: ["Direct mentor under Prof. Takahashi"],
-            challenges: ["Intense cultural adjustment"],
-            consequences: "Co-authored high-impact paper on compliant actuators."
+            year: 2026,
+            age: 18,
+            title: "You Choose Mechanical Engineering",
+            description: "A new chapter begins at college, where you explore the world of machines and design.",
+            category: "Milestone",
+            skills: ["Mechanical Design", "CAD Modeling", "Thermodynamics"],
+            opportunities: ["Hands-on fabrication labs", "University robotics club lead"],
+            challenges: ["Intense technical curriculum"],
+            consequences: "Built exceptional mechanical intuitions that set the foundation for your career."
+          },
+          {
+            id: "evt-m2",
+            order: 2,
+            year: 2028,
+            age: 20,
+            title: "Discover Robotics",
+            description: "You fall in love with robotics and automation during a major project.",
+            category: "Growth",
+            skills: ["Robotics", "ROS 2", "Embedded Systems", "Sensor Fusion"],
+            opportunities: ["Autonomous rover challenge finalist", "Faculty lab fellowship"],
+            challenges: ["Balancing software bugs with physical wiring burnouts"],
+            consequences: "Permanently shifted career trajectory toward intelligent physical automation."
+          },
+          {
+            id: "evt-m3",
+            order: 3,
+            year: 2030,
+            age: 22,
+            title: "Join an Automation Startup",
+            description: "You start working at a rising robotics startup in Bangalore.",
+            category: "Career",
+            skills: ["Industrial Automation", "Control Systems", "C++", "Python"],
+            opportunities: ["Direct prototype ownership", "Commercial warehouse deployments"],
+            challenges: ["High-stakes client deadlines and supply chain lead times"],
+            consequences: "Scaled initial fleet of 40 autonomous transport robots across Indian logistics hubs."
+          },
+          {
+            id: "evt-m4",
+            order: 4,
+            year: 2032,
+            age: 24,
+            title: "Lead a Research Team",
+            description: "You lead a team working on next-gen AI robots for industrial use.",
+            category: "Achievement",
+            skills: ["AI Vision", "Manipulator Kinematics", "Technical Leadership"],
+            opportunities: ["First author on robotic manipulation patent", "Global automation summit speaker"],
+            challenges: ["High Technical Demands", "Managing cross-functional engineers"],
+            consequences: "Pioneered sub-millimeter vision-guided pick-and-place precision at scale."
+          },
+          {
+            id: "evt-m5",
+            order: 5,
+            year: 2035,
+            age: 27,
+            title: "Build a Global Impact",
+            description: "Your innovations help automate industries across the world.",
+            category: "Legacy",
+            skills: ["System Architecture", "Global Strategy", "Ethical AI Robotics"],
+            opportunities: ["Founding consortium advisor", "Multi-national industrial partnerships"],
+            challenges: ["Navigating international standards and workforce displacement ethics"],
+            consequences: "Cemented status as an internationally recognized pioneer in building intelligent machines."
           }
         ]
       },
@@ -171,17 +223,39 @@ function getRaw() {
   
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
-    const hasInitialized = localStorage.getItem(INITIALIZED_KEY);
-    if (!hasInitialized) {
-      setRaw(SAMPLE_UNIVERSES);
-      localStorage.setItem(INITIALIZED_KEY, "true");
-      return SAMPLE_UNIVERSES;
-    }
-    return [];
+    setRaw(SAMPLE_UNIVERSES);
+    localStorage.setItem(INITIALIZED_KEY, "true");
+    return SAMPLE_UNIVERSES;
   }
   
   try {
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    // Ensure sample universe has the rich events if still using old sample
+    if (Array.isArray(parsed)) {
+      const sample = parsed.find((u) => u.id === "uni-computer-eng-01");
+      if (sample) {
+        const mech = sample.realities?.find((r) => r.id === "real-mechanical-eng");
+        if (mech && (!mech.events || mech.events.length < 5)) {
+          const freshSample = SAMPLE_UNIVERSES.find((u) => u.id === "uni-computer-eng-01");
+          if (freshSample) {
+            const freshMech = freshSample.realities.find((r) => r.id === "real-mechanical-eng");
+            if (freshMech) {
+              mech.events = freshMech.events;
+              mech.name = freshMech.name;
+              mech.summary = freshMech.summary;
+              mech.career = freshMech.career;
+              mech.industry = freshMech.industry;
+              mech.skills = freshMech.skills;
+              mech.opportunities = freshMech.opportunities;
+              mech.challenges = freshMech.challenges;
+              mech.outcome = freshMech.outcome;
+              setRaw(parsed);
+            }
+          }
+        }
+      }
+    }
+    return parsed;
   } catch {
     localStorage.removeItem(STORAGE_KEY);
     return [];
@@ -214,6 +288,20 @@ export const universeService = {
     list.unshift(newUni);
     setRaw(list);
     return newUni;
+  },
+  addReality(universeId, reality) {
+    const list = getRaw();
+    const uni = list.find((u) => u.id === universeId);
+    if (!uni) return null;
+    if (!Array.isArray(uni.realities)) uni.realities = [];
+    const existingIndex = uni.realities.findIndex((r) => r.id === reality.id);
+    if (existingIndex >= 0) {
+      uni.realities[existingIndex] = { ...uni.realities[existingIndex], ...reality };
+    } else {
+      uni.realities.push(reality);
+    }
+    setRaw(list);
+    return uni;
   },
   update(id, patch) {
     const list = getRaw().map((u) => (u.id === id ? { ...u, ...patch } : u));

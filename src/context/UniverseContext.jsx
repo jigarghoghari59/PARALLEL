@@ -22,6 +22,11 @@ export const UniverseProvider = ({ children }) => {
     universeService.update(id, patch);
     sync();
   };
+  const addReality = (universeId, reality) => {
+    const updated = universeService.addReality(universeId, reality);
+    sync();
+    return updated;
+  };
   const remove = (id) => {
     universeService.remove(id);
     sync();
@@ -43,7 +48,16 @@ export const UniverseProvider = ({ children }) => {
 
   return (
     <UniverseContext.Provider
-      value={{ universes, create, update, remove, toggleBookmark, stats, refresh: sync }}
+      value={{
+        universes,
+        create,
+        update,
+        addReality,
+        remove,
+        toggleBookmark,
+        stats,
+        refresh: sync,
+      }}
     >
       {children}
     </UniverseContext.Provider>
