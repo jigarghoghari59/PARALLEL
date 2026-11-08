@@ -52,6 +52,16 @@ export const UniverseProvider = ({ children }) => {
     );
   };
 
+  const getComparison = (universeId, realityIds) => {
+    return universeService.getComparison(universeId, realityIds);
+  };
+
+  const saveComparison = (universeId, realityIds, comparisonData) => {
+    const updated = universeService.saveComparison(universeId, realityIds, comparisonData);
+    sync();
+    return updated;
+  };
+
   // Compute stats — zero-safe
   const stats = {
     totalUniverses: universes.length,
@@ -71,6 +81,8 @@ export const UniverseProvider = ({ children }) => {
         addReality,
         remove,
         toggleBookmark,
+        getComparison,
+        saveComparison,
         stats,
         refresh: sync,
         showToast,

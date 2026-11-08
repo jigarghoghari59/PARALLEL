@@ -16,6 +16,41 @@ export const SAMPLE_UNIVERSES = [
     createdAt: 1761480000000, // Oct 26, 2025
     bookmarked: true,
     image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80",
+    comparisons: {
+      "real-mechanical-eng:real-software-dev": {
+        realities: [
+          {
+            id: "real-software-dev",
+            scores: {
+              careerGrowth: 9.5,
+              incomePotential: 9.2,
+              workLifeBalance: 7.8,
+              innovationImpact: 9.0,
+            },
+            summary: "Deep technical software mastery with rapid startup scalability.",
+          },
+          {
+            id: "real-mechanical-eng",
+            scores: {
+              careerGrowth: 9.0,
+              incomePotential: 8.8,
+              workLifeBalance: 8.5,
+              innovationImpact: 9.5,
+            },
+            summary: "Pioneering physical computing, industrial robotics, and adaptive automation.",
+          },
+        ],
+        takeaways: [
+          "Choose what excites you more — coding or creating in the physical world.",
+          "Software allows higher initial liquidity, while mechanical robotics yields tangible physical patents.",
+        ],
+        finalSummary:
+          "Both realities are incredible. It all comes down to what kind of impact you want to make.",
+        quickInsights:
+          "Both paths lead to successful careers, but with different experiences and opportunities.",
+        cachedAt: 1761480000000,
+      },
+    },
     realities: [
       {
         id: "real-software-dev",
@@ -584,6 +619,23 @@ export const universeService = {
     );
     setRaw(list);
     return list.find((u) => u.id === id);
+  },
+  getComparison(universeId, realityIds = []) {
+    const uni = this.getById(universeId);
+    if (!uni || !uni.comparisons) return null;
+    const key = [...realityIds].sort().join(":");
+    return uni.comparisons[key] || null;
+  },
+  saveComparison(universeId, realityIds = [], comparisonData = {}) {
+    const uni = this.getById(universeId);
+    if (!uni) return null;
+    const comparisons = { ...(uni.comparisons || {}) };
+    const key = [...realityIds].sort().join(":");
+    comparisons[key] = {
+      ...comparisonData,
+      cachedAt: Date.now(),
+    };
+    return this.update(universeId, { comparisons });
   },
   resetToSample() {
     setRaw(SAMPLE_UNIVERSES);
