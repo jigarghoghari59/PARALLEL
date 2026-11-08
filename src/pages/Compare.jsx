@@ -15,6 +15,10 @@ export default function Compare() {
         </div>
         <h1 className="text-3xl font-extrabold text-[#F2F3F0] mb-2">Compare Realities</h1>
         <p className="text-sm text-[#A5A7A3] mb-6">Side-by-side life vector comparison and radar analysis (Phase 4).</p>
+        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-[11px] text-[#A5A7A3] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shrink-0" />
+          <span>Speculative fiction notice: All ratings, scores, and comparisons are illustrative AI-generated models, not guaranteed predictions.</span>
+        </div>
       </div>
     </div>
   );

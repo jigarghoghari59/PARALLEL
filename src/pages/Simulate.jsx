@@ -19,6 +19,10 @@ export default function Simulate() {
         <p className="text-sm text-[#A5A7A3] mb-6">
           Generating a day in the life of Reality {realityId || "Selected"} (Phase 5).
         </p>
+        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-[11px] text-[#A5A7A3] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shrink-0" />
+          <span>Speculative fiction notice: Simulated daily itineraries are fictional narrative explorations.</span>
+        </div>
       </div>
     </div>
   );

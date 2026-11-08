@@ -524,6 +524,11 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Speculative fiction notice */}
+      <div className="text-[10px] text-center text-[#A5A7A3]/60 pt-3 pb-1">
+        PARALLEL generates AI speculative fiction scenarios for exploratory contemplation. Outcomes are non-predictive.
+      </div>
     </div>
   );
 }

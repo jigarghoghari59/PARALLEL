@@ -1,16 +1,21 @@
 // src/services/universeService.js
 
 const STORAGE_KEY = "parallel.universes";
-const INITIALIZED_KEY = "parallel.initialized_v2";
+const INITIALIZED_KEY = "parallel.initialized_v3";
 
 export const SAMPLE_UNIVERSES = [
   {
     id: "uni-computer-eng-01",
+    title: "My Actual Timeline",
     originalDecision: "Choose Computer Engineering",
+    pathText: "Computer Engineering → Software Development",
     category: "Career",
+    status: "original",
+    badgeColor: "sage",
     durationYears: 10,
-    createdAt: Date.now() - 86400000 * 3,
+    createdAt: 1761480000000, // Oct 26, 2025
     bookmarked: true,
+    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80",
     realities: [
       {
         id: "real-software-dev",
@@ -189,71 +194,331 @@ export const SAMPLE_UNIVERSES = [
     ]
   },
   {
-    id: "uni-tokyo-02",
-    originalDecision: "What if I moved to Kyoto to open a design studio?",
-    category: "Lifestyle",
-    durationYears: 5,
-    createdAt: Date.now() - 86400000 * 7,
+    id: "uni-mech-eng-02",
+    title: "Mechanical Engineer",
+    originalDecision: "Specialize in Autonomous Systems & Robotics",
+    pathText: "Mechanical Engineering → Robotics Engineer",
+    category: "Career",
+    status: "alternative",
+    badgeColor: "purple",
+    durationYears: 10,
+    createdAt: 1761393600000, // Oct 25, 2025
     bookmarked: false,
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
     realities: [
       {
-        id: "real-kyoto-01",
-        universeId: "uni-tokyo-02",
-        name: "Kyoto Craft Studio",
+        id: "real-mech-core",
+        universeId: "uni-mech-eng-02",
+        name: "Robotics Engineer",
         type: "alternative",
         parentRealityId: null,
         parentEventId: null,
-        summary: "Blended generative UI software with traditional Japanese woodcraft.",
-        career: "Design Director",
-        industry: "Creative Studio",
-        location: "Kyoto, Japan",
-        skills: ["Industrial Design", "Woodworking", "Branding"],
-        opportunities: ["Exhibition in Milan Design Week"],
-        challenges: ["Seasonal tourism revenue dips"],
-        outcome: "Recognized as a leading minimalist atelier.",
-        image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
+        summary: "Focused on precision kinematics and industrial automation solutions.",
+        career: "Robotics Engineer",
+        industry: "Automation",
+        location: "Bangalore, India",
+        skills: ["Kinematics", "ROS 2", "Mechanical Design"],
+        opportunities: ["Commercial robotics lead"],
+        challenges: ["High technical demands"],
+        outcome: "Pioneered industrial arm automation.",
+        events: [
+          { id: "e-m1", order: 1, year: 2026, title: "Robotics Initiation", description: "Began automation prototyping.", category: "Milestone" },
+          { id: "e-m2", order: 2, year: 2029, title: "Industrial Deployment", description: "Deployed 20+ automated workcells.", category: "Career" }
+        ]
+      },
+      {
+        id: "real-mech-lead",
+        universeId: "uni-mech-eng-02",
+        name: "Autonomous Systems Lead",
+        type: "alternative",
+        parentRealityId: "real-mech-core",
+        parentEventId: "e-m1",
+        summary: "Led bipedal and mobile robotics initiatives.",
+        career: "Autonomous Systems Lead",
+        industry: "Automation",
+        location: "Tokyo, Japan",
+        skills: ["Embedded C++", "Sensor Fusion"],
+        opportunities: ["Global AI robotics consortium"],
+        challenges: ["Real-time synchronization"],
+        outcome: "Key patent author in autonomous navigation.",
+        events: [
+          { id: "e-m3", order: 1, year: 2028, title: "Sensor Fusion Milestone", description: "Achieved zero-latency obstacle avoidance.", category: "Achievement" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "uni-auto-path-03",
+    title: "Automotive Path",
+    originalDecision: "Join High-Performance EV Automotive Studio",
+    pathText: "Mechanical Engineering → Automotive Design",
+    category: "Career",
+    status: "alternative",
+    badgeColor: "sage",
+    durationYears: 8,
+    createdAt: 1761393600000, // Oct 25, 2025
+    bookmarked: true,
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80",
+    realities: [
+      {
+        id: "real-auto-aero",
+        universeId: "uni-auto-path-03",
+        name: "Automotive Design Specialist",
+        type: "alternative",
+        parentRealityId: null,
+        parentEventId: null,
+        summary: "Sculpted aerodynamic silhouettes for electric hypercars.",
+        career: "EV Aerodynamicist",
+        industry: "Automotive",
+        location: "Stuttgart, Germany",
+        skills: ["CFD Aerodynamics", "Industrial Clay Modeling", "Carbon Fiber Composite Design"],
+        opportunities: ["Le Mans prototype team"],
+        challenges: ["Extreme drag vs cooling trade-offs"],
+        outcome: "Designed record-breaking aerodynamic chassis.",
+        events: [
+          { id: "e-a1", order: 1, year: 2026, title: "Wind Tunnel Lead", description: "Optimized downforce coefficient by 18%.", category: "Milestone" }
+        ]
+      },
+      {
+        id: "real-auto-motorsport",
+        universeId: "uni-auto-path-03",
+        name: "Motorsport Technical Lead",
+        type: "alternative",
+        parentRealityId: "real-auto-aero",
+        parentEventId: "e-a1",
+        summary: "Trackside engineering for electric formula racing.",
+        career: "Race Team Technical Director",
+        industry: "Motorsport",
+        location: "Monaco",
+        skills: ["Telemetry Analytics", "Chassis Dynamics"],
+        opportunities: ["World Championship podium"],
+        challenges: ["Split-second decisions under high pressure"],
+        outcome: "Led team to first international championship title.",
+        events: [
+          { id: "e-a2", order: 1, year: 2029, title: "Championship Victory", description: "Clinched title at season finale.", category: "Achievement" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "uni-tech-ent-04",
+    title: "Tech Entrepreneur",
+    originalDecision: "Drop out of Corporate Tech to Build an AI Startup",
+    pathText: "Computer Engineering → Startup Founder",
+    category: "Career",
+    status: "alternative",
+    badgeColor: "blue",
+    durationYears: 10,
+    createdAt: 1760961600000, // Oct 20, 2025
+    bookmarked: false,
+    image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=600&q=80",
+    realities: [
+      {
+        id: "real-seed-founder",
+        universeId: "uni-tech-ent-04",
+        name: "Startup Founder & CEO",
+        type: "alternative",
+        parentRealityId: null,
+        parentEventId: null,
+        summary: "Bootstrapped from a bedroom into an international developer platform.",
+        career: "Startup Founder",
+        industry: "Venture Tech",
+        location: "San Francisco, CA",
+        skills: ["Product Vision", "Fundraising", "GTM Strategy"],
+        opportunities: ["Y Combinator batch lead", "Tier-1 VC funding"],
+        challenges: ["Cash runway volatility", "Rapid hiring scaling pains"],
+        outcome: "Built an enduring tech infrastructure company with 100k+ developers.",
+        events: [
+          { id: "e-t1", order: 1, year: 2026, title: "YC Demo Day", description: "Closed $3M seed round within 48 hours.", category: "Milestone" },
+          { id: "e-t2", order: 2, year: 2028, title: "Series A Expansion", description: "Expanded to 45 distributed engineers.", category: "Growth" }
+        ]
+      },
+      {
+        id: "real-venture-partner",
+        universeId: "uni-tech-ent-04",
+        name: "Venture Partner",
+        type: "alternative",
+        parentRealityId: "real-seed-founder",
+        parentEventId: "e-t2",
+        summary: "Transitioned from operator to early-stage deep-tech investor.",
+        career: "Venture Capital Partner",
+        industry: "Venture Capital",
+        location: "Palo Alto, CA",
+        skills: ["Market Diligence", "Board Advisory"],
+        opportunities: ["Backing the next generation of founders"],
+        challenges: ["Portfolio risk management"],
+        outcome: "Recognized as a Forbes Midas List emerging investor.",
+        events: [
+          { id: "e-t3", order: 1, year: 2031, title: "Fund Inauguration", description: "Launched $80M inaugural developer tools fund.", category: "Achievement" }
+        ]
+      },
+      {
+        id: "real-angel-investor",
+        universeId: "uni-tech-ent-04",
+        name: "Angel Syndicate Lead",
+        type: "alternative",
+        parentRealityId: "real-seed-founder",
+        parentEventId: "e-t1",
+        summary: "Supported 30+ early stage technical founders.",
+        career: "Angel Investor",
+        industry: "Angel Investing",
+        location: "Austin, TX",
+        skills: ["Deal Sourcing", "Mentorship"],
+        opportunities: ["High-impact advisory"],
+        challenges: ["Early failure rates"],
+        outcome: "Portfolio returned 12x net capital.",
+        events: []
+      },
+      {
+        id: "real-growth-ceo",
+        universeId: "uni-tech-ent-04",
+        name: "Enterprise Cloud CEO",
+        type: "alternative",
+        parentRealityId: "real-seed-founder",
+        parentEventId: "e-t2",
+        summary: "Scaled enterprise revenue past $50M ARR.",
+        career: "Enterprise CEO",
+        industry: "Enterprise SaaS",
+        location: "New York, NY",
+        skills: ["Enterprise Sales", "Executive Leadership"],
+        opportunities: ["Global customer expansion"],
+        challenges: ["Macro tech contraction"],
+        outcome: "Prepared company for Nasdaq public listing.",
+        events: []
+      }
+    ]
+  },
+  {
+    id: "uni-peaceful-05",
+    title: "Peaceful Life",
+    originalDecision: "Leave Corporate Grind for Alpine Living",
+    pathText: "Career Change → Travel Blogger",
+    category: "Lifestyle",
+    status: "alternative",
+    badgeColor: "sage",
+    durationYears: 6,
+    createdAt: 1760788800000, // Oct 18, 2025
+    bookmarked: true,
+    image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80",
+    realities: [
+      {
+        id: "real-alpine-writer",
+        universeId: "uni-peaceful-05",
+        name: "Travel & Wilderness Chronicler",
+        type: "alternative",
+        parentRealityId: null,
+        parentEventId: null,
+        summary: "Swapped screen glare for mountain air, writing essays and capturing remote landscapes.",
+        career: "Travel Blogger & Nature Writer",
+        industry: "Creative Publishing",
+        location: "Interlaken, Switzerland",
+        skills: ["Landscape Photography", "Long-form Prose", "Slow Living"],
+        opportunities: ["National Geographic feature contributor"],
+        challenges: ["Seasonal connectivity and isolation"],
+        outcome: "Cultivated a loyal global readership of 400k mindful explorers.",
+        events: [
+          { id: "e-p1", order: 1, year: 2026, title: "First Alpine Cabin", description: "Set up sustainable solar-powered writing studio.", category: "Milestone" },
+          { id: "e-p2", order: 2, year: 2028, title: "Book Publication", description: "Bestselling memoir on intentional deceleration.", category: "Legacy" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "uni-space-06",
+    title: "Space Researcher",
+    originalDecision: "Pursue Deep Space Exploration Fellowship",
+    pathText: "Aerospace Engineering → Space Scientist",
+    category: "Education",
+    status: "alternative",
+    badgeColor: "purple",
+    durationYears: 12,
+    createdAt: 1760529600000, // Oct 15, 2025
+    bookmarked: false,
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+    realities: [
+      {
+        id: "real-orbital-mechanics",
+        universeId: "uni-space-06",
+        name: "Space Scientist",
+        type: "alternative",
+        parentRealityId: null,
+        parentEventId: null,
+        summary: "Calculating gravitational slingshots and orbital insertion vectors for outer-solar exploration.",
+        career: "Space Scientist",
+        industry: "Aerospace Research",
+        location: "Pasadena, CA",
+        skills: ["Astrodynamics", "Radio Astronomy", "Orbital Kinematics"],
+        opportunities: ["Lead trajectory designer on Europa mission"],
+        challenges: ["Extreme precision tolerances with decade-long flight times"],
+        outcome: "Pioneered novel low-energy lunar transfer trajectories.",
+        events: [
+          { id: "e-s1", order: 1, year: 2026, title: "JPL Fellowship", description: "Joined Outer Planets mission trajectory group.", category: "Milestone" },
+          { id: "e-s2", order: 2, year: 2030, title: "Europa Trajectory Lock", description: "Finalized flight path with zero orbital margin of error.", category: "Achievement" }
+        ]
+      },
+      {
+        id: "real-planetary-geo",
+        universeId: "uni-space-06",
+        name: "Planetary Geologist",
+        type: "alternative",
+        parentRealityId: "real-orbital-mechanics",
+        parentEventId: "e-s1",
+        summary: "Analyzing subsurface ice radar scans from Martian probes.",
+        career: "Planetary Geologist",
+        industry: "Space Science",
+        location: "Boulder, CO",
+        skills: ["Spectroscopy", "Remote Sensing"],
+        opportunities: ["First author on astrobiology paper"],
+        challenges: ["Incomplete spectral sensor data"],
+        outcome: "Identified high-probability subsurface aquifer candidate.",
+        events: []
+      },
+      {
+        id: "real-deep-space-lead",
+        universeId: "uni-space-06",
+        name: "Deep Space Mission Director",
+        type: "alternative",
+        parentRealityId: "real-orbital-mechanics",
+        parentEventId: "e-s2",
+        summary: "Directing deep space probe operations at the flight control desk.",
+        career: "Mission Director",
+        industry: "Space Operations",
+        location: "Houston, TX",
+        skills: ["Crisis Management", "Spacecraft Telemetry"],
+        opportunities: ["Directing historical probe flybys"],
+        challenges: ["45-minute light-speed communication delays"],
+        outcome: "Delivered probe into Jovian orbit without anomalies.",
         events: []
       }
     ]
   }
 ];
 
+let memoryStore = null;
+
 function getRaw() {
-  if (typeof window === "undefined" || !window.localStorage) return SAMPLE_UNIVERSES;
+  if (typeof window === "undefined" || !window.localStorage) {
+    if (!memoryStore) {
+      memoryStore = JSON.parse(JSON.stringify(SAMPLE_UNIVERSES));
+    }
+    return memoryStore;
+  }
   
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
     setRaw(SAMPLE_UNIVERSES);
     localStorage.setItem(INITIALIZED_KEY, "true");
-    return SAMPLE_UNIVERSES;
+    return JSON.parse(JSON.stringify(SAMPLE_UNIVERSES));
   }
   
   try {
     const parsed = JSON.parse(raw);
-    // Ensure sample universe has the rich events if still using old sample
-    if (Array.isArray(parsed)) {
-      const sample = parsed.find((u) => u.id === "uni-computer-eng-01");
-      if (sample) {
-        const mech = sample.realities?.find((r) => r.id === "real-mechanical-eng");
-        if (mech && (!mech.events || mech.events.length < 5)) {
-          const freshSample = SAMPLE_UNIVERSES.find((u) => u.id === "uni-computer-eng-01");
-          if (freshSample) {
-            const freshMech = freshSample.realities.find((r) => r.id === "real-mechanical-eng");
-            if (freshMech) {
-              mech.events = freshMech.events;
-              mech.name = freshMech.name;
-              mech.summary = freshMech.summary;
-              mech.career = freshMech.career;
-              mech.industry = freshMech.industry;
-              mech.skills = freshMech.skills;
-              mech.opportunities = freshMech.opportunities;
-              mech.challenges = freshMech.challenges;
-              mech.outcome = freshMech.outcome;
-              setRaw(parsed);
-            }
-          }
-        }
-      }
+    const hasInitializedV3 = localStorage.getItem(INITIALIZED_KEY);
+    if (!hasInitializedV3) {
+      // Reset to updated 6 rich universes matching the reference UI
+      setRaw(SAMPLE_UNIVERSES);
+      localStorage.setItem(INITIALIZED_KEY, "true");
+      return JSON.parse(JSON.stringify(SAMPLE_UNIVERSES));
     }
     return parsed;
   } catch {
@@ -263,6 +528,7 @@ function getRaw() {
 }
 
 function setRaw(arr) {
+  memoryStore = arr;
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
   }

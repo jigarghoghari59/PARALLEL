@@ -68,14 +68,14 @@ export const TopNav = () => {
       <div className="flex items-center gap-2">
         <button
           aria-label="Search"
-          className="w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] transition-colors"
+          className="w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors"
         >
           <Search size={15} />
         </button>
 
         <button
           aria-label="Notifications"
-          className="relative w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] transition-colors"
+          className="relative w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors"
         >
           <Bell size={15} />
           <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
@@ -83,7 +83,7 @@ export const TopNav = () => {
 
         <button
           aria-label="User Profile"
-          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#0B0D0E] border border-[#292C2C] hover:border-[#383b3b] transition-colors ml-1"
+          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#0B0D0E] border border-[#292C2C] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors ml-1"
         >
           <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-tr from-zinc-800 to-zinc-600 border border-zinc-700/50">
             <img
@@ -97,7 +97,7 @@ export const TopNav = () => {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#F2F3F0]"
+          className="md:hidden w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
