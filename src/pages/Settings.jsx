@@ -19,13 +19,15 @@ import {
   Check,
   AlertTriangle,
   Upload,
-  Sparkles,
+  CheckCircle2,
   Lock,
   ExternalLink,
   ChevronRight,
   Layers,
   Heart,
   Globe,
+  Compass,
+  Cpu,
 } from "lucide-react";
 import { useUniverse } from "../context/UniverseContext";
 import { settingsService } from "../services/settingsService";
@@ -230,8 +232,8 @@ export default function Settings() {
 
       {/* Floating Status Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0B0D0E] border border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_20px_rgba(200,233,169,0.3)] animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <Sparkles size={14} className="text-[#C8E9A9]" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full glass-panel border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_24px_rgba(200,233,169,0.35)] animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <CheckCircle2 size={14} className="text-[#C8E9A9]" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -263,7 +265,8 @@ export default function Settings() {
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
             {/* User Profile Mini Capsule Card */}
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col items-center text-center backdrop-blur-md relative overflow-hidden">
+            <div className="glass-card rounded-xl p-5 shadow-2xl flex flex-col items-center text-center relative overflow-hidden reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               {/* Outer halo avatar circle */}
               <div className="relative w-20 h-20 rounded-full border border-white/10 ring-4 ring-white/[0.03] overflow-hidden bg-black/60 shadow-xl mb-3 group">
                 <img
@@ -277,7 +280,7 @@ export default function Settings() {
                 <button
                   onClick={() => setEditProfileOpen(true)}
                   aria-label="Edit Profile"
-                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
+                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer"
                 >
                   <Edit3 size={16} className="text-[#C8E9A9]" />
                 </button>
@@ -296,14 +299,14 @@ export default function Settings() {
               </div>
 
               {/* Premium Access Badge */}
-              <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#141a15] border border-[#C8E9A9]/20 text-[#C8E9A9] text-[10px] font-bold tracking-wider uppercase">
+              <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#141a15] border border-[#C8E9A9]/30 text-[#C8E9A9] text-[10px] font-bold tracking-wider uppercase shadow-[0_0_10px_rgba(200,233,169,0.2)]">
                 <span>💎</span>
                 <span>Premium Access</span>
               </div>
             </div>
 
             {/* Navigation Menu List */}
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-2 shadow-2xl backdrop-blur-md space-y-1">
+            <div className="glass-panel rounded-xl p-2 shadow-2xl space-y-1 overflow-hidden">
               {[
                 { id: "settings", label: "Settings", icon: SettingsIcon },
                 { id: "profile-section", label: "Profile", icon: User },
@@ -320,10 +323,10 @@ export default function Settings() {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-left ${
+                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all text-left cursor-pointer ${
                       isActive
-                        ? "bg-[#141a15] text-[#C8E9A9] border border-[#C8E9A9]/30 shadow-[0_0_12px_rgba(200,233,169,0.12)]"
-                        : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.03]"
+                        ? "nav-pill-active text-[#C8E9A9] shadow-sm"
+                        : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
                     }`}
                   >
                     <IconComponent
@@ -337,7 +340,8 @@ export default function Settings() {
             </div>
 
             {/* Inset Card: "Explore Deeper" */}
-            <div className="relative bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-4.5 shadow-2xl backdrop-blur-md overflow-hidden">
+            <div className="relative glass-card rounded-xl p-4.5 shadow-2xl overflow-hidden reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="relative z-10">
                 <h4 className="text-xs font-bold text-[#F2F3F0]">
                   Explore Deeper
@@ -348,7 +352,7 @@ export default function Settings() {
 
                 <button
                   onClick={() => setPremiumModalOpen(true)}
-                  className="mt-3 px-4 py-2 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(200,233,169,0.25)] group"
+                  className="mt-3 px-4 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer reflection-sheen active:scale-95 group"
                 >
                   <span>Upgrade Now</span>
                   <ArrowRight
@@ -381,8 +385,9 @@ export default function Settings() {
               {/* CARD 1: PROFILE SETTINGS */}
               <div
                 id="profile-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-md"
+                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   {/* Header Row */}
                   <div className="flex items-center justify-between mb-4">
@@ -395,7 +400,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setEditProfileOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121416] hover:bg-[#1a1c1e] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-[11px] font-semibold text-[#F2F3F0] transition-colors shadow-sm"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[11px] font-semibold text-[#F2F3F0] transition-all shadow-sm cursor-pointer"
                     >
                       <Edit3 size={11} className="text-[#C8E9A9]" />
                       <span>Edit Profile</span>
@@ -419,7 +424,7 @@ export default function Settings() {
                       <button
                         onClick={() => setEditProfileOpen(true)}
                         aria-label="Change Avatar"
-                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 flex items-center justify-center text-[#C8E9A9] shadow-md hover:scale-110 transition-transform"
+                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full glass-btn-circle hover:border-[#C8E9A9]/60 flex items-center justify-center text-[#C8E9A9] shadow-md hover:scale-110 transition-transform cursor-pointer"
                       >
                         <Edit3 size={10} />
                       </button>
@@ -452,8 +457,9 @@ export default function Settings() {
               {/* CARD 2: APPEARANCE */}
               <div
                 id="appearance-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-md"
+                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   {/* Header Row */}
                   <div className="flex items-center gap-2 mb-1">
@@ -496,8 +502,8 @@ export default function Settings() {
                           onClick={() => handleThemeChange(t.id)}
                           className={`relative rounded-xl p-2 cursor-pointer transition-all duration-300 flex flex-col items-center text-center group ${
                             isSelected
-                              ? "bg-[#141a15] border-2 border-[#C8E9A9] shadow-[0_0_15px_rgba(200,233,169,0.2)]"
-                              : "bg-[#0B0D0E] border border-[#292C2C] hover:border-[#3d4040]"
+                              ? "nav-pill-active border-2 border-[#C8E9A9] shadow-[0_0_20px_rgba(200,233,169,0.3)]"
+                              : "glass-card hover:border-[#C8E9A9]/50"
                           }`}
                         >
                           {/* Active Dot indicator */}
@@ -535,8 +541,9 @@ export default function Settings() {
               {/* CARD 3: NOTIFICATIONS */}
               <div
                 id="notifications-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-md"
+                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Bell size={16} className="text-[#C8E9A9]" />
@@ -605,8 +612,9 @@ export default function Settings() {
               {/* CARD 4: PRIVACY & SECURITY */}
               <div
                 id="privacy-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl backdrop-blur-md relative overflow-hidden flex flex-col justify-between"
+                className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Shield size={16} className="text-[#C8E9A9]" />
@@ -665,7 +673,7 @@ export default function Settings() {
 
                         <button
                           onClick={handleExportData}
-                          className="px-3 py-1 rounded-full bg-[#121416] hover:bg-[#1a1c1e] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-colors shrink-0"
+                          className="px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-all shrink-0 cursor-pointer reflection-sheen active:scale-95"
                         >
                           <Download size={11} className="text-[#C8E9A9]" />
                           <span>Download</span>
@@ -685,7 +693,7 @@ export default function Settings() {
 
                         <button
                           onClick={() => setClearDataModalOpen(true)}
-                          className="px-3 py-1 rounded-full bg-red-950/20 hover:bg-red-950/40 border border-red-500/30 hover:border-red-500/60 text-xs font-semibold text-red-400 flex items-center gap-1.5 transition-colors shrink-0"
+                          className="px-3 py-1 rounded-lg bg-red-950/20 hover:bg-red-950/40 border border-red-500/30 hover:border-red-500/60 text-xs font-semibold text-red-400 flex items-center gap-1.5 transition-colors shrink-0"
                         >
                           <Trash2 size={11} />
                           <span>Clear</span>
@@ -701,7 +709,7 @@ export default function Settings() {
                         <div className="absolute -inset-1 rounded-full border border-dashed border-[#C8E9A9]/15" />
 
                         {/* Holographic Shield Container */}
-                        <div className="w-16 h-20 rounded-2xl bg-gradient-to-b from-[#142017] to-[#0B0D0E] border border-[#C8E9A9]/40 flex items-center justify-center shadow-[0_0_20px_rgba(200,233,169,0.15)] backdrop-blur-sm">
+                        <div className="w-16 h-20 rounded-xl bg-gradient-to-b from-[#142017] to-[#0B0D0E] border border-[#C8E9A9]/40 flex items-center justify-center shadow-[0_0_20px_rgba(200,233,169,0.15)] backdrop-blur-sm">
                           <Lock size={20} className="text-[#C8E9A9]" />
                         </div>
                       </div>
@@ -718,8 +726,9 @@ export default function Settings() {
               {/* CARD 5: DATA MANAGEMENT */}
               <div
                 id="data-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-md"
+                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Database size={16} className="text-[#C8E9A9]" />
@@ -732,10 +741,10 @@ export default function Settings() {
                   </p>
 
                   {/* 3 Stats Columns */}
-                  <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-white/[0.02] border border-[#292C2C]/50">
+                  <div className="flex items-center justify-between py-2 px-3 rounded-xl glass-panel">
                     {/* Stat 1: Saved Universes */}
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/20 flex items-center justify-center text-[#C8E9A9]">
+                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]">
                         <Layers size={14} />
                       </div>
                       <div>
@@ -750,7 +759,7 @@ export default function Settings() {
 
                     {/* Stat 2: Total Branches */}
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/20 flex items-center justify-center text-[#C8E9A9]">
+                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]">
                         <GitBranch size={14} />
                       </div>
                       <div>
@@ -765,7 +774,7 @@ export default function Settings() {
 
                     {/* Stat 3: Storage Used */}
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/20 flex items-center justify-center text-[#C8E9A9]">
+                      <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]">
                         <Database size={14} />
                       </div>
                       <div>
@@ -783,7 +792,7 @@ export default function Settings() {
                 <div className="mt-4 flex items-center justify-end">
                   <button
                     onClick={() => navigate("/saved")}
-                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#121416] hover:bg-[#1a1c1e] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                   >
                     <span>Manage Data</span>
                     <ArrowRight size={12} className="text-[#C8E9A9]" />
@@ -794,8 +803,9 @@ export default function Settings() {
               {/* CARD 6: ABOUT PARALLEL */}
               <div
                 id="about-section"
-                className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl backdrop-blur-md relative overflow-hidden flex flex-col justify-between"
+                className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between reflection-sheen"
               >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-1">
                     <Info size={16} className="text-[#C8E9A9]" />
@@ -814,7 +824,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setCreditsModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121416] hover:bg-[#1a1c1e] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                     >
                       <span>View Credits</span>
                       <ArrowRight size={12} className="text-[#C8E9A9]" />
@@ -854,7 +864,7 @@ export default function Settings() {
         <form onSubmit={handleSaveProfile} className="space-y-4 pt-1">
           {/* Avatar Upload / Preview */}
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-black/60 border border-[#292C2C] shrink-0">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-black/60 border border-white/10 shrink-0 shadow-md">
               <img
                 src={editForm.avatar || profile.avatar}
                 alt="Avatar Preview"
@@ -876,7 +886,7 @@ export default function Settings() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121416] hover:bg-[#1a1c1e] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs font-medium text-[#F2F3F0] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs font-medium text-[#F2F3F0] transition-colors cursor-pointer"
               >
                 <Upload size={12} className="text-[#C8E9A9]" />
                 <span>Upload Image</span>
@@ -899,7 +909,7 @@ export default function Settings() {
               onChange={(e) =>
                 setEditForm((prev) => ({ ...prev, name: e.target.value }))
               }
-              className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
@@ -915,7 +925,7 @@ export default function Settings() {
                 setEditForm((prev) => ({ ...prev, role: e.target.value }))
               }
               placeholder="e.g. Explorer, Quantum Architect"
-              className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
@@ -931,22 +941,22 @@ export default function Settings() {
               onChange={(e) =>
                 setEditForm((prev) => ({ ...prev, email: e.target.value }))
               }
-              className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#292C2C]">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
             <button
               type="button"
               onClick={() => setEditProfileOpen(false)}
-              className="px-4 py-2 rounded-full border border-[#292C2C] bg-[#08090A] hover:bg-[#121416] text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
+              className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs shadow-md transition-colors"
+              className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md hover:shadow-[0_0_20px_rgba(200,233,169,0.4)] transition-all reflection-sheen active:scale-95 cursor-pointer"
             >
               Save Changes
             </button>
@@ -975,13 +985,13 @@ export default function Settings() {
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               onClick={() => setClearDataModalOpen(false)}
-              className="px-4 py-2 rounded-full border border-[#292C2C] bg-[#08090A] hover:bg-[#121416] text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
+              className="px-4 py-2 rounded-lg border border-[#292C2C] bg-[#08090A] hover:bg-[#121416] text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirmClear}
-              className="px-5 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg transition-colors"
+              className="px-5 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg transition-colors"
             >
               Clear Everything
             </button>
@@ -1000,7 +1010,7 @@ export default function Settings() {
       >
         <div className="space-y-4 pt-1 text-xs text-[#A5A7A3] leading-relaxed">
           <div className="p-3 rounded-xl bg-[#141a15] border border-[#C8E9A9]/20 flex items-center gap-3">
-            <Sparkles size={20} className="text-[#C8E9A9] shrink-0" />
+            <Compass size={20} className="text-[#C8E9A9] shrink-0" />
             <div>
               <div className="font-bold text-[#F2F3F0] text-sm">
                 PARALLEL Multiverse Exploration
@@ -1016,16 +1026,16 @@ export default function Settings() {
               Core Technologies
             </h5>
             <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="bg-[#08090A] p-2 rounded-lg border border-[#292C2C]">
+              <div className="glass-card p-2 rounded-xl">
                 ⚡ <strong className="text-[#F2F3F0]">Vite + React 19</strong> (ES Modules)
               </div>
-              <div className="bg-[#08090A] p-2 rounded-lg border border-[#292C2C]">
+              <div className="glass-card p-2 rounded-xl">
                 🤖 <strong className="text-[#F2F3F0]">Gemini 2.5 Flash</strong> (Server-side)
               </div>
-              <div className="bg-[#08090A] p-2 rounded-lg border border-[#292C2C]">
+              <div className="glass-card p-2 rounded-xl">
                 🎨 <strong className="text-[#F2F3F0]">Tailwind CSS v4</strong> (Near-black)
               </div>
-              <div className="bg-[#08090A] p-2 rounded-lg border border-[#292C2C]">
+              <div className="glass-card p-2 rounded-xl">
                 📊 <strong className="text-[#F2F3F0]">Recharts & Framer Motion</strong>
               </div>
             </div>
@@ -1043,7 +1053,7 @@ export default function Settings() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => setCreditsModalOpen(false)}
-              className="px-5 py-2 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs transition-colors"
+              className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md transition-all reflection-sheen active:scale-95 cursor-pointer"
             >
               Close
             </button>
@@ -1061,7 +1071,7 @@ export default function Settings() {
         maxWidth="max-w-md"
       >
         <div className="space-y-4 pt-1 text-xs text-[#A5A7A3] text-center">
-          <div className="w-12 h-12 rounded-full bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-2xl mx-auto shadow-lg">
+          <div className="w-12 h-12 rounded-full glass-card border-[#C8E9A9]/40 flex items-center justify-center text-2xl mx-auto shadow-[0_0_20px_rgba(200,233,169,0.2)]">
             💎
           </div>
           <div>
@@ -1074,7 +1084,7 @@ export default function Settings() {
           </div>
           <button
             onClick={() => setPremiumModalOpen(false)}
-            className="px-5 py-2 rounded-full bg-[#C8E9A9] text-[#050505] font-bold text-xs"
+            className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md transition-all reflection-sheen active:scale-95 cursor-pointer"
           >
             Got it
           </button>

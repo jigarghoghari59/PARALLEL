@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
-  Sparkles,
+  Activity,
   RefreshCw,
   Sun,
   Briefcase,
@@ -21,6 +21,9 @@ import {
   AlertTriangle,
   Clock,
   Quote,
+  Compass,
+  Layers,
+  Play,
 } from "lucide-react";
 import { useUniverse } from "../context/UniverseContext";
 import { api } from "../services/apiClient";
@@ -51,7 +54,7 @@ function getTimelineIcon(timeStr = "", title = "", iconType = "") {
   if (normalized.includes("moon") || normalized.includes("night") || normalized.includes("end") || normalized.includes("sleep") || normalized.includes("11:")) {
     return <Moon size={15} className="text-indigo-300" />;
   }
-  return <Sparkles size={15} className="text-[#C8E9A9]" />;
+  return <Activity size={15} className="text-[#C8E9A9]" />;
 }
 
 export default function Simulate() {
@@ -174,7 +177,8 @@ export default function Simulate() {
   if (!universe || !reality) {
     return (
       <div className="min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] flex items-center justify-center p-6">
-        <div className="bg-[#0B0D0E] border border-[#292C2C] rounded-2xl p-8 max-w-md text-center shadow-2xl">
+        <div className="glass-card rounded-xl p-8 max-w-md text-center shadow-2xl relative overflow-hidden reflection-sheen">
+          <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent pointer-events-none" />
           <AlertTriangle size={32} className="text-[#C8E9A9] mx-auto mb-3" />
           <h2 className="text-xl font-bold mb-2">Reality Not Found</h2>
           <p className="text-xs text-[#A5A7A3] mb-6">
@@ -182,7 +186,7 @@ export default function Simulate() {
           </p>
           <Link
             to="/explore"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#C8E9A9] text-[#050505] font-bold text-xs shadow-lg hover:bg-[#d8f5be] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-lg hover:shadow-[0_0_20px_rgba(200,233,169,0.4)] transition-all reflection-sheen active:scale-95"
           >
             <ArrowLeft size={14} /> Back to Explorer
           </Link>
@@ -226,14 +230,14 @@ export default function Simulate() {
           <div className="flex items-center gap-4 sm:gap-6">
             <Link
               to={`/explore/${universe.id}`}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B0D0E]/90 hover:bg-[#141618] border border-[#292C2C] hover:border-[#3d4040] text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors shadow-sm shrink-0"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all shadow-sm shrink-0 reflection-sheen"
             >
               <ArrowLeft size={13} />
               <span>Back to Explorer</span>
             </Link>
 
             <div className="flex items-center gap-2.5">
-              <Sparkles size={18} className="text-[#C8E9A9]" />
+              <Compass size={20} className="text-[#C8E9A9]" />
               <div>
                 <h1 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight leading-none">
                   Life Simulation
@@ -249,14 +253,14 @@ export default function Simulate() {
           <div className="flex items-center gap-2.5 self-start sm:self-auto">
             {/* Day Switcher (if multiple days saved) */}
             {simulations.length > 1 && (
-              <div className="flex items-center gap-1 bg-[#0B0D0E] border border-[#292C2C] rounded-full p-1 shadow-sm">
+              <div className="flex items-center gap-1 glass-pill p-1 shadow-sm rounded-lg">
                 {simulations.map((sim, sIdx) => (
                   <button
                     key={sim.id || sIdx}
                     onClick={() => setActiveSimIndex(sIdx)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-semibold transition-all ${
+                    className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
                       activeSimIndex === sIdx
-                        ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_8px_rgba(200,233,169,0.3)]"
+                        ? "bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] shadow-[0_0_10px_rgba(200,233,169,0.35)] font-bold"
                         : "text-[#A5A7A3] hover:text-[#F2F3F0]"
                     }`}
                   >
@@ -270,7 +274,7 @@ export default function Simulate() {
             <button
               onClick={handleGenerateDay}
               disabled={loading}
-              className="px-4 py-2 rounded-full bg-[#0B0D0E] hover:bg-[#151817] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-2 transition-all shadow-md group disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] flex items-center gap-2 transition-all shadow-md group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer reflection-sheen active:scale-95"
             >
               <RefreshCw
                 size={13}
@@ -291,10 +295,11 @@ export default function Simulate() {
           {/* LEFT COLUMN: REALITY CARD (3 Cols)                       */}
           {/* ======================================================== */}
           <div className="lg:col-span-3">
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-md">
+            <div className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div>
                 {/* Badge */}
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/20 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase mb-2">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase mb-2 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
                   REALITY B
                 </div>
@@ -308,7 +313,7 @@ export default function Simulate() {
                 </p>
 
                 {/* Thumbnail Image */}
-                <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-4 group">
+                <div className="relative w-full h-36 rounded-lg overflow-hidden bg-black/80 border border-white/5 my-4 group">
                   <img
                     src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80"
                     alt="City Skyline"
@@ -318,10 +323,10 @@ export default function Simulate() {
                 </div>
 
                 {/* Attributes List */}
-                <div className="space-y-3.5 pt-1 border-t border-[#292C2C]/50 text-xs">
+                <div className="space-y-3.5 pt-1 border-t border-white/10 text-xs">
                   {/* Career Path */}
                   <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] shrink-0">
+                    <div className="w-7 h-7 rounded-lg glass-pill flex items-center justify-center text-[#A5A7A3] shrink-0">
                       <Briefcase size={13} />
                     </div>
                     <div>
@@ -336,7 +341,7 @@ export default function Simulate() {
 
                   {/* Skills Gained */}
                   <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] shrink-0">
+                    <div className="w-7 h-7 rounded-lg glass-pill flex items-center justify-center text-[#A5A7A3] shrink-0">
                       <GraduationCap size={13} />
                     </div>
                     <div>
@@ -353,7 +358,7 @@ export default function Simulate() {
 
                   {/* Industry */}
                   <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] shrink-0">
+                    <div className="w-7 h-7 rounded-lg glass-pill flex items-center justify-center text-[#A5A7A3] shrink-0">
                       <Building2 size={13} />
                     </div>
                     <div>
@@ -368,7 +373,7 @@ export default function Simulate() {
 
                   {/* Outcome */}
                   <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] shrink-0">
+                    <div className="w-7 h-7 rounded-lg glass-pill flex items-center justify-center text-[#A5A7A3] shrink-0">
                       <Lightbulb size={13} className="text-[#C8E9A9]" />
                     </div>
                     <div>
@@ -388,7 +393,7 @@ export default function Simulate() {
                 onClick={() =>
                   navigate(`/universe/${universe.id}/reality/${reality.id}`)
                 }
-                className="mt-6 w-full py-3 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(200,233,169,0.3)]"
+                className="mt-6 w-full py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer reflection-sheen active:scale-95"
               >
                 <span>Explore This Reality</span>
                 <ArrowRight size={14} />
@@ -401,7 +406,8 @@ export default function Simulate() {
           {/* ======================================================== */}
           <div className="lg:col-span-6 space-y-4">
             {/* Panoramic Wide Banner */}
-            <div className="relative w-full h-48 sm:h-56 rounded-3xl overflow-hidden bg-black border border-[#292C2C] shadow-2xl flex items-center justify-between p-6 sm:p-8 group">
+            <div className="relative w-full h-48 sm:h-56 rounded-xl overflow-hidden glass-card shadow-2xl flex items-center justify-between p-6 sm:p-8 group reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
               {/* Background Futuristic Skyline */}
               <img
                 src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80"
@@ -425,12 +431,13 @@ export default function Simulate() {
             </div>
 
             {/* Vertical Day Timeline Card */}
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-3xl p-5 sm:p-6 shadow-2xl relative">
+            <div className="glass-card rounded-xl p-5 sm:p-6 shadow-2xl relative overflow-hidden reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               {timelineEntries.length === 0 ? (
                 /* Empty state when no simulation exists yet */
                 <div className="py-12 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mx-auto shadow-lg">
-                    <Clock size={28} />
+                  <div className="w-12 h-12 rounded-xl bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mx-auto shadow-lg">
+                    <Clock size={24} />
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-[#F2F3F0]">
@@ -444,9 +451,9 @@ export default function Simulate() {
                   <button
                     onClick={handleGenerateDay}
                     disabled={loading}
-                    className="px-6 py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(200,233,169,0.3)] inline-flex items-center gap-2"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] inline-flex items-center gap-2 reflection-sheen cursor-pointer active:scale-95"
                   >
-                    <Sparkles size={14} />
+                    <Play size={14} className="fill-current" />
                     <span>Experience a Day in this Universe</span>
                   </button>
                 </div>
@@ -489,7 +496,7 @@ export default function Simulate() {
                         {/* Center: Circular Icon + Content */}
                         <div className="flex items-start gap-3 flex-1 min-w-0 pr-2">
                           {/* Icon Circle */}
-                          <div className="w-8 h-8 rounded-full bg-[#121416] border border-[#292C2C] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <div className="w-8 h-8 rounded-full glass-btn-circle flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                             {getTimelineIcon(entry.time, entry.title, entry.iconType)}
                           </div>
 
@@ -505,7 +512,7 @@ export default function Simulate() {
                         </div>
 
                         {/* Right: Rectangular Photo Thumbnail */}
-                        <div className="w-24 sm:w-28 h-14 sm:h-16 rounded-xl overflow-hidden bg-black/60 border border-white/5 shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-300">
+                        <div className="w-24 sm:w-28 h-14 sm:h-16 rounded-lg overflow-hidden bg-black/60 border border-white/5 shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-300">
                           <img
                             src={
                               entry.image ||
@@ -528,9 +535,10 @@ export default function Simulate() {
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
             {/* Card 1: Reality Overview */}
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl backdrop-blur-md">
+            <div className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-4">
-                <Sparkles size={13} className="text-[#C8E9A9]" />
+                <Layers size={14} className="text-[#C8E9A9] stroke-[2.2]" />
                 <span>Reality Overview</span>
               </div>
 
@@ -587,7 +595,8 @@ export default function Simulate() {
             </div>
 
             {/* Card 2: Key Highlights */}
-            <div className="bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl backdrop-blur-md">
+            <div className="glass-card rounded-xl p-5 shadow-2xl overflow-hidden reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="flex items-center gap-2 text-xs font-bold text-[#F2F3F0] tracking-wide mb-3">
                 <Trophy size={14} className="text-[#C8E9A9]" />
                 <span>Key Highlights</span>
@@ -610,7 +619,8 @@ export default function Simulate() {
             </div>
 
             {/* Card 3: Quote Card */}
-            <div className="relative bg-[#0B0D0E]/90 border border-[#292C2C] rounded-2xl p-5 shadow-2xl backdrop-blur-md overflow-hidden min-h-[140px] flex flex-col justify-between">
+            <div className="relative glass-card rounded-xl p-5 shadow-2xl overflow-hidden min-h-[140px] flex flex-col justify-between reflection-sheen">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="relative z-10">
                 <span className="text-2xl text-[#C8E9A9] font-serif font-black leading-none block mb-1">
                   “

@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Sparkles,
+  Award,
   ArrowRight,
   Briefcase,
   AlertTriangle,
@@ -10,6 +10,7 @@ import {
   X,
   Target,
   GitBranch,
+  GitFork,
   Clock,
 } from "lucide-react";
 
@@ -49,7 +50,8 @@ export const RealityDetailPanel = ({
     "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=700&q=80";
 
   return (
-    <div className="w-full h-full bg-[#0B0D0E]/95 border border-[#292C2C] rounded-2xl overflow-hidden flex flex-col shadow-2xl backdrop-blur-xl">
+    <div className="w-full h-full glass-panel rounded-xl overflow-hidden flex flex-col shadow-2xl relative">
+      <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-20" />
       {/* Top Banner Image with Overlay Badge */}
       <div className="relative w-full h-44 sm:h-48 overflow-hidden shrink-0 bg-black">
         <img
@@ -99,14 +101,14 @@ export const RealityDetailPanel = ({
         {/* Key Skills */}
         <div className="space-y-1.5 pt-1">
           <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#F2F3F0] tracking-wider uppercase">
-            <Sparkles size={12} className="text-[#C8E9A9]" />
+            <Award size={12} className="text-[#C8E9A9]" />
             <span>Key Skills</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {skills.map((skill, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-1 rounded-lg bg-[#141618] border border-[#292C2C] text-[11px] text-[#F2F3F0] font-medium"
+                className="px-2.5 py-1 rounded-lg glass-pill text-[11px] text-[#F2F3F0] font-medium"
               >
                 {skill}
               </span>
@@ -149,10 +151,11 @@ export const RealityDetailPanel = ({
       </div>
 
       {/* Bottom Sticky Action Footer */}
-      <div className="p-4 border-t border-[#292C2C] bg-[#0E1012] space-y-2 shrink-0">
+      <div className="p-4 border-t border-white/10 glass-panel space-y-2 shrink-0 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
         <button
           onClick={handleExploreReality}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#C8E9A9] hover:bg-[#b8dd98] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_2px_18px_rgba(200,233,169,0.25)]"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] reflection-sheen active:scale-95 cursor-pointer"
         >
           <span>Explore This Reality</span>
           <ArrowRight size={14} />
@@ -160,7 +163,7 @@ export const RealityDetailPanel = ({
 
         <button
           onClick={() => navigate(`/simulate/${universeId}/${reality.id}`)}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-full bg-[#141618] hover:bg-[#1a1e22] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-[#F2F3F0] font-semibold text-xs transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer reflection-sheen"
         >
           <Clock size={13} className="text-[#C8E9A9]" />
           <span>Experience a Day</span>
@@ -169,7 +172,7 @@ export const RealityDetailPanel = ({
         {onExploreMoreBranches && (
           <button
             onClick={onExploreMoreBranches}
-            className="w-full flex items-center justify-center gap-2 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-[#292C2C] text-[#F2F3F0] font-semibold text-xs transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer"
           >
             <GitBranch size={13} className="text-[#C8E9A9]" />
             <span>Explore More Branches</span>

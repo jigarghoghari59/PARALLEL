@@ -1,7 +1,7 @@
 // src/components/timeline/BranchModal.jsx
 import React, { useState, useEffect } from "react";
 import { Modal } from "../common/Modal";
-import { GitBranch, Sparkles, AlertCircle, RefreshCw, Clock, ArrowRight } from "lucide-react";
+import { GitBranch, GitFork, AlertCircle, RefreshCw, Clock, ArrowRight } from "lucide-react";
 import { api, ApiError } from "../../services/apiClient";
 import { useUniverse } from "../../context/UniverseContext";
 
@@ -165,12 +165,13 @@ export const BranchModal = ({
       onClose={loading ? undefined : onClose}
       title=""
       maxWidth="max-w-xl"
-      className="p-0 overflow-hidden bg-[#0B0D0E] border-[#292C2C]"
+      className="p-0 overflow-hidden glass-panel border-white/10"
     >
       {/* Header Banner */}
-      <div className="relative px-6 pt-6 pb-4 border-b border-[#292C2C]/60 bg-gradient-to-b from-[#141816]/70 to-[#0B0D0E]">
+      <div className="relative px-6 pt-6 pb-4 border-b border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent pointer-events-none" />
         <div className="flex items-center gap-2 mb-2">
-          <div className="w-7 h-7 rounded-full bg-[#162017] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9]">
+          <div className="w-7 h-7 rounded-full bg-[#162017] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]">
             <GitBranch size={15} />
           </div>
           <span className="text-[11px] font-bold tracking-widest uppercase text-[#C8E9A9]">
@@ -187,7 +188,8 @@ export const BranchModal = ({
 
       <div className="p-6 space-y-5">
         {/* Branch Origin Anchor Card */}
-        <div className="bg-[#101214] border border-[#292C2C] rounded-xl p-3.5 space-y-3">
+        <div className="glass-card rounded-xl p-4 space-y-3 relative overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
           <div className="text-[10px] font-bold text-[#A5A7A3] uppercase tracking-wider flex items-center gap-1.5">
             <Clock size={12} className="text-[#C8E9A9]" />
             <span>Branching Anchor Point</span>
@@ -203,10 +205,10 @@ export const BranchModal = ({
                 disabled={loading}
                 value={selectedRealityId}
                 onChange={handleRealityChange}
-                className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-lg px-3 py-2 text-xs text-[#F2F3F0] outline-none transition-colors"
+                className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3 py-2 text-xs text-[#F2F3F0] outline-none transition-colors"
               >
                 {realities.map((r, i) => (
-                  <option key={r.id} value={r.id}>
+                  <option key={r.id} value={r.id} className="bg-[#0B0D0E] text-[#F2F3F0]">
                     {r.name || `Reality ${i + 1}`} ({r.career || r.industry || "Career"})
                   </option>
                 ))}
@@ -222,10 +224,10 @@ export const BranchModal = ({
                 disabled={loading}
                 value={selectedEventId}
                 onChange={(e) => setSelectedEventId(e.target.value)}
-                className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-lg px-3 py-2 text-xs text-[#F2F3F0] outline-none transition-colors"
+                className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3 py-2 text-xs text-[#F2F3F0] outline-none transition-colors"
               >
                 {activeEvents.map((evt) => (
-                  <option key={evt.id} value={evt.id}>
+                  <option key={evt.id} value={evt.id} className="bg-[#0B0D0E] text-[#F2F3F0]">
                     {evt.year}: {evt.title}
                   </option>
                 ))}
@@ -234,7 +236,7 @@ export const BranchModal = ({
           </div>
 
           {activeEvent && (
-            <div className="pt-2 border-t border-white/[0.04] text-[11px] text-[#A5A7A3] flex items-center gap-1.5">
+            <div className="pt-2 border-t border-white/[0.06] text-[11px] text-[#A5A7A3] flex items-center gap-1.5">
               <span className="text-[#C8E9A9] font-medium">Point of Divergence:</span>
               <span className="text-[#F2F3F0] font-semibold truncate">
                 {activeEvent.year} — {activeEvent.title}
@@ -247,7 +249,7 @@ export const BranchModal = ({
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-xs font-bold text-[#F2F3F0] flex items-center gap-1.5">
-              <Sparkles size={13} className="text-[#C8E9A9]" />
+              <GitFork size={13} className="text-[#C8E9A9]" />
               <span>What if...? (The Turning Question)</span>
             </label>
             <span
@@ -270,12 +272,13 @@ export const BranchModal = ({
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="e.g. What if I accepted an international fellowship in bio-robotics? or What if I joined an early AI startup instead?"
-            className="w-full bg-[#08090A] border border-[#292C2C] focus:border-[#C8E9A9] rounded-xl px-4 py-3 text-xs text-[#F2F3F0] placeholder:text-zinc-600 outline-none resize-none transition-all shadow-inner"
+            className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-4 py-3 text-xs text-[#F2F3F0] placeholder:text-zinc-500 outline-none resize-none transition-all shadow-inner"
           />
         </div>
 
         {/* Duration selector */}
-        <div className="flex items-center justify-between bg-[#101214] border border-[#292C2C] rounded-xl px-4 py-3">
+        <div className="flex items-center justify-between glass-card rounded-xl px-4 py-3 relative overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
           <div>
             <div className="text-xs font-semibold text-[#F2F3F0]">Branch Horizon</div>
             <div className="text-[10px] text-[#A5A7A3]">How many years into this alternate path to simulate</div>
@@ -287,10 +290,10 @@ export const BranchModal = ({
                 type="button"
                 disabled={loading}
                 onClick={() => setDurationYears(yrs)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   durationYears === yrs
                     ? "bg-[#C8E9A9] text-[#050505] font-bold shadow-[0_0_8px_rgba(200,233,169,0.4)]"
-                    : "bg-[#08090A] text-[#A5A7A3] border border-[#292C2C] hover:text-[#F2F3F0]"
+                    : "glass-pill text-[#A5A7A3] hover:text-[#F2F3F0]"
                 }`}
               >
                 {yrs} Yrs
@@ -300,8 +303,8 @@ export const BranchModal = ({
         </div>
 
         {/* Speculative Fiction Disclaimer */}
-        <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-[10px] text-[#A5A7A3] leading-relaxed flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shrink-0" />
+        <div className="p-2.5 rounded-xl glass-card text-[10px] text-[#A5A7A3] leading-relaxed flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shrink-0 shadow-[0_0_6px_#C8E9A9]" />
           <span>
             Speculative fiction generated by AI. Outcomes are hypothetical simulations, not guaranteed predictions.
           </span>
@@ -309,14 +312,14 @@ export const BranchModal = ({
 
         {/* Loading Progress Bar & Message */}
         {loading && (
-          <div className="p-4 rounded-xl bg-[#08120B]/90 border border-[#C8E9A9]/30 text-center space-y-2 animate-in fade-in duration-200">
+          <div className="p-4 rounded-xl glass-card border-[#C8E9A9]/30 text-center space-y-2 animate-in fade-in duration-200">
             <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#C8E9A9]">
               <RefreshCw size={15} className="animate-spin text-[#C8E9A9]" />
               <span>{LOADING_STEPS[loadingStepIndex]}</span>
             </div>
             <div className="w-full bg-[#18261c] h-1.5 rounded-full overflow-hidden">
               <div
-                className="bg-[#C8E9A9] h-full transition-all duration-700 rounded-full"
+                className="bg-[#C8E9A9] h-full transition-all duration-700 rounded-full shadow-[0_0_8px_#C8E9A9]"
                 style={{
                   width: `${((loadingStepIndex + 1) / LOADING_STEPS.length) * 100}%`,
                 }}
@@ -339,7 +342,7 @@ export const BranchModal = ({
             type="button"
             disabled={loading}
             onClick={onClose}
-            className="px-4 py-2 rounded-full border border-[#292C2C] bg-[#08090A] hover:bg-[#121416] text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
+            className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/40 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
           >
             Cancel
           </button>
@@ -348,7 +351,7 @@ export const BranchModal = ({
             type="button"
             disabled={loading || question.trim().length < 5}
             onClick={handleSubmit}
-            className="px-5 py-2 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] disabled:opacity-40 disabled:cursor-not-allowed text-[#050505] font-bold text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(200,233,169,0.3)] transition-all"
+            className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] transition-all reflection-sheen active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <>

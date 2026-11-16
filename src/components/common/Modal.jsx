@@ -27,25 +27,29 @@ export const Modal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
         onClick={onClose}
       />
 
       {/* Dialog */}
       <div
         className={cn(
-          "relative z-10 w-full bg-[#0B0D0E] border border-[#292C2C] rounded-2xl p-6 shadow-2xl text-[#F2F3F0] animate-in fade-in zoom-in-95 duration-200",
+          "relative z-10 w-full glass-panel rounded-xl p-6 sm:p-7 shadow-[0_24px_64px_rgba(0,0,0,0.9)] text-[#F2F3F0] animate-in fade-in zoom-in-95 duration-200 overflow-hidden",
           maxWidth,
           className
         )}
       >
-        <div className="flex items-center justify-between pb-3 border-b border-[#292C2C]/50 mb-4">
-          <h3 className="text-base font-semibold text-[#F2F3F0] tracking-wide">
+        {/* Specular Top Reflection Line */}
+        <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+        <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] mb-5">
+          <h3 className="text-base font-bold text-[#F2F3F0] tracking-wide">
             {title}
           </h3>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/[0.04] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] transition-colors"
+            className="w-8 h-8 rounded-full bg-white/[0.05] border border-white/[0.12] hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95"
+            aria-label="Close dialog"
           >
             <X size={15} />
           </button>

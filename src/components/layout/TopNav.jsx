@@ -1,8 +1,9 @@
 // src/components/layout/TopNav.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Bell, ChevronDown, Menu, X } from "lucide-react";
 import { settingsService } from "../../services/settingsService";
+import { LiquidNavbar } from "../ui/liquid-glass-navbar";
 
 const NAV_LINKS = [
   { to: "/", label: "Dashboard" },
@@ -26,13 +27,35 @@ export const TopNav = () => {
     return () => window.removeEventListener("parallel:profile-updated", handleProfileUpdate);
   }, []);
 
-  const isActive = (to) => {
-    if (to === "/") return location.pathname === "/";
-    return location.pathname.startsWith(to);
+  // Determine active nav index from pathname
+  const activeIndex = useMemo(() => {
+    const path = location.pathname;
+    if (path === "/") return 0;
+    if (path.startsWith("/explore")) return 1;
+    if (path.startsWith("/create")) return 2;
+    if (path.startsWith("/saved")) return 3;
+    if (path.startsWith("/archive")) return 4;
+    return 0;
+  }, [location.pathname]);
+
+  const handleNavChange = (index) => {
+    const target = NAV_LINKS[index];
+    if (target && target.to !== location.pathname) {
+      navigate(target.to);
+    }
   };
 
+  const navItems = useMemo(
+    () =>
+      NAV_LINKS.map((item) => ({
+        label: item.label,
+        href: undefined, // using onChange with router navigation
+      })),
+    []
+  );
+
   return (
-    <header className="relative flex items-center justify-between px-6 py-4 bg-[#050505] z-50 border-b border-[#1b1c1e]">
+    <header className="relative flex items-center justify-between px-6 py-4 bg-transparent z-50">
       {/* Left: Multiverse constellation logo + PARALLEL title */}
       <Link to="/" className="flex items-center gap-3 group">
         <svg
@@ -54,49 +77,40 @@ export const TopNav = () => {
         </span>
       </Link>
 
-      {/* Center: Floating capsule pill nav */}
-      <nav className="hidden md:flex items-center bg-[#0B0D0E]/90 border border-[#292C2C] rounded-full px-4 py-1.5 shadow-[0_4px_24px_rgba(0,0,0,0.5)] backdrop-blur-md">
-        {NAV_LINKS.map((l) => {
-          const active = isActive(l.to);
-          return (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`relative px-4 py-1 text-xs font-medium transition-colors ${
-                active ? "text-[#F2F3F0]" : "text-[#A5A7A3] hover:text-[#F2F3F0]"
-              }`}
-            >
-              {l.label}
-              {active && (
-                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9]" />
-              )}
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Center: Floating Liquid Glass Pill Navbar */}
+      <div className="hidden md:flex items-center justify-center">
+        <LiquidNavbar
+          items={navItems}
+          active={activeIndex}
+          onChange={handleNavChange}
+          tone="dark"
+          sound={false}
+          className="shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.5)] border border-white/[0.08]"
+        />
+      </div>
 
       {/* Right: Search, Notification Bell, User Avatar */}
       <div className="flex items-center gap-2">
         <button
           aria-label="Search"
-          className="w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors"
+          className="w-9 h-9 rounded-full glass-btn-circle hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95"
         >
           <Search size={15} />
         </button>
 
         <button
           aria-label="Notifications"
-          className="relative w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#383b3b] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors"
+          className="relative w-9 h-9 rounded-full glass-btn-circle hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95"
         >
           <Bell size={15} />
-          <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
+          <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
         </button>
 
         <button
           onClick={() => navigate("/settings")}
           aria-label="User Settings"
           title="Open Settings"
-          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#0B0D0E] border border-[#292C2C] hover:border-[#C8E9A9]/50 focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-colors ml-1 group"
+          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full glass-pill hover:border-[#C8E9A9]/50 focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all ml-1 group shadow-sm active:scale-95"
         >
           <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-tr from-zinc-800 to-zinc-600 border border-zinc-700/50">
             <img
@@ -113,7 +127,7 @@ export const TopNav = () => {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden w-9 h-9 rounded-full bg-[#0B0D0E] border border-[#292C2C] flex items-center justify-center text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none"
+          className="md:hidden w-9 h-9 rounded-full glass-btn-circle flex items-center justify-center text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -123,18 +137,18 @@ export const TopNav = () => {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#0B0D0E] border-b border-[#292C2C] p-4 flex flex-col gap-2 md:hidden z-50">
-          {NAV_LINKS.map((l) => {
-            const active = isActive(l.to);
+        <div className="absolute top-full left-0 right-0 glass-panel border-b border-white/10 p-4 flex flex-col gap-2 md:hidden z-50 shadow-2xl">
+          {NAV_LINKS.map((l, idx) => {
+            const active = idx === activeIndex;
             return (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm ${
+                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm transition-all ${
                   active
-                    ? "bg-[#181a1c] text-[#C8E9A9] font-medium"
-                    : "text-[#A5A7A3] hover:text-[#F2F3F0]"
+                    ? "nav-pill-active text-[#C8E9A9] font-medium"
+                    : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
                 }`}
               >
                 <span>{l.label}</span>

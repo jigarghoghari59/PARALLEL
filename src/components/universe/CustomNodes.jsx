@@ -5,19 +5,22 @@ import { GraduationCap, ArrowRight, Plus, BarChart3, Laptop, Cpu } from "lucide-
 
 /**
  * Root Node: "YOUR DECISION"
- * Displays the original turning point in an elegant dark pill with glowing decision badge.
+ * Displays the original turning point in an elegant dark glass pill with glowing decision badge.
  */
 export const DecisionRootNode = ({ data }) => {
   return (
-    <div className="relative bg-[#0B0D0E]/95 border border-[#292C2C] hover:border-[#3d4040] rounded-full px-5 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-md flex items-center gap-3.5 min-w-[280px] max-w-[340px] transition-all">
+    <div className="relative glass-pill rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.85)] flex items-center gap-3.5 min-w-[280px] max-w-[340px] transition-all hover:border-[#C8E9A9]/50 reflection-sheen">
+      {/* Specular top reflection line */}
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-full" />
+
       {/* Top Badge: "YOUR DECISION" */}
-      <div className="absolute -top-2.5 right-6 px-2.5 py-0.5 rounded-full bg-[#101411] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-widest uppercase shadow-sm">
+      <div className="absolute -top-2.5 right-6 px-2.5 py-0.5 rounded-full bg-[#101411] border border-[#C8E9A9]/50 text-[#C8E9A9] text-[9px] font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(200,233,169,0.25)]">
         YOUR DECISION
       </div>
 
       {/* Left Icon Sphere */}
-      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 border border-white/10 flex items-center justify-center text-[#F2F3F0] shrink-0 shadow-inner">
-        <GraduationCap size={18} className="text-[#F2F3F0]" />
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/[0.1] to-white/[0.02] border border-white/20 flex items-center justify-center text-[#F2F3F0] shrink-0 shadow-inner">
+        <GraduationCap size={18} className="text-[#C8E9A9]" />
       </div>
 
       {/* Decision Text & Year */}
@@ -56,7 +59,7 @@ export const JunctionNode = () => {
       {/* Glowing Outer Halo */}
       <div className="absolute w-6 h-6 rounded-full bg-[#C8E9A9]/20 animate-pulse" />
       {/* Central Node Dot */}
-      <div className="w-3.5 h-3.5 rounded-full bg-[#050505] border-2 border-[#C8E9A9] shadow-[0_0_10px_#C8E9A9]" />
+      <div className="w-3.5 h-3.5 rounded-full bg-[#050505] border-2 border-[#C8E9A9] shadow-[0_0_12px_#C8E9A9]" />
 
       {/* Source Handle to Realities */}
       <Handle
@@ -76,11 +79,11 @@ export const RealityNode = ({ data, selected }) => {
   const isOriginal = data.type === "original";
   const badgeLabel = data.badgeLabel || "REALITY";
 
-  // Badge Color Styles matching the screenshot
+  // Badge Color Styles matching the glass aesthetic
   const badgeColors = {
-    sage: "bg-[#C8E9A9]/10 text-[#C8E9A9] border-[#C8E9A9]/30",
-    blue: "bg-[#78a9c9]/10 text-[#78a9c9] border-[#78a9c9]/30",
-    purple: "bg-[#9678C9]/10 text-[#9678C9] border-[#9678C9]/30",
+    sage: "bg-[#C8E9A9]/10 text-[#C8E9A9] border-[#C8E9A9]/40 shadow-[0_0_10px_rgba(200,233,169,0.15)]",
+    blue: "bg-[#78a9c9]/10 text-[#78a9c9] border-[#78a9c9]/40 shadow-[0_0_10px_rgba(120,169,201,0.15)]",
+    purple: "bg-[#9678C9]/10 text-[#9678C9] border-[#9678C9]/40 shadow-[0_0_10px_rgba(150,120,201,0.15)]",
   };
   const currentBadgeColor = data.badgeColor
     ? badgeColors[data.badgeColor] || badgeColors.sage
@@ -91,12 +94,15 @@ export const RealityNode = ({ data, selected }) => {
   return (
     <div
       onClick={() => data.onSelect?.(data.reality)}
-      className={`relative group bg-[#0B0D0E]/95 backdrop-blur-md rounded-2xl p-2.5 transition-all duration-300 cursor-pointer flex items-center gap-3 w-[260px] shadow-2xl ${
+      className={`relative group glass-card rounded-xl p-2.5 transition-all duration-300 cursor-pointer flex items-center gap-3 w-[260px] shadow-2xl overflow-hidden reflection-sheen ${
         isSelected
-          ? "border-2 border-[#C8E9A9] shadow-[0_0_25px_rgba(200,233,169,0.22)]"
-          : "border border-[#292C2C] hover:border-[#404343]"
+          ? "border-2 border-[#C8E9A9] shadow-[0_0_28px_rgba(200,233,169,0.32)] scale-[1.02]"
+          : "hover:border-[#C8E9A9]/50"
       }`}
     >
+      {/* Specular top reflection line */}
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
       {/* Top Handle */}
       <Handle
         type="target"
@@ -105,7 +111,7 @@ export const RealityNode = ({ data, selected }) => {
       />
 
       {/* Left Thumbnail or Themed Icon */}
-      <div className="w-14 h-14 rounded-xl overflow-hidden bg-black/60 border border-white/5 shrink-0 relative flex items-center justify-center">
+      <div className="w-14 h-14 rounded-lg overflow-hidden bg-black/60 border border-white/10 shrink-0 relative flex items-center justify-center">
         {data.image ? (
           <img
             src={data.image}
@@ -131,7 +137,7 @@ export const RealityNode = ({ data, selected }) => {
       <div className="flex-1 min-w-0 pr-1">
         {/* Capsule Badge */}
         <span
-          className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border mb-1 ${currentBadgeColor}`}
+          className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border mb-1 backdrop-blur-md ${currentBadgeColor}`}
         >
           {badgeLabel}
         </span>
@@ -148,7 +154,7 @@ export const RealityNode = ({ data, selected }) => {
       </div>
 
       {/* Arrow Icon */}
-      <div className="w-5 h-5 rounded-full border border-white/10 flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/40 transition-colors shrink-0">
+      <div className="w-6 h-6 rounded-full glass-btn-circle flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/60 transition-colors shrink-0">
         <ArrowRight size={10} />
       </div>
 
@@ -169,8 +175,9 @@ export const AddBranchNode = ({ data }) => {
   return (
     <div
       onClick={data.onClick}
-      className="relative flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B0D0E]/90 hover:bg-[#141618] border border-[#292C2C] hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all cursor-pointer shadow-lg group"
+      className="relative flex items-center gap-2 px-4 py-2 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all cursor-pointer shadow-lg group reflection-sheen active:scale-95"
     >
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-full" />
       {/* Top Handle */}
       <Handle
         type="target"
@@ -178,7 +185,7 @@ export const AddBranchNode = ({ data }) => {
         className="!w-1 !h-1 !bg-transparent !border-none !opacity-0"
       />
       <Plus size={13} className="text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors" />
-      <span className="text-[11px] font-medium tracking-wide">Explore More Branches</span>
+      <span className="text-[11px] font-semibold tracking-wide">Explore More Branches</span>
     </div>
   );
 };

@@ -1,534 +1,633 @@
 // src/pages/Dashboard.jsx
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Sparkles,
+  Search,
+  Bell,
+  ChevronDown,
+  GitFork,
   ArrowRight,
   Play,
-  Globe,
-  GitBranch,
+  Activity,
+  Calendar,
+  Crosshair,
+  X,
+  Check,
+  Layers,
   Compass,
 } from "lucide-react";
 import { useUniverse } from "../context/UniverseContext";
+import { settingsService } from "../services/settingsService";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { universes, stats } = useUniverse();
 
-  // Pick recent universe or fallback
-  const latestUniverse = universes && universes.length > 0 ? universes[0] : null;
-  const recentRealitiesCount = universes.reduce(
-    (acc, u) => acc + (u.realities ? u.realities.length : 0),
-    0
-  );
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchInputRef = useRef(null);
 
-  // Compute display values zero-safe
-  const displayUniverses = stats?.totalUniverses > 0 ? String(stats.totalUniverses).padStart(2, "0") : "08";
-  const displayTimelines = stats?.totalTimelines > 0 ? String(stats.totalTimelines).padStart(2, "0") : "24";
-  const displayDecisions = stats?.totalDecisions > 0 ? String(stats.totalDecisions).padStart(2, "0") : "16";
+  // Notification popover state
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: "n1",
+      title: "New branch generated",
+      desc: "Relocation to Tokyo path calculated with 94% coherence",
+      time: "20m ago",
+      unread: true,
+    },
+    {
+      id: "n2",
+      title: "Coherence simulation stable",
+      desc: "Mechanical Engineer timeline reached year 10",
+      time: "2h ago",
+      unread: true,
+    },
+    {
+      id: "n3",
+      title: "Timeline divergence recorded",
+      desc: "Career shift node branched into 3 alternate realities",
+      time: "1d ago",
+      unread: false,
+    },
+  ]);
 
-  const totalEvents = universes.reduce(
-    (acc, u) =>
-      acc +
-      (u.realities || []).reduce(
-        (sub, r) => sub + (r.events ? r.events.length : 0),
-        0
-      ),
-    0
-  );
-  const displayEvents = totalEvents > 0 ? String(totalEvents).padStart(2, "0") : "06";
+  // Profile data
+  const [profile, setProfile] = useState(() => settingsService.getProfile());
+
+  useEffect(() => {
+    const handleProfileUpdate = (e) => {
+      if (e.detail) setProfile(e.detail);
+    };
+    window.addEventListener("parallel:profile-updated", handleProfileUpdate);
+    return () => window.removeEventListener("parallel:profile-updated", handleProfileUpdate);
+  }, []);
+
+  // Keyboard shortcut listener for CMD+K / CTRL+K
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Handle Search Submission
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/explore?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate("/explore");
+    }
+  };
+
+  // Safe stat counts with reference defaults
+  const universesCount = stats?.totalUniverses > 12 ? `${stats.totalUniverses}+` : "12+";
+  const timelinesCount = stats?.totalTimelines > 48 ? `${stats.totalTimelines}+` : "48+";
+  const decisionsCount = stats?.totalDecisions > 120 ? `${stats.totalDecisions}+` : "120+";
 
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-hidden select-none px-4 md:px-8 py-5 max-w-[1600px] mx-auto flex flex-col justify-between">
-      {/* Background Star Dots (Subtle) */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-12 left-1/4 w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-40 left-1/3 w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-40" />
-        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/3 left-1/6 w-1 h-1 bg-white rounded-full opacity-30" />
-        <div className="absolute bottom-24 right-1/3 w-1.5 h-1.5 bg-[#9678C9] rounded-full opacity-30" />
-        <div className="absolute top-2/3 right-1/5 w-1 h-1 bg-white rounded-full opacity-40" />
-      </div>
+    <div className="relative min-h-screen bg-[#050505] text-[#F2F3F0] flex flex-col justify-between px-4 sm:px-6 lg:px-8 py-3 max-w-[1600px] w-full mx-auto select-none overflow-x-hidden">
+      {/* ======================================================== */}
+      {/* 1. TOP HEADER BAR: SEARCH + NOTIFICATIONS + PROFILE       */}
+      {/* ======================================================== */}
+      <header className="relative z-20 flex items-center justify-between gap-4 py-2 w-full">
+        {/* Search Input Pill */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="relative flex items-center w-full max-w-[340px] group"
+        >
+          <div
+            className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg glass-pill transition-all duration-200 ${
+              searchFocused
+                ? "border-[#C8E9A9]/70 shadow-[0_0_16px_rgba(200,233,169,0.3)]"
+                : "hover:border-white/25"
+            }`}
+          >
+            <Search size={14} className="text-[#A5A7A3] shrink-0" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              placeholder="Search universes, realities..."
+              className="bg-transparent border-none outline-none text-xs text-[#F2F3F0] placeholder-[#A5A7A3]/70 w-full font-normal tracking-wide"
+            />
+            {/* Command shortcut badge */}
+            <span className="shrink-0 text-[10px] font-mono font-medium text-[#A5A7A3]/80 bg-white/[0.06] border border-white/[0.08] px-1.5 py-0.5 rounded-md flex items-center gap-0.5 pointer-events-none">
+              <span>⌘</span>
+              <span>K</span>
+            </span>
+          </div>
+        </form>
 
-      {/* TOP HERO SECTION */}
-      <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_1.3fr_110px] items-center gap-6 pt-2 pb-6">
-        {/* Left Column: Hero Text & Actions */}
-        <div className="flex flex-col z-10 pl-2 lg:pl-4">
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#101113]/80 border border-[#292C2C] w-fit mb-6 text-[11px] tracking-[0.2em] font-medium text-[#A5A7A3] uppercase">
-            <span>MULTIVERSE EXPLORER</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-            <span className="text-[#C8E9A9]">ONLINE</span>
+        {/* Right Action Controls: Notification Bell + User Profile */}
+        <div className="flex items-center gap-2.5">
+          {/* Notification Bell Button */}
+          <div className="relative">
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              aria-label="Notifications"
+              className="relative w-8 h-8 rounded-full glass-btn-circle flex items-center justify-center text-[#F2F3F0] transition-all cursor-pointer group hover:scale-105 active:scale-95"
+            >
+              <Bell size={13} className="text-[#F2F3F0] group-hover:text-white" />
+              {/* Green indicator dot on top right */}
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+            </button>
+
+            {/* Notification Dropdown Popover */}
+            <AnimatePresence>
+              {showNotifications && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 6 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 6 }}
+                  transition={{ duration: 0.16 }}
+                  className="absolute right-0 mt-2 w-80 rounded-xl glass-panel p-3.5 shadow-[0_20px_48px_rgba(0,0,0,0.9)] z-50 overflow-hidden"
+                >
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.08] px-1">
+                    <span className="text-xs font-bold text-[#F2F3F0] uppercase tracking-wider">
+                      Multiverse Signals
+                    </span>
+                    <button
+                      onClick={() => setShowNotifications(false)}
+                      className="text-[#A5A7A3] hover:text-white cursor-pointer"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
+                          n.unread
+                            ? "bg-[#141b15]/70 border-[#C8E9A9]/30 hover:border-[#C8E9A9]/50 shadow-[0_0_12px_rgba(200,233,169,0.1)]"
+                            : "bg-white/[0.02] border-white/[0.06] hover:border-white/15"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between text-[11px] font-semibold text-white">
+                          <span>{n.title}</span>
+                          <span className="text-[9.5px] text-[#A5A7A3]">{n.time}</span>
+                        </div>
+                        <p className="text-[10px] text-[#A5A7A3] mt-0.5 leading-snug">
+                          {n.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* Large Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] font-extrabold tracking-tight leading-[1.08] mb-6">
-            <span className="text-[#F2F3F0]">ONE LIFE.</span>
+          {/* User Profile Pill Button */}
+          <button
+            onClick={() => navigate("/settings")}
+            title="Open User Settings"
+            className="flex items-center gap-1.5 pl-0.5 pr-2 py-0.5 rounded-full glass-pill transition-all cursor-pointer group hover:scale-105 active:scale-95"
+          >
+            <div className="w-7 h-7 rounded-full overflow-hidden bg-zinc-800 border border-white/20">
+              <img
+                src={
+                  profile.avatar ||
+                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+                }
+                alt={profile.name || "avatar"}
+                className="w-full h-full object-cover grayscale opacity-90 group-hover:scale-105 transition-transform"
+              />
+            </div>
+            <ChevronDown
+              size={12}
+              className="text-[#A5A7A3] group-hover:text-white transition-colors ml-0.5"
+            />
+          </button>
+        </div>
+      </header>
+
+      {/* ======================================================== */}
+      {/* 2. HERO SECTION: TEXT + PORTAL CINEMATIC ARTWORK         */}
+      {/* ======================================================== */}
+      <section className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_1.3fr] items-center gap-4 py-2 flex-1 min-h-[260px] lg:min-h-[290px]">
+        {/* Left Column: Welcome Capsule + Headlines + Primary CTAs */}
+        <div className="flex flex-col justify-center max-w-[490px] z-10">
+          {/* Welcome Capsule Pill with Green Indicator */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill border-[#C8E9A9]/35 w-fit mb-3.5 shadow-[0_0_16px_rgba(200,233,169,0.2)]">
+            <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+            <span className="text-[11px] font-semibold tracking-wide text-[#C8E9A9]">
+              Welcome back, {profile.name?.split(" ")[0] || "Jigar"}!
+            </span>
+          </div>
+
+          {/* Large Hero Title Matching Reference Typography */}
+          <h1 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-[48px] font-extrabold tracking-tight leading-[1.08] mb-3 text-[#F2F3F0]">
+            <span>ONE LIFE.</span>
             <br />
-            <span className="text-[#C8E9A9]">INFINITE</span>
-            <br />
-            <span className="text-[#F2F3F0]">POSSIBILITIES.</span>
+            <span className="italic font-normal text-[#C8E9A9] tracking-wide mr-2">
+              INFINITE
+            </span>
+            <span>POSSIBILITIES.</span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-[380px] mb-8">
-            Explore the paths not taken.
+          {/* Hero Subtitle */}
+          <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal leading-relaxed max-w-[380px] mb-6">
+            Explore the paths not taken. Discover the lives
             <br />
-            Discover the lives that could have been.
+            that could have been.
           </p>
 
-          {/* Button Row */}
+          {/* Action Button Row */}
           <div className="flex items-center gap-3">
-            {/* Play Button */}
-            <button
-              onClick={() => {
-                if (latestUniverse) {
-                  navigate(`/explore/${latestUniverse.id}`);
-                } else {
-                  navigate("/explore");
-                }
-              }}
-              aria-label="Quick launch tour"
-              className="w-11 h-11 rounded-full bg-[#101113] border border-[#292C2C] flex items-center justify-center text-[#F2F3F0] hover:border-[#C8E9A9]/50 hover:bg-[#181a1c] transition-all shadow-md group shrink-0"
-            >
-              <Play size={15} className="fill-[#F2F3F0] ml-0.5 group-hover:scale-110 transition-transform" />
-            </button>
-
-            {/* Create Universe (Primary Accent Button) */}
+            {/* Primary CTA: Create Universe (Illuminated Glass with Reflection Sheen) */}
             <button
               onClick={() => navigate("/create")}
-              className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#C8E9A9] hover:bg-[#b8dd98] text-[#050505] font-semibold text-xs tracking-wider uppercase transition-all shadow-[0_2px_20px_rgba(200,233,169,0.25)] hover:shadow-[0_4px_28px_rgba(200,233,169,0.35)] shrink-0"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all border border-[#dcf5c2] shadow-[0_0_24px_rgba(200,233,169,0.4),inset_0_1px_2px_rgba(255,255,255,0.85)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:scale-[1.02] active:scale-95 cursor-pointer reflection-sheen"
             >
-              <span>CREATE UNIVERSE</span>
-              <Sparkles size={14} className="fill-[#050505]" />
+              <GitFork size={14} className="text-[#050505] stroke-[2.5]" />
+              <span>Create Universe</span>
+              <ArrowRight size={13} className="stroke-[2.5]" />
             </button>
 
-            {/* Explore Timelines (Ghost Pill Button) */}
+            {/* Secondary CTA: Explore Timelines (Frosted Glass Pill with Specular Reflection) */}
             <button
-              onClick={() => {
-                if (latestUniverse) {
-                  navigate(`/explore/${latestUniverse.id}`);
-                } else {
-                  navigate("/explore");
-                }
-              }}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-transparent hover:bg-white/[0.04] border border-[#292C2C] hover:border-[#383b3b] text-[#F2F3F0] font-medium text-xs tracking-wider uppercase transition-all shrink-0"
+              onClick={() => navigate("/explore")}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass-pill hover:border-[#C8E9A9]/50 text-[#F2F3F0] hover:text-white font-semibold text-xs tracking-wider transition-all cursor-pointer hover:scale-[1.02] active:scale-95 reflection-sheen"
             >
-              <span>EXPLORE TIMELINES</span>
-              <ArrowRight size={14} />
+              <Play size={11} className="text-[#C8E9A9] fill-transparent stroke-[2.4] ml-0.5" />
+              <span>Explore Timelines</span>
             </button>
           </div>
         </div>
 
-        {/* Center: Cinematic Planet & Orbital Mechanics */}
-        <div className="relative flex items-center justify-center h-[340px] sm:h-[400px] lg:h-[460px] overflow-visible">
-          {/* SVG Orbit Lines & Glowing Dots */}
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-            <svg
-              className="w-[120%] h-[120%] max-w-[700px] max-h-[500px]"
-              viewBox="0 0 600 420"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Elliptical Orbits */}
-              <ellipse
-                cx="310"
-                cy="210"
-                rx="240"
-                ry="130"
-                stroke="rgba(200,233,169,0.18)"
-                strokeWidth="1.2"
-                transform="rotate(-14 310 210)"
-              />
-              <ellipse
-                cx="310"
-                cy="210"
-                rx="190"
-                ry="95"
-                stroke="rgba(255,255,255,0.12)"
-                strokeWidth="1"
-                transform="rotate(-28 310 210)"
-              />
-              <ellipse
-                cx="310"
-                cy="210"
-                rx="270"
-                ry="165"
-                stroke="rgba(200,233,169,0.1)"
-                strokeWidth="0.8"
-                strokeDasharray="4 6"
-                transform="rotate(6 310 210)"
-              />
-
-              {/* Connecting node chords */}
-              <line
-                x1="440"
-                y1="130"
-                x2="380"
-                y2="245"
-                stroke="rgba(200,233,169,0.25)"
-                strokeWidth="1"
-              />
-              <line
-                x1="380"
-                y1="245"
-                x2="280"
-                y2="300"
-                stroke="rgba(200,233,169,0.2)"
-                strokeWidth="1"
-              />
-
-              {/* Orbital Nodes (Glowing dots) */}
-              <circle cx="170" cy="180" r="3.5" fill="#C8E9A9" />
-              <circle cx="440" cy="130" r="4.5" fill="#C8E9A9" className="shadow-[0_0_8px_#C8E9A9]" />
-              <circle cx="380" cy="245" r="5" fill="#C8E9A9" className="shadow-[0_0_12px_#C8E9A9]" />
-              <circle cx="280" cy="300" r="3.5" fill="#C8E9A9" />
-              <circle cx="470" cy="220" r="4" fill="#C8E9A9" opacity="0.8" />
-              <circle cx="510" cy="285" r="3" fill="#C8E9A9" opacity="0.6" />
-            </svg>
-          </div>
-
-          {/* Floating Planet Sphere */}
-          <motion.div
-            className="relative z-10 w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] lg:w-[320px] lg:h-[320px] rounded-full overflow-hidden shadow-[0_0_80px_rgba(200,233,169,0.12),inset_-25px_-25px_60px_rgba(0,0,0,0.95)]"
-            animate={{
-              y: [0, -6, 0],
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            {/* High-res cinematic earth/planet texture */}
+        {/* Right Column: High Quality Portal Artwork & Celestial View */}
+        <div className="relative w-full h-[240px] sm:h-[280px] lg:h-[300px] flex items-center justify-end overflow-hidden pointer-events-none select-none">
+          {/* Main Cinematic Portal & Astronaut Artwork */}
+          <div className="relative w-full h-full max-w-[560px] flex items-center justify-end">
             <img
-              src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=800&q=80"
-              alt="Planet Multiverse"
-              className="w-full h-full object-cover rounded-full"
+              src="/images/portal-hero.png"
+              alt="Cosmic Portal Horizon"
+              className="w-full h-full object-contain object-right brightness-[1.04] contrast-[1.05]"
             />
-            {/* Atmospheric Rim Light Filter */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/80 via-transparent to-amber-100/25 pointer-events-none" />
-            <div className="absolute -inset-1 rounded-full border border-white/20 pointer-events-none" />
-          </motion.div>
 
-          {/* Secondary Moon 1 (Upper Left Orbit) */}
-          <motion.div
-            className="absolute top-12 left-10 sm:left-20 w-8 h-8 rounded-full overflow-hidden shadow-lg border border-white/10"
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            {/* Subtle Pulse Halo behind the Wormhole Gateway */}
+            <motion.div
+              animate={{ opacity: [0.35, 0.65, 0.35], scale: [0.98, 1.02, 0.98] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute right-[22%] sm:right-[24%] top-[34%] w-24 h-24 rounded-full bg-purple-500/20 blur-2xl pointer-events-none"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 3. STATISTICS & QUOTE HORIZONTAL BAR                      */}
+      {/* ======================================================== */}
+      <section className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-3.5 my-2 w-full">
+        {/* Left Statistics Panel: 3 Columns with Clean Dividers */}
+        <div className="rounded-xl glass-panel px-5 py-3 flex items-center justify-around gap-2 shadow-xl overflow-hidden">
+          {/* Top specular reflection line */}
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          {/* Stat 1: Universes Created */}
+          <div
+            onClick={() => navigate("/saved")}
+            className="flex items-center gap-3.5 cursor-pointer group flex-1 justify-center transition-transform hover:scale-[1.02]"
           >
-            <img
-              src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?auto=format&fit=crop&w=150&q=70"
-              alt="Moon"
-              className="w-full h-full object-cover grayscale brightness-90"
-            />
-          </motion.div>
+            {/* Spiral Galaxy Icon */}
+            <div className="w-8 h-8 flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 32 32" className="w-8 h-8 text-[#C8E9A9]" fill="none">
+                <ellipse
+                  cx="16"
+                  cy="16"
+                  rx="14"
+                  ry="6"
+                  stroke="#C8E9A9"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.4"
+                  transform="rotate(-25 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="16"
+                  rx="10"
+                  ry="4"
+                  stroke="#C8E9A9"
+                  strokeWidth="1.4"
+                  transform="rotate(-25 16 16)"
+                />
+                <circle cx="16" cy="16" r="3" fill="#C8E9A9" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none group-hover:text-[#C8E9A9] transition-colors">
+                {universesCount}
+              </p>
+              <p className="text-[10px] text-[#A5A7A3] font-semibold tracking-wide mt-1 whitespace-nowrap">
+                Universes Created
+              </p>
+            </div>
+          </div>
 
-          {/* Secondary Moon 2 (Lower Center Orbit) */}
-          <motion.div
-            className="absolute bottom-6 left-1/3 w-12 h-12 rounded-full overflow-hidden shadow-lg border border-white/10"
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          <div className="w-[1px] h-9 bg-white/[0.1] shrink-0" />
+
+          {/* Stat 2: Timelines Explored */}
+          <div
+            onClick={() => navigate("/explore")}
+            className="flex items-center gap-3.5 cursor-pointer group flex-1 justify-center transition-transform hover:scale-[1.02]"
           >
-            <img
-              src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?auto=format&fit=crop&w=150&q=70"
-              alt="Moon 2"
-              className="w-full h-full object-cover grayscale brightness-75"
-            />
-          </motion.div>
+            {/* Branching Network Nodes Icon */}
+            <div className="w-8 h-8 flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 32 32" className="w-7 h-7 text-[#C8E9A9]" fill="none">
+                <circle cx="16" cy="7" r="3" stroke="#C8E9A9" strokeWidth="1.8" />
+                <path d="M16 10V18" stroke="#C8E9A9" strokeWidth="1.6" />
+                <path d="M16 18L10 24" stroke="#C8E9A9" strokeWidth="1.6" />
+                <path d="M16 18L22 24" stroke="#C8E9A9" strokeWidth="1.6" />
+                <circle cx="9" cy="25" r="2.5" fill="#C8E9A9" />
+                <circle cx="23" cy="25" r="2.5" fill="#C8E9A9" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none group-hover:text-[#C8E9A9] transition-colors">
+                {timelinesCount}
+              </p>
+              <p className="text-[10px] text-[#A5A7A3] font-semibold tracking-wide mt-1 whitespace-nowrap">
+                Timelines Explored
+              </p>
+            </div>
+          </div>
 
-          {/* Reality Callout Badge (Reality 02 - Career Shift) */}
-          <div className="absolute top-16 right-4 sm:right-10 z-20 bg-[#0B0D0E]/85 backdrop-blur-md border border-[#292C2C] px-3.5 py-2 rounded-xl shadow-xl flex flex-col pointer-events-auto cursor-pointer hover:border-[#C8E9A9]/50 transition-colors"
-            onClick={() => {
-              if (latestUniverse) {
-                navigate(`/explore/${latestUniverse.id}`);
-              } else {
-                navigate("/explore");
-              }
-            }}
+          <div className="w-[1px] h-9 bg-white/[0.1] shrink-0" />
+
+          {/* Stat 3: Decisions Explored (Contextual Branching Fork Icon, NO STARS!) */}
+          <div
+            onClick={() => navigate("/create")}
+            className="flex items-center gap-3.5 cursor-pointer group flex-1 justify-center transition-transform hover:scale-[1.02]"
           >
-            <span className="text-[10px] tracking-wider text-[#A5A7A3] font-semibold uppercase">
-              REALITY 02
-            </span>
-            <span className="text-xs font-semibold text-[#F2F3F0]">
-              CAREER SHIFT
-            </span>
-          </div>
-        </div>
-
-        {/* Right Column: Vertical Stat Strip */}
-        <div className="hidden lg:flex flex-col justify-center items-center gap-8 border-l border-[#1f2123] pl-6 h-full py-4">
-          {/* Stat 1: Universes */}
-          <div className="flex flex-col items-center text-center group cursor-pointer" onClick={() => navigate("/saved")}>
-            <div className="w-8 h-8 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] group-hover:border-[#C8E9A9]/40 transition-colors mb-2">
-              <Globe size={15} />
+            <div className="w-8 h-8 flex items-center justify-center shrink-0 text-[#C8E9A9]">
+              <GitFork size={22} className="stroke-[2]" />
             </div>
-            <span className="text-3xl font-extrabold tracking-tight text-[#F2F3F0]">
-              {displayUniverses}
-            </span>
-            <span className="text-[10px] tracking-wider text-[#A5A7A3] uppercase mt-1">
-              UNIVERSES
-            </span>
-          </div>
-
-          {/* Stat 2: Timelines */}
-          <div className="flex flex-col items-center text-center group cursor-pointer" onClick={() => navigate("/explore")}>
-            <div className="w-8 h-8 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] group-hover:border-[#C8E9A9]/40 transition-colors mb-2">
-              <GitBranch size={15} />
-            </div>
-            <span className="text-3xl font-extrabold tracking-tight text-[#F2F3F0]">
-              {displayTimelines}
-            </span>
-            <span className="text-[10px] tracking-wider text-[#A5A7A3] uppercase mt-1">
-              TIMELINES
-            </span>
-          </div>
-
-          {/* Stat 3: Decisions */}
-          <div className="flex flex-col items-center text-center group cursor-pointer" onClick={() => navigate("/create")}>
-            <div className="w-8 h-8 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] group-hover:border-[#C8E9A9]/40 transition-colors mb-2">
-              <Compass size={15} />
-            </div>
-            <span className="text-3xl font-extrabold tracking-tight text-[#F2F3F0]">
-              {displayDecisions}
-            </span>
-            <span className="text-[10px] tracking-wider text-[#A5A7A3] uppercase mt-1 leading-tight">
-              DECISIONS<br />EXPLORED
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* BOTTOM 5 CARDS ROW */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 pt-4 pb-2 z-10">
-        {/* Card 1: YOUR REALITIES (Branch Tree Graph) */}
-        <div
-          onClick={() => {
-            if (latestUniverse) {
-              navigate(`/explore/${latestUniverse.id}`);
-            } else {
-              navigate("/explore");
-            }
-          }}
-          className="bg-[#0B0D0E]/90 border border-[#292C2C] hover:border-[#3a3d3d] rounded-2xl p-4 flex flex-col justify-between transition-all cursor-pointer group shadow-lg min-h-[175px]"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-semibold tracking-wider text-[#F2F3F0] uppercase">
-              YOUR REALITIES
-            </span>
-            <span className="text-[10px] font-bold text-[#C8E9A9] bg-[#C8E9A9]/10 border border-[#C8E9A9]/20 px-2 py-0.5 rounded-full">
-              {recentRealitiesCount > 0 ? `${recentRealitiesCount} / ${recentRealitiesCount}` : "8 / 8"}
-            </span>
-          </div>
-
-          {/* Symmetrical Branching Tree Graph SVG */}
-          <div className="w-full flex items-center justify-center py-1">
-            <svg viewBox="0 0 180 85" className="w-full h-18" fill="none">
-              {/* Root node */}
-              <circle cx="90" cy="14" r="5" fill="#C8E9A9" />
-              <circle cx="90" cy="14" r="9" stroke="rgba(200,233,169,0.3)" strokeWidth="1" />
-
-              {/* Level 1 branches */}
-              <path d="M90 19 C 90 34, 45 34, 45 46" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" />
-              <path d="M90 19 V 46" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" />
-              <path d="M90 19 C 90 34, 135 34, 135 46" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" />
-
-              {/* Mid nodes */}
-              <circle cx="45" cy="46" r="3.5" fill="#C8E9A9" />
-              <circle cx="90" cy="46" r="3.5" fill="#C8E9A9" />
-              <circle cx="135" cy="46" r="3.5" fill="#C8E9A9" />
-
-              {/* Level 2 leaf branches */}
-              <path d="M45 49 C 45 60, 20 60, 20 72" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-              <path d="M45 49 C 45 60, 65 60, 65 72" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-              <path d="M90 49 V 72" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-              <path d="M135 49 C 135 60, 115 60, 115 72" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-              <path d="M135 49 C 135 60, 160 60, 160 72" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-
-              {/* Leaf nodes */}
-              <circle cx="20" cy="72" r="3" fill="#C8E9A9" opacity="0.8" />
-              <circle cx="65" cy="72" r="3" fill="#C8E9A9" opacity="0.8" />
-              <circle cx="90" cy="72" r="3" fill="#C8E9A9" opacity="0.8" />
-              <circle cx="115" cy="72" r="3" fill="#C8E9A9" opacity="0.8" />
-              <circle cx="160" cy="72" r="3" fill="#C8E9A9" opacity="0.8" />
-            </svg>
-          </div>
-          <div className="h-1" />
-        </div>
-
-        {/* Card 2: RECENT EXPLORATION */}
-        <div
-          onClick={() => {
-            if (latestUniverse) {
-              navigate(`/explore/${latestUniverse.id}`);
-            } else {
-              navigate("/explore");
-            }
-          }}
-          className="bg-[#0B0D0E]/90 border border-[#292C2C] hover:border-[#3a3d3d] rounded-2xl p-3 flex flex-col justify-between transition-all cursor-pointer group shadow-lg min-h-[175px]"
-        >
-          <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[11px] font-semibold tracking-wider text-[#F2F3F0] uppercase">
-              RECENT EXPLORATION
-            </span>
-            <div className="w-5 h-5 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/50 transition-colors">
-              <ArrowRight size={10} />
-            </div>
-          </div>
-
-          {/* Futuristic explorer image card */}
-          <div className="relative w-full h-[110px] rounded-xl overflow-hidden bg-black border border-white/5">
-            <img
-              src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80"
-              alt="The Robotics Path"
-              className="w-full h-full object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-500"
-            />
-            {/* Bottom Gradient Overlay & Label */}
-            <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black via-black/80 to-transparent flex items-start gap-2">
-              <div className="w-0.5 h-6 bg-[#C8E9A9] rounded-full mt-0.5" />
-              <div>
-                <p className="text-[11px] font-bold text-[#F2F3F0] leading-tight tracking-wide">
-                  THE ROBOTICS PATH
-                </p>
-                <p className="text-[9px] text-[#A5A7A3] leading-tight">
-                  Alternate Career Timeline
-                </p>
-              </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none group-hover:text-[#C8E9A9] transition-colors">
+                {decisionsCount}
+              </p>
+              <p className="text-[10px] text-[#A5A7A3] font-semibold tracking-wide mt-1 whitespace-nowrap">
+                Decisions Explored
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Card 3: TIMELINE ACTIVITY (Radar) */}
-        <div
-          onClick={() => {
-            if (latestUniverse) {
-              navigate(`/explore/${latestUniverse.id}`);
-            } else {
-              navigate("/explore");
-            }
-          }}
-          className="bg-[#0B0D0E]/90 border border-[#292C2C] hover:border-[#3a3d3d] rounded-2xl p-4 flex flex-col justify-between transition-all cursor-pointer group shadow-lg min-h-[175px]"
-        >
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[11px] font-semibold tracking-wider text-[#F2F3F0] uppercase">
-              TIMELINE ACTIVITY
+        {/* Right Quote Panel: Philosophical Reflection + Planet Crescent */}
+        <div className="relative rounded-xl glass-panel px-5 py-3 flex items-center gap-3 min-w-[280px] lg:min-w-[310px] overflow-hidden shadow-xl">
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          <div className="flex items-start gap-2.5 z-10 max-w-[210px]">
+            <span className="text-[#A5A7A3]/70 font-serif text-3xl leading-none select-none">
+              “
             </span>
-            <div className="w-5 h-5 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/50 transition-colors">
-              <ArrowRight size={10} />
-            </div>
-          </div>
-
-          {/* Radar graphic */}
-          <div className="w-full flex items-center justify-center py-1">
-            <svg viewBox="0 0 100 70" className="w-28 h-16" fill="none">
-              <circle cx="50" cy="35" r="32" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
-              <circle cx="50" cy="35" r="22" stroke="rgba(200,233,169,0.15)" strokeWidth="0.8" />
-              <circle cx="50" cy="35" r="12" stroke="rgba(200,233,169,0.25)" strokeWidth="0.8" />
-              <circle cx="50" cy="35" r="3" fill="#C8E9A9" />
-
-              {/* Dots on radar */}
-              <circle cx="68" cy="24" r="2.5" fill="#C8E9A9" />
-              <circle cx="36" cy="45" r="2.5" fill="#C8E9A9" />
-              <circle cx="58" cy="54" r="2" fill="#9678C9" />
-              <circle cx="28" cy="28" r="2" fill="#C8E9A9" opacity="0.6" />
-            </svg>
-          </div>
-
-          <div>
-            <p className="text-xl font-extrabold text-[#F2F3F0] leading-none">
-              {displayEvents}
-            </p>
-            <p className="text-[9px] font-medium tracking-widest text-[#A5A7A3] uppercase mt-0.5">
-              EVENTS
-            </p>
-          </div>
-        </div>
-
-        {/* Card 4: UPCOMING BRANCHES */}
-        <div
-          onClick={() => navigate("/create")}
-          className="bg-[#0B0D0E]/90 border border-[#292C2C] hover:border-[#3a3d3d] rounded-2xl p-4 flex flex-col justify-between transition-all cursor-pointer group shadow-lg min-h-[175px]"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-semibold tracking-wider text-[#F2F3F0] uppercase">
-              UPCOMING BRANCHES
-            </span>
-            <div className="w-5 h-5 rounded-full border border-[#292C2C] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/50 transition-colors">
-              <ArrowRight size={10} />
-            </div>
-          </div>
-
-          {/* Stepper List */}
-          <div className="flex flex-col gap-2.5 my-auto">
-            {/* Step 1 */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#A5A7A3]" />
-                <span className="text-[#A5A7A3] text-[11px]">Career divergence</span>
-              </div>
-              <span className="text-[9px] font-semibold text-[#8eb075] bg-[#8eb075]/10 px-2 py-0.5 rounded-full tracking-wider uppercase">
-                GENERATED
-              </span>
-            </div>
-
-            {/* Step 2 (Active) */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9]" />
-                <span className="text-[#F2F3F0] font-medium text-[11px]">Relocation choice</span>
-              </div>
-              <span className="text-[9px] font-bold text-[#050505] bg-[#C8E9A9] px-2 py-0.5 rounded-full tracking-wider uppercase">
-                READY
-              </span>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
-                <span className="text-zinc-500 text-[11px]">New opportunity</span>
-              </div>
-              <span className="text-[9px] font-medium text-[#A5A7A3] bg-white/[0.04] border border-[#292C2C] px-2 py-0.5 rounded-full tracking-wider uppercase">
-                UNEXPLORED
-              </span>
-            </div>
-          </div>
-
-          <div className="h-1" />
-        </div>
-
-        {/* Card 5: ANOTHER YOU AWAITS */}
-        <div
-          onClick={() => navigate("/create")}
-          className="relative bg-[#0B0D0E] border border-[#292C2C] hover:border-[#C8E9A9]/40 rounded-2xl overflow-hidden cursor-pointer group shadow-lg min-h-[175px] flex flex-col justify-end p-4 transition-all"
-        >
-          {/* Background Space / Crater Horizon Image */}
-          <img
-            src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=500&q=80"
-            alt="Space Multiverse"
-            className="absolute inset-0 w-full h-full object-cover brightness-[0.6] group-hover:scale-105 transition-transform duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-
-          {/* Text & Button at bottom */}
-          <div className="relative z-10 flex flex-col items-center text-center">
-            <h4 className="text-[12px] font-bold tracking-[0.16em] uppercase text-[#F2F3F0] leading-tight">
-              ANOTHER YOU
+            <p className="text-[11.5px] italic text-[#F2F3F0] font-normal leading-snug mt-1">
+              Every decision creates
               <br />
-              AWAITS
-            </h4>
-            <div className="w-8 h-8 rounded-full border border-white/20 bg-black/40 backdrop-blur-sm flex items-center justify-center text-[#F2F3F0] group-hover:border-[#C8E9A9] group-hover:text-[#C8E9A9] group-hover:scale-110 transition-all mt-3">
-              <ArrowRight size={13} />
+              a new reality...
+            </p>
+          </div>
+
+          {/* Crescent Planet Artwork on the right corner */}
+          <div className="absolute right-0 top-0 bottom-0 w-24 pointer-events-none select-none overflow-hidden">
+            <img
+              src="/images/quote-moon.png"
+              alt="Crescent Planet"
+              className="w-full h-full object-cover object-left opacity-90"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 4. FOUR LOWER CARDS ROW (EXACT REFERENCE REPRODUCTION)   */}
+      {/* ======================================================== */}
+      <section className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-2 pb-1 w-full">
+        {/* Card 1: Your Realities */}
+        <div
+          onClick={() => navigate("/explore")}
+          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+        >
+          {/* Specular top reflection line */}
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          {/* Card Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Layers size={13} className="text-[#C8E9A9] stroke-[2.2]" />
+              <span className="text-[11px] font-bold text-white tracking-wide">
+                Your Realities
+              </span>
+            </div>
+            <span className="text-[9.5px] text-[#A5A7A3] font-medium">
+              2 Universes
+            </span>
+          </div>
+
+          {/* Stacked City Perspective Skyline Image */}
+          <div className="w-full h-[84px] rounded-lg overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
+            <img
+              src="/images/card-city.png"
+              alt="Futuristic Skyline Perspective"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Card Footer */}
+          <div className="flex items-center justify-between mt-auto">
+            <div>
+              <p className="text-xs font-bold text-white leading-tight">
+                Computer Engineer
+              </p>
+              <p className="text-[9.5px] text-[#A5A7A3] leading-tight mt-0.5">
+                Original Reality
+              </p>
+            </div>
+            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all">
+              <ArrowRight size={11} />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Speculative fiction notice */}
-      <div className="text-[10px] text-center text-[#A5A7A3]/60 pt-3 pb-1">
-        PARALLEL generates AI speculative fiction scenarios for exploratory contemplation. Outcomes are non-predictive.
-      </div>
+        {/* Card 2: Recent Exploration */}
+        <div
+          onClick={() => navigate("/explore")}
+          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+        >
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          {/* Card Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Crosshair size={13} className="text-[#C8E9A9]" />
+              <span className="text-[11px] font-bold text-white tracking-wide">
+                Recent Exploration
+              </span>
+            </div>
+            <span className="text-[9.5px] text-[#A5A7A3] font-medium">
+              2h ago
+            </span>
+          </div>
+
+          {/* Space Station Wheel Image */}
+          <div className="w-full h-[84px] rounded-lg overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
+            <img
+              src="/images/card-station.png"
+              alt="Orbital Station Wheel"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Card Footer */}
+          <div className="flex items-center justify-between mt-auto">
+            <div>
+              <p className="text-xs font-bold text-white leading-tight">
+                Mechanical Engineer
+              </p>
+              <p className="text-[9.5px] text-[#A5A7A3] leading-tight mt-0.5">
+                Alternative Reality
+              </p>
+            </div>
+            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all">
+              <ArrowRight size={11} />
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Timeline Activity */}
+        <div
+          onClick={() => navigate("/explore")}
+          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+        >
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          {/* Card Header */}
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-1.5">
+              <Activity size={13} className="text-[#C8E9A9]" />
+              <span className="text-[11px] font-bold text-white tracking-wide">
+                Timeline Activity
+              </span>
+            </div>
+          </div>
+
+          {/* Vertical Timeline Track with Green Illuminated Dots */}
+          <div className="flex flex-col gap-2.5 my-auto pl-1">
+            {/* Timeline Item 1 */}
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+                <span className="text-[#F2F3F0] text-[11px] font-medium">
+                  Explored a new branch
+                </span>
+              </div>
+              <span className="text-[10px] text-[#A5A7A3] font-normal">
+                2h ago
+              </span>
+            </div>
+
+            {/* Timeline Item 2 */}
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+                <span className="text-[#F2F3F0] text-[11px] font-medium">
+                  Created a universe
+                </span>
+              </div>
+              <span className="text-[10px] text-[#A5A7A3] font-normal">
+                1d ago
+              </span>
+            </div>
+
+            {/* Timeline Item 3 */}
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+                <span className="text-[#F2F3F0] text-[11px] font-medium">
+                  Compared realities
+                </span>
+              </div>
+              <span className="text-[10px] text-[#A5A7A3] font-normal">
+                2d ago
+              </span>
+            </div>
+          </div>
+
+          <div className="h-0.5" />
+        </div>
+
+        {/* Card 4: Upcoming Branches (Torii Gate & Mount Fuji Scene) */}
+        <div
+          onClick={() => navigate("/create?decision=What+if+I+moved+to+Japan")}
+          className="relative rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg overflow-hidden reflection-sheen"
+        >
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+
+          {/* Background Japanese Torii & Mountain Artwork on Right */}
+          <div className="absolute right-0 top-0 bottom-0 w-32 pointer-events-none select-none overflow-hidden">
+            <img
+              src="/images/card-japan.png"
+              alt="Japan Torii Gate"
+              className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-500 opacity-90"
+            />
+            {/* Smooth gradient blend into the card's dark background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#090B0D] via-[#090B0D]/60 to-transparent" />
+          </div>
+
+          {/* Card Header */}
+          <div className="flex items-center justify-between z-10">
+            <div className="flex items-center gap-1.5">
+              <Calendar size={13} className="text-[#C8E9A9]" />
+              <span className="text-[11px] font-bold text-white tracking-wide">
+                Upcoming Branches
+              </span>
+            </div>
+          </div>
+
+          {/* Card Body Text */}
+          <div className="z-10 my-auto max-w-[170px]">
+            <h4 className="text-xs sm:text-[13px] font-bold text-white leading-tight">
+              What if I moved to Japan?
+            </h4>
+            <p className="text-[9.5px] text-[#A5A7A3] leading-relaxed mt-1 font-normal">
+              Explore a new possibility from your robotics journey.
+            </p>
+          </div>
+
+          {/* Card Footer with Circular Arrow Button */}
+          <div className="flex items-center justify-end z-10">
+            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all shadow-sm">
+              <ArrowRight size={11} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 5. BOTTOM STATUS FOOTER LINE                              */}
+      {/* ======================================================== */}
+      <footer className="relative z-10 flex items-center justify-center gap-3 pt-3 pb-1 w-full text-center">
+        <div className="h-[1px] w-12 sm:w-24 bg-gradient-to-r from-transparent to-white/[0.12]" />
+        <div className="flex items-center gap-2 text-[10.5px] text-[#A5A7A3]/80 tracking-wide font-normal">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+          <span>Step into another reality...</span>
+        </div>
+        <div className="h-[1px] w-12 sm:w-24 bg-gradient-to-l from-transparent to-white/[0.12]" />
+      </footer>
     </div>
   );
 }

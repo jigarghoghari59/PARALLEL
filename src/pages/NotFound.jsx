@@ -1,7 +1,7 @@
 // src/pages/NotFound.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { Compass, ArrowLeft, Home, Sparkles } from "lucide-react";
+import { Compass, ArrowLeft, Home, Layers } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -27,9 +27,10 @@ export default function NotFound() {
         <div className="absolute bottom-24 right-1/4 w-1.5 h-1.5 bg-[#9678C9] rounded-full opacity-60" />
       </div>
 
-      <div className="relative z-10 bg-[#0B0D0E]/90 border border-[#292C2C] rounded-3xl p-8 sm:p-12 max-w-lg w-full text-center shadow-2xl backdrop-blur-xl">
+      <div className="relative z-10 glass-card rounded-xl p-8 sm:p-12 max-w-lg w-full text-center shadow-2xl relative overflow-hidden reflection-sheen">
+        <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent pointer-events-none" />
         {/* Glow Compass Icon */}
-        <div className="w-16 h-16 rounded-2xl bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mx-auto mb-6 shadow-[0_0_25px_rgba(200,233,169,0.2)]">
+        <div className="w-16 h-16 rounded-xl bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mx-auto mb-6 shadow-[0_0_25px_rgba(200,233,169,0.2)]">
           <Compass size={32} className="animate-spin duration-1000" style={{ animationDuration: "20s" }} />
         </div>
 
@@ -52,15 +53,15 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             to="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d8f5be] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-lg"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] reflection-sheen active:scale-95 cursor-pointer"
           >
             <Home size={14} /> Return to Dashboard
           </Link>
           <Link
             to="/explore"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#0B0D0E] hover:bg-[#141618] border border-[#292C2C] text-[#F2F3F0] text-xs font-semibold transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-[#F2F3F0] text-xs font-semibold transition-all shadow-md active:scale-95 cursor-pointer"
           >
-            <Sparkles size={14} className="text-[#C8E9A9]" /> Multiverse Explorer
+            <Layers size={14} className="text-[#C8E9A9]" /> Multiverse Explorer
           </Link>
         </div>
       </div>
