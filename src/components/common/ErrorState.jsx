@@ -12,7 +12,7 @@ export const ErrorState = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center py-14 px-6 rounded-xl bg-gradient-to-b from-rose-950/20 to-black/60 backdrop-blur-xl border border-rose-900/40 border-t-rose-500/30 max-w-lg mx-auto shadow-2xl relative overflow-hidden",
+        "flex flex-col items-center justify-center text-center py-14 px-6 rounded-xl bg-[#0E1114] border border-rose-900/40 border-t-rose-500/30 max-w-lg mx-auto shadow-2xl relative overflow-hidden",
         className
       )}
     >

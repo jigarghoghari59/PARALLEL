@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Bell, ChevronDown, Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 import { settingsService } from "../../services/settingsService";
-import { LiquidNavbar } from "../ui/liquid-glass-navbar";
 
 const NAV_LINKS = [
   { to: "/", label: "Dashboard" },
@@ -26,33 +26,6 @@ export const TopNav = () => {
     window.addEventListener("parallel:profile-updated", handleProfileUpdate);
     return () => window.removeEventListener("parallel:profile-updated", handleProfileUpdate);
   }, []);
-
-  // Determine active nav index from pathname
-  const activeIndex = useMemo(() => {
-    const path = location.pathname;
-    if (path === "/") return 0;
-    if (path.startsWith("/explore")) return 1;
-    if (path.startsWith("/create")) return 2;
-    if (path.startsWith("/saved")) return 3;
-    if (path.startsWith("/archive")) return 4;
-    return 0;
-  }, [location.pathname]);
-
-  const handleNavChange = (index) => {
-    const target = NAV_LINKS[index];
-    if (target && target.to !== location.pathname) {
-      navigate(target.to);
-    }
-  };
-
-  const navItems = useMemo(
-    () =>
-      NAV_LINKS.map((item) => ({
-        label: item.label,
-        href: undefined, // using onChange with router navigation
-      })),
-    []
-  );
 
   return (
     <header className="relative flex items-center justify-between px-6 py-4 bg-transparent z-50">
@@ -77,30 +50,50 @@ export const TopNav = () => {
         </span>
       </Link>
 
-      {/* Center: Floating Liquid Glass Pill Navbar */}
-      <div className="hidden md:flex items-center justify-center">
-        <LiquidNavbar
-          items={navItems}
-          active={activeIndex}
-          onChange={handleNavChange}
-          tone="dark"
-          sound={false}
-          className="shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.5)] border border-white/[0.08]"
-        />
-      </div>
+      {/* Center: Editorial Navigation Bar matching Landing Page */}
+      <nav className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#0B0D0F] border border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+        {NAV_LINKS.map((item) => {
+          const isActive = item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors duration-200 group ${
+                isActive ? "text-[#050505] font-semibold" : "text-[#A5A7A3] hover:text-[#F2F3F0]"
+              }`}
+            >
+              {/* Active sliding pill */}
+              {isActive && (
+                <motion.div
+                  layoutId="activeTopNavIndicator"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4F2B7] to-[#B5E090] shadow-[0_0_16px_rgba(200,233,169,0.35)]"
+                  transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                />
+              )}
+
+              {/* Hover animated bottom line for non-active links */}
+              {!isActive && (
+                <span className="absolute bottom-1 left-4 right-4 h-[1.5px] bg-[#C8E9A9] scale-x-0 group-hover:scale-x-100 transition-transform duration-250 origin-left" />
+              )}
+
+              <span className="relative z-10">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
 
       {/* Right: Search, Notification Bell, User Avatar */}
       <div className="flex items-center gap-2">
         <button
           aria-label="Search"
-          className="w-9 h-9 rounded-full glass-btn-circle hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95"
+          className="w-9 h-9 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95 cursor-pointer"
         >
           <Search size={15} />
         </button>
 
         <button
           aria-label="Notifications"
-          className="relative w-9 h-9 rounded-full glass-btn-circle hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95"
+          className="relative w-9 h-9 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all shadow-sm active:scale-95 cursor-pointer"
         >
           <Bell size={15} />
           <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
@@ -110,7 +103,7 @@ export const TopNav = () => {
           onClick={() => navigate("/settings")}
           aria-label="User Settings"
           title="Open Settings"
-          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full glass-pill hover:border-[#C8E9A9]/50 focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all ml-1 group shadow-sm active:scale-95"
+          className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/50 focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none transition-all ml-1 group shadow-sm active:scale-95 cursor-pointer"
         >
           <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-tr from-zinc-800 to-zinc-600 border border-zinc-700/50">
             <img
@@ -127,7 +120,7 @@ export const TopNav = () => {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden w-9 h-9 rounded-full glass-btn-circle flex items-center justify-center text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none"
+          className="md:hidden w-9 h-9 rounded-full bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#F2F3F0] focus-visible:ring-2 focus-visible:ring-[#C8E9A9] focus-visible:outline-none cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -137,9 +130,9 @@ export const TopNav = () => {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="absolute top-full left-0 right-0 glass-panel border-b border-white/10 p-4 flex flex-col gap-2 md:hidden z-50 shadow-2xl">
-          {NAV_LINKS.map((l, idx) => {
-            const active = idx === activeIndex;
+        <div className="absolute top-full left-0 right-0 bg-[#0E1114] border-b border-white/10 p-4 flex flex-col gap-2 md:hidden z-50 shadow-2xl">
+          {NAV_LINKS.map((l) => {
+            const active = l.to === "/" ? location.pathname === "/" : location.pathname.startsWith(l.to);
             return (
               <Link
                 key={l.to}
@@ -147,7 +140,7 @@ export const TopNav = () => {
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm transition-all ${
                   active
-                    ? "nav-pill-active text-[#C8E9A9] font-medium"
+                    ? "bg-[#C8E9A9]/10 text-[#C8E9A9] font-medium border border-[#C8E9A9]/30"
                     : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
                 }`}
               >

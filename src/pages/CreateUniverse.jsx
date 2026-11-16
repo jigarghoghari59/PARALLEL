@@ -213,7 +213,7 @@ export default function CreateUniverse() {
         {/* ================= LEFT COLUMN: FORM CONTROLS ================= */}
         <div className="flex flex-col gap-5">
           {/* Header pill matching Landing Page */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
               Quantum Branching Engine
@@ -258,8 +258,8 @@ export default function CreateUniverse() {
           </AnimatePresence>
 
           {/* CARD 1: YOUR DECISION */}
-          <div className="glass-card focus-within:border-[#C8E9A9]/50 rounded-xl p-4 transition-all shadow-xl relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="bg-[#0B0D0F] border border-white/[0.08] focus-within:border-[#C8E9A9]/50 rounded-2xl p-4 transition-all shadow-[0_10px_28px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
             <div className="flex items-center gap-2 mb-2.5">
               <GitFork size={14} className="text-[#C8E9A9] stroke-[2.2]" />
               <span className="text-[11px] font-semibold tracking-wider text-[#A5A7A3] uppercase">
@@ -297,10 +297,10 @@ export default function CreateUniverse() {
                   setCategoryOpen(!categoryOpen);
                   setDurationOpen(false);
                 }}
-                className="w-full glass-card hover:border-[#C8E9A9]/50 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer reflection-sheen"
+                className="w-full bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg glass-panel flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
                     <Layers size={15} />
                   </div>
                   <div>
@@ -323,7 +323,7 @@ export default function CreateUniverse() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute left-0 right-0 top-full mt-2 glass-panel rounded-xl p-1.5 shadow-2xl z-40"
+                    className="absolute left-0 right-0 top-full mt-2 bg-[#0E1114] border border-white/[0.1] rounded-xl p-1.5 shadow-2xl z-40"
                   >
                     {CATEGORIES.map((cat) => (
                       <button
@@ -357,10 +357,10 @@ export default function CreateUniverse() {
                   setDurationOpen(!durationOpen);
                   setCategoryOpen(false);
                 }}
-                className="w-full glass-card hover:border-[#C8E9A9]/50 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer reflection-sheen"
+                className="w-full bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg glass-panel flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
                     <Clock size={15} />
                   </div>
                   <div>
@@ -383,7 +383,7 @@ export default function CreateUniverse() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute left-0 right-0 top-full mt-2 glass-panel rounded-xl p-1.5 shadow-2xl z-40"
+                    className="absolute left-0 right-0 top-full mt-2 bg-[#0E1114] border border-white/[0.1] rounded-xl p-1.5 shadow-2xl z-40"
                   >
                     {DURATIONS.map((dur) => (
                       <button
@@ -418,7 +418,7 @@ export default function CreateUniverse() {
                             value={customDuration}
                             placeholder="Years (1-50)"
                             onChange={(e) => setCustomDuration(e.target.value)}
-                            className="w-full glass-input rounded-lg px-2.5 py-1 text-xs text-[#F2F3F0] focus:outline-none"
+                            className="w-full bg-[#0B0D0F] border border-white/[0.1] rounded-lg px-2.5 py-1 text-xs text-[#F2F3F0] focus:border-[#C8E9A9]/60 focus:outline-none transition-colors"
                           />
                           <button
                             type="button"
@@ -451,8 +451,8 @@ export default function CreateUniverse() {
           </div>
 
           {/* CARD 3: NUMBER OF ALTERNATE REALITIES */}
-          <div className="glass-card rounded-xl p-3.5 shadow-md overflow-hidden relative reflection-sheen">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-xl p-3.5 shadow-md overflow-hidden relative">
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
             <div className="flex items-center gap-2 mb-2.5">
               <GitBranch size={13} className="text-[#A5A7A3]" />
               <span className="text-[11px] font-semibold tracking-wider text-[#A5A7A3] uppercase">
@@ -471,7 +471,7 @@ export default function CreateUniverse() {
                     className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       isSelected
                         ? "nav-pill-active text-[#C8E9A9] shadow-[0_0_12px_rgba(200,233,169,0.3)]"
-                        : "glass-pill text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40"
+                        : "bg-[#121518] border border-white/[0.08] hover:border-white/20 text-[#A5A7A3] hover:text-[#F2F3F0]"
                     }`}
                   >
                     {num}
@@ -551,8 +551,8 @@ export default function CreateUniverse() {
           </div>
 
           {/* CARD: WHAT TO EXPECT? (PIPELINE PREVIEW) */}
-          <div className="w-full glass-card rounded-xl p-4 shadow-xl mt-4 relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="w-full bg-[#0B0D0F] border border-white/[0.08] rounded-xl p-4 shadow-xl mt-4 relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Layers size={14} className="text-[#C8E9A9] stroke-[2.2]" />
@@ -560,7 +560,7 @@ export default function CreateUniverse() {
                   WHAT TO EXPECT?
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.1] text-[10px] text-[#A5A7A3]">
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#121518] border border-white/[0.08] text-[10px] text-[#A5A7A3]">
                 <Eye size={11} />
                 <span>PREVIEW</span>
               </div>
@@ -591,7 +591,7 @@ export default function CreateUniverse() {
 
               {/* Step 2: Alternative Timelines */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-11 h-11 rounded-full glass-btn-circle flex items-center justify-center text-[#F2F3F0] font-bold text-sm shadow-md mb-2">
+                <div className="w-11 h-11 rounded-full bg-[#121518] border border-white/[0.1] flex items-center justify-center text-[#F2F3F0] font-bold text-sm shadow-md mb-2">
                   ?
                 </div>
                 <span className="text-[10px] text-[#A5A7A3] font-medium max-w-[70px] leading-tight">
@@ -625,8 +625,8 @@ export default function CreateUniverse() {
       </div>
 
       {/* ================= FOOTER DISCLAIMER BAR ================= */}
-      <div className="relative z-10 w-full rounded-xl glass-card px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs text-[#A5A7A3] mt-3 gap-2 overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+      <div className="relative z-10 w-full rounded-xl bg-[#0B0D0F] border border-white/[0.08] px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs text-[#A5A7A3] mt-3 gap-2 overflow-hidden shadow-lg">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
         <div className="flex items-center gap-2">
           <Info size={14} className="text-[#A5A7A3] shrink-0" />
           <span>This is a creative exploration. Not a prediction.</span>
@@ -648,13 +648,13 @@ export default function CreateUniverse() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center"
+            className="fixed inset-0 z-50 bg-[#050505]/95 flex flex-col items-center justify-center p-6 text-center"
           >
             {/* Spinning Portal Spinner */}
             <div className="relative w-28 h-28 mb-8 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-[#C8E9A9]/20 border-t-[#C8E9A9] animate-spin duration-700 shadow-[0_0_30px_rgba(200,233,169,0.3)]" />
               <div className="absolute w-20 h-20 rounded-full border-2 border-white/10 border-b-cyan-300 animate-spin duration-1000 direction-reverse" />
-              <div className="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-[#C8E9A9] shadow-inner">
+              <div className="w-12 h-12 rounded-full bg-[#0E1114] border border-white/[0.1] flex items-center justify-center text-[#C8E9A9] shadow-inner">
                 <GitFork size={20} className="animate-pulse" />
               </div>
             </div>
@@ -687,12 +687,12 @@ export default function CreateUniverse() {
       {/* ================= CRISIS SUPPORT MODAL ================= */}
       <AnimatePresence>
         {crisisData && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="glass-panel rounded-xl p-6 sm:p-7 max-w-lg w-full text-[#F2F3F0] shadow-2xl relative overflow-hidden"
+              className="bg-[#0E1114] border border-white/[0.1] rounded-xl p-6 sm:p-7 max-w-lg w-full text-[#F2F3F0] shadow-2xl relative overflow-hidden"
             >
               <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4">
@@ -704,7 +704,7 @@ export default function CreateUniverse() {
                 </div>
                 <button
                   onClick={() => setCrisisData(null)}
-                  className="w-7 h-7 rounded-full glass-btn-circle flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] cursor-pointer"
+                  className="w-7 h-7 rounded-full bg-[#14171A] border border-white/[0.1] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] cursor-pointer"
                 >
                   <X size={14} />
                 </button>
@@ -717,7 +717,7 @@ export default function CreateUniverse() {
               <div className="flex justify-end">
                 <button
                   onClick={() => setCrisisData(null)}
-                  className="px-5 py-2.5 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] uppercase tracking-wider cursor-pointer active:scale-95"
+                  className="px-5 py-2.5 rounded-lg bg-[#181C20] border border-white/[0.1] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] uppercase tracking-wider cursor-pointer active:scale-95"
                 >
                   I Understand
                 </button>

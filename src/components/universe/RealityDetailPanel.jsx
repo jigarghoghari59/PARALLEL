@@ -50,8 +50,8 @@ export const RealityDetailPanel = ({
     "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=700&q=80";
 
   return (
-    <div className="w-full h-full glass-panel rounded-xl overflow-hidden flex flex-col shadow-2xl relative">
-      <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-20" />
+    <div className="w-full h-full bg-[#0B0D0F] border border-white/[0.08] rounded-xl overflow-hidden flex flex-col shadow-2xl relative">
+      <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-20" />
       {/* Top Banner Image with Overlay Badge */}
       <div className="relative w-full h-44 sm:h-48 overflow-hidden shrink-0 bg-black">
         <img
@@ -62,7 +62,7 @@ export const RealityDetailPanel = ({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-black/30" />
 
         {/* Badge Overlay */}
-        <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/60 border border-white/10 backdrop-blur-md">
+        <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/80 border border-white/10">
           <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
           <span className="text-[10px] font-bold text-[#F2F3F0] tracking-wider uppercase">
             {badgeLabel}
@@ -73,7 +73,7 @@ export const RealityDetailPanel = ({
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
+            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/80 border border-white/10 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
           >
             <X size={14} />
           </button>
@@ -108,7 +108,7 @@ export const RealityDetailPanel = ({
             {skills.map((skill, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-1 rounded-lg glass-pill text-[11px] text-[#F2F3F0] font-medium"
+                className="px-2.5 py-1 rounded-lg bg-[#121518] border border-white/[0.08] text-[11px] text-[#F2F3F0] font-medium"
               >
                 {skill}
               </span>
@@ -151,11 +151,11 @@ export const RealityDetailPanel = ({
       </div>
 
       {/* Bottom Sticky Action Footer */}
-      <div className="p-4 border-t border-white/10 glass-panel space-y-2 shrink-0 relative overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+      <div className="p-4 border-t border-white/[0.08] bg-[#0E1114] space-y-2 shrink-0 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
         <button
           onClick={handleExploreReality}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] reflection-sheen active:scale-95 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] active:scale-95 cursor-pointer"
         >
           <span>Explore This Reality</span>
           <ArrowRight size={14} />
@@ -163,7 +163,7 @@ export const RealityDetailPanel = ({
 
         <button
           onClick={() => navigate(`/simulate/${universeId}/${reality.id}`)}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer reflection-sheen"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-white/20 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer"
         >
           <Clock size={13} className="text-[#C8E9A9]" />
           <span>Experience a Day</span>
@@ -172,7 +172,7 @@ export const RealityDetailPanel = ({
         {onExploreMoreBranches && (
           <button
             onClick={onExploreMoreBranches}
-            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-white/20 text-[#F2F3F0] font-semibold text-xs transition-all active:scale-95 cursor-pointer"
           >
             <GitBranch size={13} className="text-[#C8E9A9]" />
             <span>Explore More Branches</span>

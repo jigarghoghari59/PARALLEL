@@ -1,15 +1,20 @@
 // src/components/landing/UniverseCarousel.jsx
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Compass } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Compass } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export const UniverseCarousel = ({ customUniverses = [] }) => {
+gsap.registerPlugin(ScrollTrigger);
+
+export const UniverseCarousel = () => {
   const navigate = useNavigate();
-  const carouselContainerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Default curated universes matching the reference design cards exactly
-  const defaultItems = [
+  // Five oversized curated universe cards with realistic imagery
+  const cards = [
     {
       id: "u-tech-pioneer",
       title: "The Tech Pioneer",
@@ -17,20 +22,17 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
       tag: "Career",
       image: "/images/carousel-tech-pioneer.png",
       fallbackImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
-      coherence: 94,
-      timelineYear: "Year 8",
-      decision: "What if I pursued robotics & quantum computing early?",
+      description: "Leading deep tech and quantum hardware engineering across global innovation hubs.",
     },
     {
       id: "u-space-explorer",
       title: "The Space Explorer",
       subtitle: "Reach for the stars",
       tag: "Adventure",
+      featured: true,
       image: "/images/carousel-space-explorer.png",
       fallbackImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
-      coherence: 98,
-      timelineYear: "Year 12",
-      decision: "What if I joined the lunar orbital program?",
+      description: "Orbital mission architect and deep-space habitat pioneer on humanity's frontier.",
     },
     {
       id: "u-peaceful-life",
@@ -39,9 +41,7 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
       tag: "Lifestyle",
       image: "/images/carousel-peaceful-life.png",
       fallbackImage: "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=800&q=80",
-      coherence: 89,
-      timelineYear: "Year 6",
-      decision: "What if I moved to a quiet mountain sanctuary?",
+      description: "A restorative sanctuary in high mountain valleys centered on quiet craft and clarity.",
     },
     {
       id: "u-global-nomad",
@@ -50,65 +50,89 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
       tag: "Success",
       image: "/images/carousel-global-nomad.png",
       fallbackImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-      coherence: 92,
-      timelineYear: "Year 10",
-      decision: "What if I lived across 30 countries without a permanent base?",
+      description: "Borderless international consultancy operating seamlessly across thirty capital cities.",
+    },
+    {
+      id: "u-oceanic-frontier",
+      title: "The Deep Frontier",
+      subtitle: "Pioneer the ocean depths",
+      tag: "Frontier",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+      fallbackImage: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+      description: "Sub-surface ecological habitats and bio-luminescent marine energy research.",
     },
   ];
 
-  // Merge with custom universes if provided
-  const items = defaultItems;
-
-  const [activeIndex, setActiveIndex] = useState(1); // Default to centered card (The Space Explorer)
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-
-  // Keyboard navigation
+  // GSAP ScrollTrigger Pinned Horizontal Scroll
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowLeft") {
-        setActiveIndex((prev) => Math.max(0, prev - 1));
-      } else if (e.key === "ArrowRight") {
-        setActiveIndex((prev) => Math.min(items.length - 1, prev + 1));
-      }
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion || !sectionRef.current || !trackRef.current) return;
+
+    const section = sectionRef.current;
+    const track = trackRef.current;
+
+    const getScrollAmount = () => {
+      const trackWidth = track.scrollWidth;
+      return -(trackWidth - window.innerWidth + 120);
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [items.length]);
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev > 0 ? prev - 1 : items.length - 1));
-  };
+    const ctx = gsap.context(() => {
+      const tween = gsap.to(track, {
+        x: getScrollAmount,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(1600, track.scrollWidth - window.innerWidth + 400)}`,
+          pin: true,
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            setScrollProgress(self.progress);
+          },
+        },
+      });
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev < items.length - 1 ? prev + 1 : 0));
-  };
+      return () => {
+        tween.kill();
+      };
+    }, section);
 
-  const handleCardClick = (index, item) => {
-    if (activeIndex === index) {
-      navigate(`/explore?search=${encodeURIComponent(item.title)}`);
-    } else {
-      setActiveIndex(index);
-    }
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
+  // Manual Previous/Next Controls (smooth programmatic scrolling)
+  const handleScrollStep = (direction) => {
+    if (!sectionRef.current) return;
+    const scrollTriggerInstance = ScrollTrigger.getById(sectionRef.current);
+    const scrollStep = window.innerHeight * 0.45 * direction;
+    window.scrollBy({ top: scrollStep, behavior: "smooth" });
   };
 
   return (
-    <section className="relative z-10 py-16 lg:py-24 px-4 sm:px-6 lg:px-12 select-none overflow-hidden">
-      <div className="max-w-[1440px] mx-auto">
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+    <section
+      ref={sectionRef}
+      className="relative z-20 min-h-screen flex flex-col justify-center bg-[#050505] overflow-hidden select-none py-12"
+    >
+      {/* Top Header Row inside the pinned section */}
+      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-12 mb-8 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C8E9A9]">
                 Explore Universes
               </span>
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-[#F2F3F0]">
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#F2F3F0] leading-none">
               Step into Different Possibilities
             </h2>
           </div>
 
-          {/* Right Header Link & Controls */}
+          {/* Right Header Navigation Controls */}
           <div className="flex items-center gap-4">
             <Link
               to="/explore"
@@ -118,121 +142,108 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
               <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
             </Link>
 
-            {/* Prev / Next Nav Buttons */}
+            {/* Prev / Next Buttons */}
             <div className="flex items-center gap-2">
               <button
-                onClick={handlePrev}
-                aria-label="Previous universe"
-                className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-[#C8E9A9] text-white hover:text-[#050505] border border-white/10 hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-90"
+                onClick={() => handleScrollStep(-1)}
+                aria-label="Previous card"
+                className="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-[#C8E9A9] text-white hover:text-[#050505] border border-white/[0.1] hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-md active:scale-95"
               >
                 <ChevronLeft size={16} />
               </button>
               <button
-                onClick={handleNext}
-                aria-label="Next universe"
-                className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-[#C8E9A9] text-white hover:text-[#050505] border border-white/10 hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-90"
+                onClick={() => handleScrollStep(1)}
+                aria-label="Next card"
+                className="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-[#C8E9A9] text-white hover:text-[#050505] border border-white/[0.1] hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-md active:scale-95"
               >
                 <ChevronRight size={16} />
               </button>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Carousel Grid / Horizontal Track */}
+      {/* Horizontal Carousel Track Driven by Vertical Scroll */}
+      <div className="w-full overflow-visible">
         <div
-          ref={carouselContainerRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          ref={trackRef}
+          className="flex items-stretch gap-6 sm:gap-8 px-4 sm:px-6 lg:px-12 w-max"
         >
-          {items.map((item, index) => {
-            const isActive = activeIndex === index;
+          {cards.map((card, idx) => {
+            const isFeatured = card.featured;
+
             return (
-              <motion.div
-                key={item.id}
-                onClick={() => handleCardClick(index, item)}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.3 }}
-                className={`relative rounded-3xl overflow-hidden cursor-pointer group flex flex-col justify-between h-[340px] sm:h-[380px] border transition-all duration-500 shadow-xl ${
-                  isActive
-                    ? "border-[#C8E9A9]/70 shadow-[0_16px_48px_rgba(0,0,0,0.9),0_0_30px_rgba(200,233,169,0.18)] scale-[1.02]"
-                    : "border-white/[0.1] hover:border-white/30 bg-[#07090b]"
+              <div
+                key={card.id}
+                onClick={() => navigate(`/explore?search=${encodeURIComponent(card.title)}`)}
+                className={`relative group cursor-pointer rounded-2xl bg-[#090b0d] border transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 shadow-[0_20px_50px_rgba(0,0,0,0.85)] ${
+                  isFeatured
+                    ? "w-[340px] sm:w-[440px] lg:w-[480px] border-[#C8E9A9]/40 hover:border-[#C8E9A9]/70"
+                    : "w-[300px] sm:w-[380px] lg:w-[420px] border-white/[0.1] hover:border-white/25"
                 }`}
               >
-                {/* Background Artwork */}
-                <div className="absolute inset-0 z-0">
+                {/* Top specular hairline */}
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none z-10" />
+
+                {/* Card Image Area with Controlled Proportions */}
+                <div className="relative w-full h-[240px] sm:h-[280px] lg:h-[300px] overflow-hidden bg-black/60">
                   <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 brightness-[0.88]"
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover brightness-[0.8] contrast-[1.05] group-hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
-                      e.currentTarget.src = item.fallbackImage;
+                      e.currentTarget.src = card.fallbackImage;
                     }}
                   />
-                  {/* Cinematic Dark Vignette & Gradient Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-black/30 pointer-events-none" />
-                </div>
+                  {/* Subtle dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090b0d] via-transparent to-black/30" />
 
-                {/* Top Specular Reflection Highlight */}
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent z-10 pointer-events-none" />
-
-                {/* Top Card Badge: Tag */}
-                <div className="relative z-10 p-5 flex items-center justify-between">
-                  {isActive ? (
-                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C8E9A9]/20 border border-[#C8E9A9]/40 backdrop-blur-md text-[10.5px] font-bold uppercase tracking-wider text-[#C8E9A9]">
-                      <Sparkles size={11} />
-                      Featured Reality
+                  {/* Top Category Badge */}
+                  <div className="absolute top-4 right-4 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#050505]/90 border border-white/15">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
+                    <span className="text-[10px] font-semibold tracking-wider text-[#F2F3F0] uppercase">
+                      {card.tag}
                     </span>
-                  ) : (
-                    <div />
-                  )}
-
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-white tracking-wide">
-                    {item.tag}
-                  </span>
+                  </div>
                 </div>
 
-                {/* Bottom Content Area */}
-                <div className="relative z-10 p-5 pt-0 mt-auto">
-                  <div className="flex items-end justify-between gap-3">
-                    <div>
-                      <h3 className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-[#C8E9A9] transition-colors leading-snug">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-[#A5A7A3] font-normal mt-0.5 leading-relaxed">
-                        {item.subtitle}
-                      </p>
-                    </div>
+                {/* Card Text & Metadata Footer */}
+                <div className="p-6 sm:p-7 flex flex-col justify-between flex-1 bg-[#090b0d]">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight group-hover:text-white transition-colors mb-1">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs font-semibold text-[#C8E9A9] mb-3 tracking-wide">
+                      {card.subtitle}
+                    </p>
+                    <p className="text-xs text-[#A5A7A3] font-normal leading-relaxed line-clamp-2">
+                      {card.description}
+                    </p>
+                  </div>
 
-                    {/* Circular Action Arrow Button */}
-                    <div
-                      className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 ${
-                        isActive
-                          ? "bg-[#C8E9A9] text-[#050505] border-[#C8E9A9] scale-110 shadow-[0_0_12px_rgba(200,233,169,0.5)]"
-                          : "bg-white/10 group-hover:bg-[#C8E9A9] text-white group-hover:text-[#050505] border-white/20 group-hover:border-[#C8E9A9]"
-                      }`}
-                    >
-                      <ArrowRight size={13} className="stroke-[2.5]" />
+                  {/* Bottom Action Bar */}
+                  <div className="mt-6 pt-4 border-t border-white/[0.08] flex items-center justify-between">
+                    <span className="text-[11px] text-[#A5A7A3] font-mono uppercase tracking-wider">
+                      Explore Timeline
+                    </span>
+                    <div className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.1] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all duration-300">
+                      <ArrowRight size={13} />
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
+      </div>
 
-        {/* Carousel Dots Indicators */}
-        <div className="flex items-center justify-center gap-2 mt-8">
-          {items.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              aria-label={`Jump to universe ${idx + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                activeIndex === idx
-                  ? "w-8 bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9]"
-                  : "w-2 bg-white/20 hover:bg-white/40"
-              }`}
-            />
-          ))}
+      {/* Thin Horizontal Scroll Indicator Line */}
+      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-12 mt-6">
+        <div className="w-full h-[2px] bg-white/[0.08] rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[#C8E9A9] transition-all duration-150"
+            style={{ width: `${Math.max(15, scrollProgress * 100)}%` }}
+          />
         </div>
       </div>
     </section>

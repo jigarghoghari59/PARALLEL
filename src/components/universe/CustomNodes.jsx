@@ -9,7 +9,7 @@ import { GraduationCap, ArrowRight, Plus, BarChart3, Laptop, Cpu } from "lucide-
  */
 export const DecisionRootNode = ({ data }) => {
   return (
-    <div className="relative glass-pill rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.85)] flex items-center gap-3.5 min-w-[280px] max-w-[340px] transition-all hover:border-[#C8E9A9]/50 reflection-sheen">
+    <div className="relative bg-[#0B0D0F] border border-white/[0.1] rounded-full px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.85)] flex items-center gap-3.5 min-w-[280px] max-w-[340px] transition-all hover:border-[#C8E9A9]/50">
       {/* Specular top reflection line */}
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-full" />
 
@@ -19,7 +19,7 @@ export const DecisionRootNode = ({ data }) => {
       </div>
 
       {/* Left Icon Sphere */}
-      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/[0.1] to-white/[0.02] border border-white/20 flex items-center justify-center text-[#F2F3F0] shrink-0 shadow-inner">
+      <div className="w-10 h-10 rounded-full bg-[#121518] border border-white/20 flex items-center justify-center text-[#F2F3F0] shrink-0 shadow-inner">
         <GraduationCap size={18} className="text-[#C8E9A9]" />
       </div>
 
@@ -94,14 +94,14 @@ export const RealityNode = ({ data, selected }) => {
   return (
     <div
       onClick={() => data.onSelect?.(data.reality)}
-      className={`relative group glass-card rounded-xl p-2.5 transition-all duration-300 cursor-pointer flex items-center gap-3 w-[260px] shadow-2xl overflow-hidden reflection-sheen ${
+      className={`relative group bg-[#0B0D0F] border rounded-xl p-2.5 transition-all duration-300 cursor-pointer flex items-center gap-3 w-[260px] shadow-xl overflow-hidden ${
         isSelected
           ? "border-2 border-[#C8E9A9] shadow-[0_0_28px_rgba(200,233,169,0.32)] scale-[1.02]"
-          : "hover:border-[#C8E9A9]/50"
+          : "border-white/[0.08] hover:border-[#C8E9A9]/50"
       }`}
     >
       {/* Specular top reflection line */}
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
       {/* Top Handle */}
       <Handle
@@ -137,7 +137,7 @@ export const RealityNode = ({ data, selected }) => {
       <div className="flex-1 min-w-0 pr-1">
         {/* Capsule Badge */}
         <span
-          className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border mb-1 backdrop-blur-md ${currentBadgeColor}`}
+          className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border mb-1 ${currentBadgeColor}`}
         >
           {badgeLabel}
         </span>
@@ -154,7 +154,7 @@ export const RealityNode = ({ data, selected }) => {
       </div>
 
       {/* Arrow Icon */}
-      <div className="w-6 h-6 rounded-full glass-btn-circle flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/60 transition-colors shrink-0">
+      <div className="w-6 h-6 rounded-full bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#F2F3F0] group-hover:border-[#C8E9A9]/60 transition-colors shrink-0">
         <ArrowRight size={10} />
       </div>
 
@@ -175,9 +175,9 @@ export const AddBranchNode = ({ data }) => {
   return (
     <div
       onClick={data.onClick}
-      className="relative flex items-center gap-2 px-4 py-2 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all cursor-pointer shadow-lg group reflection-sheen active:scale-95"
+      className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-[#0E1114] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all cursor-pointer shadow-lg group active:scale-95"
     >
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-full" />
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none rounded-full" />
       {/* Top Handle */}
       <Handle
         type="target"

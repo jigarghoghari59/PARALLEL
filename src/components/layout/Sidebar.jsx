@@ -37,7 +37,7 @@ export const Sidebar = ({ collapsed, onToggleCollapse }) => {
 
   return (
     <aside
-      className={`hidden md:flex flex-col justify-between shrink-0 min-h-screen bg-[#07090b]/90 backdrop-blur-2xl border-r border-white/[0.08] p-3 relative z-30 select-none transition-all duration-300 sidebar-glow-frame ${
+      className={`hidden md:flex flex-col justify-between shrink-0 min-h-screen bg-[#08090B] border-r border-white/[0.08] p-3 relative z-30 select-none transition-all duration-300 ${
         collapsed ? "w-[76px]" : "w-[204px]"
       }`}
     >
@@ -164,7 +164,7 @@ export const Sidebar = ({ collapsed, onToggleCollapse }) => {
         {!collapsed && (
           <div
             onClick={() => navigate("/explore")}
-            className="w-full rounded-xl glass-card hover:border-[#C8E9A9]/40 p-2.5 cursor-pointer group transition-all shadow-lg overflow-hidden"
+            className="w-full rounded-xl bg-[#0E1114] border border-white/[0.08] hover:border-[#C8E9A9]/40 p-2.5 cursor-pointer group transition-all shadow-lg overflow-hidden"
           >
             <div className="text-left mb-1.5 px-0.5">
               <p className="text-[9.5px] font-semibold text-[#F2F3F0] leading-tight">

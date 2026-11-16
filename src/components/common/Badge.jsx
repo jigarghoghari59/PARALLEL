@@ -20,7 +20,7 @@ export const Badge = ({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold border tracking-wider uppercase backdrop-blur-md relative overflow-hidden",
+        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold border tracking-wider uppercase relative overflow-hidden",
         variants[variant] || variants.default,
         className
       )}

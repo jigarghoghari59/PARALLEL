@@ -194,7 +194,7 @@ export default function Settings() {
     <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
       {/* Floating Status Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full glass-panel border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_24px_rgba(200,233,169,0.35)] animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0E1114] border border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_24px_rgba(200,233,169,0.35)] animate-in fade-in slide-in-from-bottom-2 duration-300">
           <CheckCircle2 size={14} className="text-[#C8E9A9]" />
           <span>{toastMessage}</span>
         </div>
@@ -202,7 +202,7 @@ export default function Settings() {
 
       {/* TOP HEADER TITLE BAR matching Landing Page */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
           <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
             Multiverse Configuration
@@ -217,7 +217,6 @@ export default function Settings() {
       </div>
 
       <div>
-
         {/* ======================================================== */}
         {/* MAIN LAYOUT: LEFT SIDEBAR (3 Cols) + RIGHT GRID (9 Cols) */}
         {/* ======================================================== */}
@@ -227,8 +226,8 @@ export default function Settings() {
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
             {/* User Profile Mini Capsule Card */}
-            <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
               {/* Outer halo avatar circle */}
               <div className="relative w-20 h-20 rounded-full border border-white/10 ring-4 ring-white/[0.03] overflow-hidden bg-black/60 shadow-xl mb-3 group">
                 <img
@@ -268,7 +267,7 @@ export default function Settings() {
             </div>
 
             {/* Navigation Menu List */}
-            <div className="glass-panel rounded-2xl p-2.5 shadow-2xl space-y-1 overflow-hidden">
+            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-2.5 shadow-xl space-y-1 overflow-hidden">
               {[
                 { id: "settings", label: "Settings", icon: SettingsIcon },
                 { id: "profile-section", label: "Profile", icon: User },
@@ -302,8 +301,8 @@ export default function Settings() {
             </div>
 
             {/* Inset Card: "Explore Deeper" */}
-            <div className="relative glass-card rounded-2xl p-4.5 shadow-2xl overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+            <div className="relative bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-4.5 shadow-xl overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
               <div className="relative z-10">
                 <h4 className="text-xs font-bold text-[#F2F3F0]">
                   Explore Deeper
@@ -314,7 +313,7 @@ export default function Settings() {
 
                 <button
                   onClick={() => setPremiumModalOpen(true)}
-                  className="mt-3 px-4 py-2 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer active:scale-95 group"
+                  className="mt-3 px-4 py-2 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] cursor-pointer active:scale-95 group"
                 >
                   <span>Upgrade Now</span>
                   <ArrowRight
@@ -347,9 +346,9 @@ export default function Settings() {
               {/* CARD 1: PROFILE SETTINGS */}
               <div
                 id="profile-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   {/* Header Row */}
                   <div className="flex items-center justify-between mb-4">
@@ -362,7 +361,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setEditProfileOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-[11px] font-semibold text-[#F2F3F0] transition-all shadow-sm cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-[11px] font-semibold text-[#F2F3F0] transition-all shadow-sm cursor-pointer"
                     >
                       <Edit3 size={11} className="text-[#C8E9A9]" />
                       <span>Edit Profile</span>
@@ -386,7 +385,7 @@ export default function Settings() {
                       <button
                         onClick={() => setEditProfileOpen(true)}
                         aria-label="Change Avatar"
-                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full glass-btn-circle hover:border-[#C8E9A9]/60 flex items-center justify-center text-[#C8E9A9] shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#14171A] border border-white/[0.1] hover:border-[#C8E9A9]/60 flex items-center justify-center text-[#C8E9A9] shadow-md hover:scale-110 transition-transform cursor-pointer"
                       >
                         <Edit3 size={10} />
                       </button>
@@ -419,9 +418,9 @@ export default function Settings() {
               {/* CARD 2: APPEARANCE */}
               <div
                 id="appearance-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   {/* Header Row */}
                   <div className="flex items-center gap-2 mb-1">
@@ -464,8 +463,8 @@ export default function Settings() {
                           onClick={() => handleThemeChange(t.id)}
                           className={`relative rounded-xl p-2 cursor-pointer transition-all duration-300 flex flex-col items-center text-center group ${
                             isSelected
-                              ? "nav-pill-active border-2 border-[#C8E9A9] shadow-[0_0_20px_rgba(200,233,169,0.3)]"
-                              : "glass-card hover:border-[#C8E9A9]/50"
+                              ? "bg-[#141a15] border border-[#C8E9A9] shadow-[0_0_20px_rgba(200,233,169,0.3)]"
+                              : "bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-white/20"
                           }`}
                         >
                           {/* Active Dot indicator */}
@@ -503,9 +502,9 @@ export default function Settings() {
               {/* CARD 3: NOTIFICATIONS */}
               <div
                 id="notifications-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Bell size={16} className="text-[#C8E9A9]" />
@@ -574,9 +573,9 @@ export default function Settings() {
               {/* CARD 4: PRIVACY & SECURITY */}
               <div
                 id="privacy-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Shield size={16} className="text-[#C8E9A9]" />
@@ -635,7 +634,7 @@ export default function Settings() {
 
                         <button
                           onClick={handleExportData}
-                          className="px-3.5 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-all shrink-0 cursor-pointer active:scale-95"
+                          className="px-3.5 py-1.5 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-all shrink-0 cursor-pointer active:scale-95"
                         >
                           <Download size={11} className="text-[#C8E9A9]" />
                           <span>Download</span>
@@ -663,15 +662,15 @@ export default function Settings() {
                       </div>
                     </div>
 
-                    {/* Right Graphic: Holographic Security Shield (4 Cols) */}
+                    {/* Right Graphic: Security Shield (4 Cols) */}
                     <div className="hidden sm:flex sm:col-span-4 items-center justify-center relative">
                       <div className="relative w-24 h-24 flex items-center justify-center">
                         {/* Starry orbital circle */}
                         <div className="absolute inset-0 rounded-full border border-[#C8E9A9]/20 animate-spin-slow opacity-60" />
                         <div className="absolute -inset-1 rounded-full border border-dashed border-[#C8E9A9]/15" />
 
-                        {/* Holographic Shield Container */}
-                        <div className="w-16 h-20 rounded-xl bg-gradient-to-b from-[#142017] to-[#0B0D0E] border border-[#C8E9A9]/40 flex items-center justify-center shadow-[0_0_20px_rgba(200,233,169,0.15)] backdrop-blur-sm">
+                        {/* Shield Container */}
+                        <div className="w-16 h-20 rounded-xl bg-gradient-to-b from-[#142017] to-[#0B0D0E] border border-[#C8E9A9]/40 flex items-center justify-center shadow-[0_0_20px_rgba(200,233,169,0.15)]">
                           <Lock size={20} className="text-[#C8E9A9]" />
                         </div>
                       </div>
@@ -688,9 +687,9 @@ export default function Settings() {
               {/* CARD 5: DATA MANAGEMENT */}
               <div
                 id="data-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Database size={16} className="text-[#C8E9A9]" />
@@ -703,7 +702,7 @@ export default function Settings() {
                   </p>
 
                   {/* 3 Stats Columns */}
-                  <div className="flex items-center justify-between py-2 px-3 rounded-xl glass-panel">
+                  <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-[#121518] border border-white/[0.08]">
                     {/* Stat 1: Saved Universes */}
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-lg bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]">
@@ -754,7 +753,7 @@ export default function Settings() {
                 <div className="mt-4 flex items-center justify-end">
                   <button
                     onClick={() => navigate("/saved")}
-                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                   >
                     <span>Manage Data</span>
                     <ArrowRight size={12} className="text-[#C8E9A9]" />
@@ -765,9 +764,9 @@ export default function Settings() {
               {/* CARD 6: ABOUT PARALLEL */}
               <div
                 id="about-section"
-                className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between"
+                className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col justify-between"
               >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-1">
                     <Info size={16} className="text-[#C8E9A9]" />
@@ -786,7 +785,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setCreditsModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                     >
                       <span>View Credits</span>
                       <ArrowRight size={12} className="text-[#C8E9A9]" />
@@ -848,7 +847,7 @@ export default function Settings() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs font-medium text-[#F2F3F0] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs font-medium text-[#F2F3F0] transition-colors cursor-pointer"
               >
                 <Upload size={12} className="text-[#C8E9A9]" />
                 <span>Upload Image</span>
@@ -871,7 +870,7 @@ export default function Settings() {
               onChange={(e) =>
                 setEditForm((prev) => ({ ...prev, name: e.target.value }))
               }
-              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full bg-[#0E1114] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
@@ -887,7 +886,7 @@ export default function Settings() {
                 setEditForm((prev) => ({ ...prev, role: e.target.value }))
               }
               placeholder="e.g. Explorer, Quantum Architect"
-              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full bg-[#0E1114] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
@@ -903,7 +902,7 @@ export default function Settings() {
               onChange={(e) =>
                 setEditForm((prev) => ({ ...prev, email: e.target.value }))
               }
-              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full bg-[#0E1114] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-3.5 py-2 text-xs text-[#F2F3F0] outline-none"
             />
           </div>
 
@@ -912,13 +911,13 @@ export default function Settings() {
             <button
               type="button"
               onClick={() => setEditProfileOpen(false)}
-              className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md hover:shadow-[0_0_20px_rgba(200,233,169,0.4)] transition-all reflection-sheen active:scale-95 cursor-pointer"
+              className="px-5 py-2 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
             >
               Save Changes
             </button>
@@ -988,16 +987,16 @@ export default function Settings() {
               Core Technologies
             </h5>
             <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="glass-card p-2 rounded-xl">
+              <div className="bg-[#121518] border border-white/[0.08] p-2 rounded-xl">
                 ⚡ <strong className="text-[#F2F3F0]">Vite + React 19</strong> (ES Modules)
               </div>
-              <div className="glass-card p-2 rounded-xl">
+              <div className="bg-[#121518] border border-white/[0.08] p-2 rounded-xl">
                 🤖 <strong className="text-[#F2F3F0]">Gemini 2.5 Flash</strong> (Server-side)
               </div>
-              <div className="glass-card p-2 rounded-xl">
+              <div className="bg-[#121518] border border-white/[0.08] p-2 rounded-xl">
                 🎨 <strong className="text-[#F2F3F0]">Tailwind CSS v4</strong> (Near-black)
               </div>
-              <div className="glass-card p-2 rounded-xl">
+              <div className="bg-[#121518] border border-white/[0.08] p-2 rounded-xl">
                 📊 <strong className="text-[#F2F3F0]">Recharts & Framer Motion</strong>
               </div>
             </div>
@@ -1015,7 +1014,7 @@ export default function Settings() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => setCreditsModalOpen(false)}
-              className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md transition-all reflection-sheen active:scale-95 cursor-pointer"
+              className="px-5 py-2 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
             >
               Close
             </button>
@@ -1033,7 +1032,7 @@ export default function Settings() {
         maxWidth="max-w-md"
       >
         <div className="space-y-4 pt-1 text-xs text-[#A5A7A3] text-center">
-          <div className="w-12 h-12 rounded-full glass-card border-[#C8E9A9]/40 flex items-center justify-center text-2xl mx-auto shadow-[0_0_20px_rgba(200,233,169,0.2)]">
+          <div className="w-12 h-12 rounded-full bg-[#121518] border border-[#C8E9A9]/40 flex items-center justify-center text-2xl mx-auto shadow-[0_0_20px_rgba(200,233,169,0.2)]">
             💎
           </div>
           <div>
@@ -1046,7 +1045,7 @@ export default function Settings() {
           </div>
           <button
             onClick={() => setPremiumModalOpen(false)}
-            className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs shadow-md transition-all reflection-sheen active:scale-95 cursor-pointer"
+            className="px-5 py-2 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
           >
             Got it
           </button>

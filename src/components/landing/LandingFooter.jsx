@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const LandingFooter = () => {
   const navLinks = [
@@ -10,6 +11,7 @@ export const LandingFooter = () => {
     { to: "/create", label: "Create Reality" },
     { to: "/saved", label: "Saved" },
     { to: "/archive", label: "Archive" },
+    { to: "/settings", label: "Settings" },
   ];
 
   const socialLinks = [
@@ -52,14 +54,14 @@ export const LandingFooter = () => {
   ];
 
   return (
-    <footer className="relative z-10 pt-16 pb-8 px-4 sm:px-6 lg:px-12 select-none overflow-hidden">
-      {/* Top Horizon Planet Curve Glow Line */}
-      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-[#C8E9A9]/[0.035] to-transparent blur-3xl pointer-events-none" />
+    <footer className="relative z-10 pt-16 pb-8 px-4 sm:px-6 lg:px-12 select-none overflow-hidden bg-[#050505]">
+      {/* Top Hairline Curve Glow Line */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/35 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-[#C8E9A9]/[0.025] to-transparent blur-3xl pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto">
         {/* Main Footer Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-white/[0.08]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.06]">
           {/* Left: Brand & Tagline */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <Link to="/" className="flex items-center gap-2.5 group mb-2">
@@ -78,49 +80,44 @@ export const LandingFooter = () => {
             </p>
           </div>
 
-          {/* Center: Navigation Links */}
+          {/* Center: Navigation Links with Animated Underlines */}
           <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#A5A7A3]">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="hover:text-white transition-colors"
+                className="relative py-1 hover:text-white transition-colors duration-200 group"
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#C8E9A9] scale-x-0 group-hover:scale-x-100 transition-transform duration-250 origin-left" />
               </Link>
             ))}
           </nav>
 
-          {/* Right: Social Media Links */}
+          {/* Right: Social Media Icons */}
           <div className="flex items-center gap-3">
             {socialLinks.map((s) => (
-              <a
+              <motion.a
                 key={s.name}
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
+                whileHover={{ scale: 1.1, y: -1 }}
+                whileTap={{ scale: 0.95 }}
                 aria-label={s.name}
-                className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-[#C8E9A9] text-[#A5A7A3] hover:text-[#050505] border border-white/10 hover:border-[#C8E9A9] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
+                className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-white/25 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors"
               >
                 {s.icon}
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>
 
-        {/* Bottom Sub-Footer Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#A5A7A3]/70">
-          <p>© 2025 PARALLEL. All rights reserved.</p>
-
-          {/* Speculative Fiction Disclaimer */}
-          <p className="text-center sm:text-right text-[10px] text-[#A5A7A3]/60 italic max-w-md">
-            Speculative multiverse simulator. Outcomes are imaginative scenarios, not guaranteed predictions.
-          </p>
-
-          <p className="flex items-center gap-1">
-            <span>Built with</span>
-            <span className="text-[#C8E9A9]">❤️</span>
-            <span>for dreamers</span>
+        {/* Bottom Bar: Copyright & Speculative Fiction Notice */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#A5A7A3]/70 font-mono">
+          <p>© 2026 PARALLEL. All rights reserved. Multiverse Generative Engine.</p>
+          <p className="text-center sm:text-right">
+            Built with precision • Speculative fiction exploration
           </p>
         </div>
       </div>

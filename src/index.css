@@ -53,90 +53,68 @@ html, body, #root {
 }
 
 /* ======================================================== */
-/* ADVANCED GLASSMORPHISM, BORDER SHINE & SPECULAR REFLECTION */
+/* EDITORIAL SCI-FI SURFACES, CRISP HAIRLINES & MICRO-INTERACTIONS */
+/* (Solid high-contrast surfaces without blurry glassmorphism) */
 /* ======================================================== */
 
-/* Base Glass Container with Specular Top Highlight */
+/* Base Panel: Crisp Solid Charcoal Surface */
 .glass-panel {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%), rgba(9, 11, 13, 0.82);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
-              inset 0 0 16px rgba(200, 233, 169, 0.02),
-              0 14px 36px -8px rgba(0, 0, 0, 0.85);
+  background-color: #0E1114;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.7);
   position: relative;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  border-top-color: rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.48),
-              inset 0 0 20px rgba(200, 233, 169, 0.04),
-              0 18px 44px -8px rgba(0, 0, 0, 0.92);
+  border-color: rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.24);
 }
 
-/* Glass Card */
+/* Card Surface: Deep Slate with Crisp Border */
 .glass-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(12, 14, 16, 0.72) 100%), rgba(7, 9, 11, 0.85);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.26);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.32),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-              0 14px 36px -8px rgba(0, 0, 0, 0.75);
+  background-color: #0B0D0F;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65);
   position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, transform 0.2s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(200, 233, 169, 0.35);
-  border-top-color: rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.5),
-              0 0 24px rgba(200, 233, 169, 0.15),
-              0 18px 44px -8px rgba(0, 0, 0, 0.88);
+  border-color: rgba(200, 233, 169, 0.3);
+  border-top-color: rgba(255, 255, 255, 0.3);
+  background-color: #0E1114;
 }
 
-/* Glass Pill Shape */
+/* Pill Surface */
 .glass-pill {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(14, 17, 20, 0.78) 100%), rgba(8, 10, 12, 0.88);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.28);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
-              0 8px 24px -4px rgba(0, 0, 0, 0.65);
+  background-color: #101316;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transition: all 0.2s ease;
 }
 
 .glass-pill:hover {
-  border-color: rgba(200, 233, 169, 0.4);
-  border-top-color: rgba(255, 255, 255, 0.6);
-  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55),
-              0 0 18px rgba(200, 233, 169, 0.2),
-              0 10px 28px -4px rgba(0, 0, 0, 0.75);
+  border-color: rgba(200, 233, 169, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.35);
+  background-color: #14181C;
 }
 
-/* Circular Glass Buttons */
+/* Circular Buttons */
 .glass-btn-circle {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(12, 14, 16, 0.8) 100%), rgba(8, 10, 12, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-top: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.38),
-              0 4px 14px rgba(0, 0, 0, 0.5);
+  background-color: #121518;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   transition: all 0.2s ease;
 }
 
 .glass-btn-circle:hover {
-  border-color: rgba(200, 233, 169, 0.45);
-  border-top-color: rgba(255, 255, 255, 0.65);
-  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.58),
-              0 0 16px rgba(200, 233, 169, 0.25),
-              0 6px 20px rgba(0, 0, 0, 0.7);
+  border-color: rgba(200, 233, 169, 0.4);
+  background-color: #181C20;
 }
 
 /* Light Reflection Sheen Effect on Hover */
@@ -188,46 +166,31 @@ html, body, #root {
   pointer-events: none;
 }
 
-/* Reference UI Active Pill: Glowing Soft Green Aura with Specular Top Highlight */
+/* Reference UI Active Pill: Solid Dark Sage Surface with Crisp Border */
 .nav-pill-active {
-  background: linear-gradient(135deg, rgba(200, 233, 169, 0.18) 0%, rgba(20, 32, 22, 0.85) 100%), rgba(10, 16, 12, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(200, 233, 169, 0.55);
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.65),
-              inset 0 0 16px rgba(200, 233, 169, 0.15),
-              0 0 24px rgba(200, 233, 169, 0.35),
-              0 8px 24px -4px rgba(0, 0, 0, 0.7);
+  background-color: #121A14;
+  border: 1px solid rgba(200, 233, 169, 0.5);
+  box-shadow: 0 0 16px rgba(200, 233, 169, 0.15);
 }
 
-/* Sidebar Curved Top-Left Glowing Border (Reference image aesthetic) */
+/* Sidebar Frame */
 .sidebar-glow-frame {
-  border-top-left-radius: 28px;
-  border-top: 1px solid rgba(200, 233, 169, 0.45);
-  border-left: 1px solid rgba(200, 233, 169, 0.35);
-  box-shadow: -4px -4px 20px rgba(200, 233, 169, 0.15),
-              inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  border-top-left-radius: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Smooth glass input styles */
+/* Crisp solid input styles */
 .glass-input {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(14, 17, 20, 0.75) 100%), rgba(8, 10, 12, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  background-color: #0A0C0E;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
   transition: all 0.2s ease;
 }
 
 .glass-input:focus {
-  border-color: rgba(200, 233, 169, 0.75);
-  border-top-color: rgba(255, 255, 255, 0.65);
-  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.3),
-              0 0 16px rgba(200, 233, 169, 0.25),
-              0 4px 12px rgba(0, 0, 0, 0.5);
+  border-color: rgba(200, 233, 169, 0.7);
+  box-shadow: 0 0 12px rgba(200, 233, 169, 0.2);
 }
 
 /* Scrollbar in glass style */

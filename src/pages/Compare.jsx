@@ -311,7 +311,7 @@ export default function Compare() {
     <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
       {/* Top Header */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
           <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
             Reality Comparison Matrix
@@ -345,10 +345,10 @@ export default function Compare() {
                   <button
                     key={preset.id}
                     onClick={() => handleSelectPreset(preset)}
-                    className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all duration-300 shadow-md cursor-pointer reflection-sheen overflow-hidden ${
+                    className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all duration-300 shadow-md cursor-pointer overflow-hidden ${
                       active
-                        ? "nav-pill-active border-2 border-[#C8E9A9] shadow-[0_0_20px_rgba(200,233,169,0.25)]"
-                        : "glass-card hover:border-[#C8E9A9]/50"
+                        ? "bg-[#141a15] border border-[#C8E9A9] shadow-[0_0_16px_rgba(200,233,169,0.25)]"
+                        : "bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20"
                     }`}
                   >
                     {/* Thumbnail Image */}
@@ -375,8 +375,8 @@ export default function Compare() {
             </div>
 
             {/* Bottom Card: Explore More */}
-            <div className="glass-card rounded-2xl p-4.5 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-4.5 shadow-xl relative overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
               <div className="text-[#C8E9A9] mb-2">
                 <Compass size={16} />
               </div>
@@ -387,7 +387,7 @@ export default function Compare() {
 
               <button
                 onClick={handleOpenNewComparison}
-                className="mt-4 w-full py-2.5 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer active:scale-95"
+                className="mt-4 w-full py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] cursor-pointer active:scale-95"
               >
                 <span>Create New Comparison</span>
                 <ArrowRight size={13} />
@@ -406,8 +406,8 @@ export default function Compare() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative">
                   {/* REALITY A CARD */}
                   {realityA && (
-                    <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
-                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                    <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden">
+                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                       <div>
                         {/* Pill Badge */}
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase mb-1.5 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
@@ -509,14 +509,14 @@ export default function Compare() {
                   )}
 
                   {/* FLOATING "VS" CIRCULAR BADGE IN THE MIDDLE */}
-                  <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full glass-panel border border-[#C8E9A9]/50 shadow-[0_0_18px_rgba(200,233,169,0.3)] items-center justify-center text-[10px] font-extrabold text-[#F2F3F0] tracking-wider pointer-events-none">
+                  <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-[#121518] border border-[#C8E9A9]/50 shadow-[0_0_18px_rgba(200,233,169,0.3)] items-center justify-center text-[10px] font-extrabold text-[#F2F3F0] tracking-wider pointer-events-none">
                     VS
                   </div>
 
                   {/* REALITY B CARD */}
                   {realityB && (
-                    <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
-                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                    <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden">
+                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                       <div>
                         {/* Pill Badge */}
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#181520] border border-[#9678C9]/40 text-[#9678C9] text-[9px] font-bold tracking-wider uppercase mb-1.5 shadow-[0_0_10px_rgba(150,120,201,0.2)]">
@@ -620,8 +620,8 @@ export default function Compare() {
               </div>
 
               {/* RIGHT UPPER: QUICK INSIGHTS & PROGRESS BARS (4 Cols) */}
-              <div className="xl:col-span-4 flex flex-col justify-between glass-card rounded-2xl p-5 shadow-2xl space-y-4 overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+              <div className="xl:col-span-4 flex flex-col justify-between bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl space-y-4 overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div>
                   {/* Header */}
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-2.5">
@@ -681,7 +681,7 @@ export default function Compare() {
                 </div>
 
                 {/* Bottom Inset: Key Takeaway */}
-                <div className="glass-panel rounded-xl p-3.5 flex items-start gap-3">
+                <div className="bg-[#121518] border border-white/[0.08] rounded-xl p-3.5 flex items-start gap-3">
                   <div className="text-amber-300 shrink-0 mt-0.5">
                     <Lightbulb size={15} />
                   </div>
@@ -698,8 +698,8 @@ export default function Compare() {
             {/* LOWER ROW: GROUPED BAR CHART & FINAL VERDICT */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
               {/* RECHARTS GROUPED BAR CHART (8 Cols) */}
-              <div className="xl:col-span-8 glass-card rounded-2xl p-5 shadow-2xl overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+              <div className="xl:col-span-8 bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 {/* Chart Header + Legend */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -799,8 +799,8 @@ export default function Compare() {
               </div>
 
               {/* FINAL VERDICT CARD (4 Cols) */}
-              <div className="xl:col-span-4 relative glass-card rounded-2xl p-5 shadow-2xl overflow-hidden flex flex-col justify-between">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+              <div className="xl:col-span-4 relative bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden flex flex-col justify-between">
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <div className="relative z-10">
                   {/* Header */}
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-2.5">
@@ -866,7 +866,7 @@ export default function Compare() {
                   setModalSelectedRealities([]);
                 }
               }}
-              className="w-full glass-input focus:border-[#C8E9A9] rounded-xl px-3 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full bg-[#0E1114] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-3 py-2 text-xs text-[#F2F3F0] outline-none"
             >
               {universes.map((u) => (
                 <option key={u.id} value={u.id} className="bg-[#0B0D0E] text-[#F2F3F0]">
@@ -919,7 +919,7 @@ export default function Compare() {
                         className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                           isSelected
                             ? "bg-[#141a15] border-[#C8E9A9] text-[#F2F3F0] shadow-[0_0_12px_rgba(200,233,169,0.25)]"
-                            : "glass-card hover:border-[#C8E9A9]/50 text-[#A5A7A3]"
+                            : "bg-[#0E1114] border-white/[0.08] hover:border-white/20 text-[#A5A7A3]"
                         }`}
                       >
                         <div className="min-w-0 pr-2">
@@ -951,7 +951,7 @@ export default function Compare() {
             <button
               type="button"
               onClick={() => setNewComparisonModalOpen(false)}
-              className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -959,7 +959,7 @@ export default function Compare() {
               type="button"
               disabled={modalSelectedRealities.length < 2}
               onClick={handleApplyCustomComparison}
-              className="px-5 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] hover:shadow-[0_0_24px_rgba(200,233,169,0.5)] disabled:opacity-40 disabled:cursor-not-allowed text-[#050505] font-bold text-xs shadow-md transition-all reflection-sheen active:scale-95 cursor-pointer"
+              className="px-5 py-2 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Compare Realities
             </button>

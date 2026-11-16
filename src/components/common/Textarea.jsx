@@ -16,7 +16,7 @@ export const Textarea = React.forwardRef(
             ref={ref}
             rows={rows}
             className={cn(
-              "w-full glass-input rounded-xl px-4 py-3 text-sm text-[#F2F3F0] placeholder-[#A5A7A3]/50 focus:outline-none transition-all resize-y leading-relaxed",
+              "w-full bg-[#0B0D0F] border border-white/[0.08] focus:border-[#C8E9A9] focus-visible:ring-1 focus-visible:ring-[#C8E9A9]/50 rounded-xl px-4 py-3 text-sm text-[#F2F3F0] placeholder-[#A5A7A3]/50 focus:outline-none transition-all resize-y leading-relaxed shadow-inner",
               error && "border-rose-500/60 focus:border-rose-500 focus:shadow-[0_0_16px_rgba(244,63,94,0.25)]",
               className
             )}

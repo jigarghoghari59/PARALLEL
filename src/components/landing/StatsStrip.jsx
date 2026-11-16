@@ -81,7 +81,7 @@ export const StatsStrip = ({ stats }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative rounded-2xl bg-[#090c0e]/85 backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.85)] p-4 sm:p-6 overflow-hidden"
+          className="relative rounded-2xl bg-[#090c0e] border border-white/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.85)] p-4 sm:p-6 overflow-hidden"
         >
           {/* Top specular highlight reflection */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />

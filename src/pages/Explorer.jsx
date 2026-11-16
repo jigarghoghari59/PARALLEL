@@ -59,7 +59,7 @@ function ZoomToolbar({ zoomLevel, onZoomChange }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   return (
-    <div className="flex items-center gap-2 glass-pill px-3.5 py-1.5 shadow-xl text-xs text-[#A5A7A3]">
+    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] shadow-md text-xs text-[#A5A7A3]">
       <span className="text-[11px] font-medium text-[#A5A7A3]">Zoom:</span>
       <button
         onClick={() => {
@@ -100,7 +100,7 @@ function ZoomToolbar({ zoomLevel, onZoomChange }) {
           fitView({ padding: 0.25, duration: 400 });
           onZoomChange(1);
         }}
-        className="w-6 h-6 rounded-md glass-btn-circle flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/50 ml-1 transition-all cursor-pointer"
+        className="w-6 h-6 rounded-md bg-[#121518] border border-white/[0.1] hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] ml-1 transition-all cursor-pointer"
         aria-label="Fit view"
       >
         <Maximize2 size={11} />
@@ -249,7 +249,7 @@ function ExplorerContent() {
       {/* TOP HEADER TITLE */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
               Multiverse Timeline Explorer
@@ -273,7 +273,7 @@ function ExplorerContent() {
           <div className="lg:hidden">
             <button
               onClick={() => setMobilePanelOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full glass-pill border-[#C8E9A9]/50 text-xs text-[#C8E9A9] font-semibold cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#121518] border border-[#C8E9A9]/50 text-xs text-[#C8E9A9] font-semibold cursor-pointer"
             >
               <SlidersHorizontal size={13} />
               <span>Inspect Reality</span>
@@ -282,16 +282,16 @@ function ExplorerContent() {
         </div>
       </div>
 
-      {/* MAIN EXPLORER AREA (Rounded 3XL Glass Panel Canvas) */}
+      {/* MAIN EXPLORER AREA (Rounded 3XL Crisp Slate Panel Canvas) */}
       <div
         data-lenis-prevent
-        className="relative w-full h-[620px] lg:h-[720px] rounded-3xl border border-white/[0.12] bg-[#07090b]/85 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] flex overflow-hidden relative"
+        className="relative w-full h-[620px] lg:h-[720px] rounded-3xl border border-white/[0.08] bg-[#07090b] shadow-[0_24px_64px_rgba(0,0,0,0.85)] flex overflow-hidden"
       >
         {/* ================= LEFT SIDEBAR ================= */}
-        <div className="relative z-20 hidden md:flex flex-col justify-between w-[220px] p-4 border-r border-white/[0.08] bg-[#050505]/60 backdrop-blur-md shrink-0">
+        <div className="relative z-20 hidden md:flex flex-col justify-between w-[220px] p-4 border-r border-white/[0.08] bg-[#06080A] shrink-0">
           <div className="space-y-5">
             {/* Box 1: View Modes */}
-            <div className="glass-panel rounded-xl p-2.5 space-y-1 shadow-lg overflow-hidden">
+            <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-2.5 space-y-1 shadow-md overflow-hidden">
               {VIEWS.map((v) => {
                 const IconComponent = v.icon;
                 const isActive = activeView === v.id;
@@ -313,7 +313,7 @@ function ExplorerContent() {
             </div>
 
             {/* Box 2: Filter By Category */}
-            <div className="glass-panel rounded-xl p-3 shadow-lg overflow-hidden">
+            <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-3 shadow-md overflow-hidden">
               <div className="flex items-center gap-2 mb-3 px-1 text-[11px] font-bold text-[#A5A7A3] uppercase tracking-wider">
                 <Filter size={12} />
                 <span>FILTER BY CATEGORY</span>
@@ -353,7 +353,7 @@ function ExplorerContent() {
           </div>
 
           {/* Bottom Left Stats Indicator */}
-          <div className="glass-panel rounded-xl p-3 flex items-center justify-between text-center shadow-lg overflow-hidden">
+          <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-3 flex items-center justify-between text-center shadow-md overflow-hidden">
             <div className="flex items-center gap-1.5 text-left">
               <Globe size={18} className="text-[#C8E9A9]" />
               <div>
@@ -418,7 +418,7 @@ function ExplorerContent() {
 
       {/* ================= MOBILE BOTTOM SHEET PANEL ================= */}
       {mobilePanelOpen && selectedReality && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/75 backdrop-blur-sm lg:hidden">
+        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/80 lg:hidden">
           <div className="h-[80vh] w-full animate-in slide-in-from-bottom duration-300">
             <RealityDetailPanel
               reality={selectedReality}

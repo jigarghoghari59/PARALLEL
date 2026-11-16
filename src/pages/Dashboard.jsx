@@ -107,7 +107,7 @@ export default function Dashboard() {
         {/* Left Column: Welcome Capsule + Headlines + Primary CTAs */}
         <div className="flex flex-col justify-center max-w-[490px] z-10">
           {/* Welcome Capsule Pill with Green Indicator */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3.5 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3.5 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
             <span className="text-[11px] font-semibold tracking-wide text-[#F2F3F0]">
               Welcome back, <span className="text-[#C8E9A9]">{profile.name?.split(" ")[0] || "Explorer"}</span>
@@ -133,20 +133,20 @@ export default function Dashboard() {
 
           {/* Action Button Row */}
           <div className="flex items-center gap-3">
-            {/* Primary CTA: Create Universe (Illuminated Glass with Reflection Sheen) */}
+            {/* Primary CTA: Create Universe (Solid High-Contrast Sage) */}
             <button
               onClick={() => navigate("/create")}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_24px_rgba(200,233,169,0.4)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_24px_rgba(200,233,169,0.35)] hover:shadow-[0_0_36px_rgba(200,233,169,0.6)] hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
               <GitFork size={14} className="text-[#050505] stroke-[2.5]" />
               <span>Create Universe</span>
               <ArrowRight size={13} className="stroke-[2.5]" />
             </button>
 
-            {/* Secondary CTA: Explore Timelines (Frosted Glass Pill with Specular Reflection) */}
+            {/* Secondary CTA: Explore Timelines (Clean Dark Surface) */}
             <button
               onClick={() => navigate("/explore")}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-[#F2F3F0] hover:text-white font-semibold text-xs tracking-wider transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.1] hover:border-white/25 text-[#F2F3F0] hover:text-white font-semibold text-xs tracking-wider transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
             >
               <Play size={11} className="text-[#C8E9A9] fill-transparent stroke-[2.4] ml-0.5" />
               <span>Explore Timelines</span>
@@ -179,9 +179,9 @@ export default function Dashboard() {
       {/* ======================================================== */}
       <section className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-3.5 my-2 w-full">
         {/* Left Statistics Panel: 3 Columns with Clean Dividers */}
-        <div className="rounded-2xl glass-panel px-5 py-3 flex items-center justify-around gap-2 shadow-xl overflow-hidden">
+        <div className="rounded-2xl bg-[#090C0E] border border-white/[0.08] px-5 py-3 flex items-center justify-around gap-2 shadow-[0_12px_32px_rgba(0,0,0,0.6)] overflow-hidden">
           {/* Top specular reflection line */}
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           {/* Stat 1: Universes Created */}
           <div
@@ -273,8 +273,8 @@ export default function Dashboard() {
         </div>
 
         {/* Right Quote Panel: Philosophical Reflection + Planet Crescent */}
-        <div className="relative rounded-2xl glass-panel px-5 py-3 flex items-center gap-3 min-w-[280px] lg:min-w-[310px] overflow-hidden shadow-xl">
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+        <div className="relative rounded-2xl bg-[#090C0E] border border-white/[0.08] px-5 py-3 flex items-center gap-3 min-w-[280px] lg:min-w-[310px] overflow-hidden shadow-[0_12px_32px_rgba(0,0,0,0.6)]">
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           <div className="flex items-start gap-2.5 z-10 max-w-[210px]">
             <span className="text-[#A5A7A3]/70 font-serif text-3xl leading-none select-none">
@@ -305,10 +305,10 @@ export default function Dashboard() {
         {/* Card 1: Your Realities */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
+          className="rounded-2xl bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.6)] relative overflow-hidden"
         >
           {/* Specular top reflection line */}
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           {/* Card Header */}
           <div className="flex items-center justify-between">
@@ -342,7 +342,7 @@ export default function Dashboard() {
                 Original Reality
               </p>
             </div>
-            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
+            <div className="w-7 h-7 rounded-full bg-[#121518] border border-white/[0.1] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
               <ArrowRight size={12} />
             </div>
           </div>
@@ -351,9 +351,9 @@ export default function Dashboard() {
         {/* Card 2: Recent Exploration */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
+          className="rounded-2xl bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.6)] relative overflow-hidden"
         >
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           {/* Card Header */}
           <div className="flex items-center justify-between">
@@ -387,7 +387,7 @@ export default function Dashboard() {
                 Alternative Reality
               </p>
             </div>
-            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
+            <div className="w-7 h-7 rounded-full bg-[#121518] border border-white/[0.1] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
               <ArrowRight size={12} />
             </div>
           </div>
@@ -396,9 +396,9 @@ export default function Dashboard() {
         {/* Card 3: Timeline Activity */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
+          className="rounded-2xl bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.6)] relative overflow-hidden"
         >
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           {/* Card Header */}
           <div className="flex items-center justify-between mb-1">
@@ -458,9 +458,9 @@ export default function Dashboard() {
         {/* Card 4: Upcoming Branches (Torii Gate & Mount Fuji Scene) */}
         <div
           onClick={() => navigate("/create?decision=What+if+I+moved+to+Japan")}
-          className="relative rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg overflow-hidden"
+          className="relative rounded-2xl bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-[0_10px_28px_rgba(0,0,0,0.6)] overflow-hidden"
         >
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
           {/* Background Japanese Torii & Mountain Artwork on Right */}
           <div className="absolute right-0 top-0 bottom-0 w-32 pointer-events-none select-none overflow-hidden">
@@ -495,7 +495,7 @@ export default function Dashboard() {
 
           {/* Card Footer with Circular Arrow Button */}
           <div className="flex items-center justify-end z-10">
-            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all shadow-sm">
+            <div className="w-7 h-7 rounded-full bg-[#121518] border border-white/[0.1] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all shadow-sm">
               <ArrowRight size={12} />
             </div>
           </div>

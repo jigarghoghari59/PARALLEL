@@ -18,7 +18,7 @@ export const Toast = ({ toast, onDismiss }) => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
-      <div className="flex items-center gap-3 px-4 py-2.5 rounded-full glass-panel border-white/[0.15] text-xs text-[#F2F3F0] shadow-[0_12px_40px_rgba(0,0,0,0.85)] relative overflow-hidden">
+      <div className="flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#0E1114] border border-white/[0.1] text-xs text-[#F2F3F0] shadow-[0_12px_40px_rgba(0,0,0,0.85)] relative overflow-hidden">
         {/* Specular highlight line */}
         <span className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
