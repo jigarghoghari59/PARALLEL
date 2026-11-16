@@ -13,11 +13,13 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeftOpen,
+  LayoutDashboard,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
-  { to: "/", label: "Dashboard", icon: Home },
+  { to: "/", label: "Home", icon: Home },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/explore", label: "Explore", icon: Compass },
   { to: "/create", label: "Create Reality", icon: GitFork },
   { to: "/saved", label: "Saved", icon: Bookmark },

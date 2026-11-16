@@ -191,45 +191,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-x-hidden select-none pb-12">
-      {/* Background Celestial Orbit & Planetary Horizon */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Subtle orbital path arc */}
-        <svg
-          className="absolute -top-12 -right-20 w-[850px] h-[550px] opacity-40"
-          viewBox="0 0 850 550"
-          fill="none"
-        >
-          <ellipse
-            cx="480"
-            cy="180"
-            rx="360"
-            ry="200"
-            stroke="rgba(255, 255, 255, 0.12)"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-            transform="rotate(-12 480 180)"
-          />
-        </svg>
-
-        {/* Crescent Earth/Moon Horizon Graphic in top-right */}
-        <div className="absolute -top-24 -right-28 w-[500px] h-[500px] rounded-full overflow-hidden opacity-85 pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=800&q=80"
-            alt="Planetary Horizon"
-            className="w-full h-full object-cover brightness-[0.75] contrast-[1.1]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#050505]/40 to-[#050505]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
-        </div>
-
-        {/* Subtle background star points */}
-        <div className="absolute top-12 left-[18%] w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-36 left-[38%] w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-40" />
-        <div className="absolute top-24 left-[58%] w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/4 left-[24%] w-1 h-1 bg-white rounded-full opacity-30" />
-      </div>
-
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
       {/* Floating Status Toast */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full glass-panel border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_24px_rgba(200,233,169,0.35)] animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -238,23 +200,23 @@ export default function Settings() {
         </div>
       )}
 
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 pt-5">
-        {/* ======================================================== */}
-        {/* TOP HEADER TITLE BAR                                     */}
-        {/* ======================================================== */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-1 h-9 rounded-full bg-[#C8E9A9] shadow-[0_0_10px_#C8E9A9]" />
-            <div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-                Settings
-              </h1>
-              <p className="text-[11px] text-[#A5A7A3] mt-1 font-medium">
-                Customize your Parallel Universe experience.
-              </p>
-            </div>
-          </div>
+      {/* TOP HEADER TITLE BAR matching Landing Page */}
+      <div className="mb-8">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+            Multiverse Configuration
+          </span>
         </div>
+        <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
+          SETTINGS & PREFERENCES
+        </h1>
+        <p className="text-sm sm:text-base text-[#A5A7A3] font-normal mt-2 max-w-xl">
+          Customize your profile, visual themes, AI reality engine configurations, and data exports.
+        </p>
+      </div>
+
+      <div>
 
         {/* ======================================================== */}
         {/* MAIN LAYOUT: LEFT SIDEBAR (3 Cols) + RIGHT GRID (9 Cols) */}
@@ -265,7 +227,7 @@ export default function Settings() {
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
             {/* User Profile Mini Capsule Card */}
-            <div className="glass-card rounded-xl p-5 shadow-2xl flex flex-col items-center text-center relative overflow-hidden reflection-sheen">
+            <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               {/* Outer halo avatar circle */}
               <div className="relative w-20 h-20 rounded-full border border-white/10 ring-4 ring-white/[0.03] overflow-hidden bg-black/60 shadow-xl mb-3 group">
@@ -306,7 +268,7 @@ export default function Settings() {
             </div>
 
             {/* Navigation Menu List */}
-            <div className="glass-panel rounded-xl p-2 shadow-2xl space-y-1 overflow-hidden">
+            <div className="glass-panel rounded-2xl p-2.5 shadow-2xl space-y-1 overflow-hidden">
               {[
                 { id: "settings", label: "Settings", icon: SettingsIcon },
                 { id: "profile-section", label: "Profile", icon: User },
@@ -323,7 +285,7 @@ export default function Settings() {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all text-left cursor-pointer ${
+                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-left cursor-pointer ${
                       isActive
                         ? "nav-pill-active text-[#C8E9A9] shadow-sm"
                         : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
@@ -340,7 +302,7 @@ export default function Settings() {
             </div>
 
             {/* Inset Card: "Explore Deeper" */}
-            <div className="relative glass-card rounded-xl p-4.5 shadow-2xl overflow-hidden reflection-sheen">
+            <div className="relative glass-card rounded-2xl p-4.5 shadow-2xl overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="relative z-10">
                 <h4 className="text-xs font-bold text-[#F2F3F0]">
@@ -352,7 +314,7 @@ export default function Settings() {
 
                 <button
                   onClick={() => setPremiumModalOpen(true)}
-                  className="mt-3 px-4 py-2 rounded-lg bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer reflection-sheen active:scale-95 group"
+                  className="mt-3 px-4 py-2 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer active:scale-95 group"
                 >
                   <span>Upgrade Now</span>
                   <ArrowRight
@@ -385,7 +347,7 @@ export default function Settings() {
               {/* CARD 1: PROFILE SETTINGS */}
               <div
                 id="profile-section"
-                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
@@ -400,7 +362,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setEditProfileOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-[11px] font-semibold text-[#F2F3F0] transition-all shadow-sm cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-[11px] font-semibold text-[#F2F3F0] transition-all shadow-sm cursor-pointer"
                     >
                       <Edit3 size={11} className="text-[#C8E9A9]" />
                       <span>Edit Profile</span>
@@ -457,7 +419,7 @@ export default function Settings() {
               {/* CARD 2: APPEARANCE */}
               <div
                 id="appearance-section"
-                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
@@ -541,7 +503,7 @@ export default function Settings() {
               {/* CARD 3: NOTIFICATIONS */}
               <div
                 id="notifications-section"
-                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
@@ -612,7 +574,7 @@ export default function Settings() {
               {/* CARD 4: PRIVACY & SECURITY */}
               <div
                 id="privacy-section"
-                className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
@@ -673,7 +635,7 @@ export default function Settings() {
 
                         <button
                           onClick={handleExportData}
-                          className="px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-all shrink-0 cursor-pointer reflection-sheen active:scale-95"
+                          className="px-3.5 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs font-semibold text-[#F2F3F0] flex items-center gap-1.5 transition-all shrink-0 cursor-pointer active:scale-95"
                         >
                           <Download size={11} className="text-[#C8E9A9]" />
                           <span>Download</span>
@@ -693,7 +655,7 @@ export default function Settings() {
 
                         <button
                           onClick={() => setClearDataModalOpen(true)}
-                          className="px-3 py-1 rounded-lg bg-red-950/20 hover:bg-red-950/40 border border-red-500/30 hover:border-red-500/60 text-xs font-semibold text-red-400 flex items-center gap-1.5 transition-colors shrink-0"
+                          className="px-3.5 py-1.5 rounded-full bg-red-950/20 hover:bg-red-950/40 border border-red-500/30 hover:border-red-500/60 text-xs font-semibold text-red-400 flex items-center gap-1.5 transition-colors shrink-0 cursor-pointer"
                         >
                           <Trash2 size={11} />
                           <span>Clear</span>
@@ -726,7 +688,7 @@ export default function Settings() {
               {/* CARD 5: DATA MANAGEMENT */}
               <div
                 id="data-section"
-                className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
@@ -792,7 +754,7 @@ export default function Settings() {
                 <div className="mt-4 flex items-center justify-end">
                   <button
                     onClick={() => navigate("/saved")}
-                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                   >
                     <span>Manage Data</span>
                     <ArrowRight size={12} className="text-[#C8E9A9]" />
@@ -803,7 +765,7 @@ export default function Settings() {
               {/* CARD 6: ABOUT PARALLEL */}
               <div
                 id="about-section"
-                className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between reflection-sheen"
+                className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden flex flex-col justify-between"
               >
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="relative z-10">
@@ -824,7 +786,7 @@ export default function Settings() {
 
                     <button
                       onClick={() => setCreditsModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-all cursor-pointer"
                     >
                       <span>View Credits</span>
                       <ArrowRight size={12} className="text-[#C8E9A9]" />

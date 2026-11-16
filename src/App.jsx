@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { UniverseProvider } from './context/UniverseContext';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import CreateUniverse from './pages/CreateUniverse';
 import Explorer from './pages/Explorer';
@@ -19,7 +20,8 @@ const App = () => (
       <UniverseProvider>
         <AppLayout>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/create" element={<CreateUniverse />} />
             <Route path="/explore" element={<Explorer />} />
             <Route path="/explore/:universeId" element={<Explorer />} />

@@ -94,126 +94,11 @@ export default function Dashboard() {
   const decisionsCount = stats?.totalDecisions > 120 ? `${stats.totalDecisions}+` : "120+";
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F2F3F0] flex flex-col justify-between px-4 sm:px-6 lg:px-8 py-3 max-w-[1600px] w-full mx-auto select-none overflow-x-hidden">
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
       {/* ======================================================== */}
-      {/* 1. TOP HEADER BAR: SEARCH + NOTIFICATIONS + PROFILE       */}
+      {/* 2. HERO SECTION: TEXT + PORTAL CINEMATIC ARTWORK         */}
       {/* ======================================================== */}
-      <header className="relative z-20 flex items-center justify-between gap-4 py-2 w-full">
-        {/* Search Input Pill */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className="relative flex items-center w-full max-w-[340px] group"
-        >
-          <div
-            className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg glass-pill transition-all duration-200 ${
-              searchFocused
-                ? "border-[#C8E9A9]/70 shadow-[0_0_16px_rgba(200,233,169,0.3)]"
-                : "hover:border-white/25"
-            }`}
-          >
-            <Search size={14} className="text-[#A5A7A3] shrink-0" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              placeholder="Search universes, realities..."
-              className="bg-transparent border-none outline-none text-xs text-[#F2F3F0] placeholder-[#A5A7A3]/70 w-full font-normal tracking-wide"
-            />
-            {/* Command shortcut badge */}
-            <span className="shrink-0 text-[10px] font-mono font-medium text-[#A5A7A3]/80 bg-white/[0.06] border border-white/[0.08] px-1.5 py-0.5 rounded-md flex items-center gap-0.5 pointer-events-none">
-              <span>⌘</span>
-              <span>K</span>
-            </span>
-          </div>
-        </form>
-
-        {/* Right Action Controls: Notification Bell + User Profile */}
-        <div className="flex items-center gap-2.5">
-          {/* Notification Bell Button */}
-          <div className="relative">
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              aria-label="Notifications"
-              className="relative w-8 h-8 rounded-full glass-btn-circle flex items-center justify-center text-[#F2F3F0] transition-all cursor-pointer group hover:scale-105 active:scale-95"
-            >
-              <Bell size={13} className="text-[#F2F3F0] group-hover:text-white" />
-              {/* Green indicator dot on top right */}
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-            </button>
-
-            {/* Notification Dropdown Popover */}
-            <AnimatePresence>
-              {showNotifications && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 6 }}
-                  transition={{ duration: 0.16 }}
-                  className="absolute right-0 mt-2 w-80 rounded-xl glass-panel p-3.5 shadow-[0_20px_48px_rgba(0,0,0,0.9)] z-50 overflow-hidden"
-                >
-                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.08] px-1">
-                    <span className="text-xs font-bold text-[#F2F3F0] uppercase tracking-wider">
-                      Multiverse Signals
-                    </span>
-                    <button
-                      onClick={() => setShowNotifications(false)}
-                      className="text-[#A5A7A3] hover:text-white cursor-pointer"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    {notifications.map((n) => (
-                      <div
-                        key={n.id}
-                        className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
-                          n.unread
-                            ? "bg-[#141b15]/70 border-[#C8E9A9]/30 hover:border-[#C8E9A9]/50 shadow-[0_0_12px_rgba(200,233,169,0.1)]"
-                            : "bg-white/[0.02] border-white/[0.06] hover:border-white/15"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between text-[11px] font-semibold text-white">
-                          <span>{n.title}</span>
-                          <span className="text-[9.5px] text-[#A5A7A3]">{n.time}</span>
-                        </div>
-                        <p className="text-[10px] text-[#A5A7A3] mt-0.5 leading-snug">
-                          {n.desc}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* User Profile Pill Button */}
-          <button
-            onClick={() => navigate("/settings")}
-            title="Open User Settings"
-            className="flex items-center gap-1.5 pl-0.5 pr-2 py-0.5 rounded-full glass-pill transition-all cursor-pointer group hover:scale-105 active:scale-95"
-          >
-            <div className="w-7 h-7 rounded-full overflow-hidden bg-zinc-800 border border-white/20">
-              <img
-                src={
-                  profile.avatar ||
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-                }
-                alt={profile.name || "avatar"}
-                className="w-full h-full object-cover grayscale opacity-90 group-hover:scale-105 transition-transform"
-              />
-            </div>
-            <ChevronDown
-              size={12}
-              className="text-[#A5A7A3] group-hover:text-white transition-colors ml-0.5"
-            />
-          </button>
-        </div>
-      </header>
+      
 
       {/* ======================================================== */}
       {/* 2. HERO SECTION: TEXT + PORTAL CINEMATIC ARTWORK         */}
@@ -222,10 +107,10 @@ export default function Dashboard() {
         {/* Left Column: Welcome Capsule + Headlines + Primary CTAs */}
         <div className="flex flex-col justify-center max-w-[490px] z-10">
           {/* Welcome Capsule Pill with Green Indicator */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill border-[#C8E9A9]/35 w-fit mb-3.5 shadow-[0_0_16px_rgba(200,233,169,0.2)]">
-            <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-            <span className="text-[11px] font-semibold tracking-wide text-[#C8E9A9]">
-              Welcome back, {profile.name?.split(" ")[0] || "Jigar"}!
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3.5 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-wide text-[#F2F3F0]">
+              Welcome back, <span className="text-[#C8E9A9]">{profile.name?.split(" ")[0] || "Explorer"}</span>
             </span>
           </div>
 
@@ -251,7 +136,7 @@ export default function Dashboard() {
             {/* Primary CTA: Create Universe (Illuminated Glass with Reflection Sheen) */}
             <button
               onClick={() => navigate("/create")}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all border border-[#dcf5c2] shadow-[0_0_24px_rgba(200,233,169,0.4),inset_0_1px_2px_rgba(255,255,255,0.85)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:scale-[1.02] active:scale-95 cursor-pointer reflection-sheen"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_24px_rgba(200,233,169,0.4)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
               <GitFork size={14} className="text-[#050505] stroke-[2.5]" />
               <span>Create Universe</span>
@@ -261,7 +146,7 @@ export default function Dashboard() {
             {/* Secondary CTA: Explore Timelines (Frosted Glass Pill with Specular Reflection) */}
             <button
               onClick={() => navigate("/explore")}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass-pill hover:border-[#C8E9A9]/50 text-[#F2F3F0] hover:text-white font-semibold text-xs tracking-wider transition-all cursor-pointer hover:scale-[1.02] active:scale-95 reflection-sheen"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-[#F2F3F0] hover:text-white font-semibold text-xs tracking-wider transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
             >
               <Play size={11} className="text-[#C8E9A9] fill-transparent stroke-[2.4] ml-0.5" />
               <span>Explore Timelines</span>
@@ -294,7 +179,7 @@ export default function Dashboard() {
       {/* ======================================================== */}
       <section className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-3.5 my-2 w-full">
         {/* Left Statistics Panel: 3 Columns with Clean Dividers */}
-        <div className="rounded-xl glass-panel px-5 py-3 flex items-center justify-around gap-2 shadow-xl overflow-hidden">
+        <div className="rounded-2xl glass-panel px-5 py-3 flex items-center justify-around gap-2 shadow-xl overflow-hidden">
           {/* Top specular reflection line */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
@@ -388,7 +273,7 @@ export default function Dashboard() {
         </div>
 
         {/* Right Quote Panel: Philosophical Reflection + Planet Crescent */}
-        <div className="relative rounded-xl glass-panel px-5 py-3 flex items-center gap-3 min-w-[280px] lg:min-w-[310px] overflow-hidden shadow-xl">
+        <div className="relative rounded-2xl glass-panel px-5 py-3 flex items-center gap-3 min-w-[280px] lg:min-w-[310px] overflow-hidden shadow-xl">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
           <div className="flex items-start gap-2.5 z-10 max-w-[210px]">
@@ -420,7 +305,7 @@ export default function Dashboard() {
         {/* Card 1: Your Realities */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
         >
           {/* Specular top reflection line */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
@@ -439,7 +324,7 @@ export default function Dashboard() {
           </div>
 
           {/* Stacked City Perspective Skyline Image */}
-          <div className="w-full h-[84px] rounded-lg overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
+          <div className="w-full h-[84px] rounded-xl overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
             <img
               src="/images/card-city.png"
               alt="Futuristic Skyline Perspective"
@@ -457,8 +342,8 @@ export default function Dashboard() {
                 Original Reality
               </p>
             </div>
-            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all">
-              <ArrowRight size={11} />
+            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
+              <ArrowRight size={12} />
             </div>
           </div>
         </div>
@@ -466,7 +351,7 @@ export default function Dashboard() {
         {/* Card 2: Recent Exploration */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
         >
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
@@ -484,7 +369,7 @@ export default function Dashboard() {
           </div>
 
           {/* Space Station Wheel Image */}
-          <div className="w-full h-[84px] rounded-lg overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
+          <div className="w-full h-[84px] rounded-xl overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
             <img
               src="/images/card-station.png"
               alt="Orbital Station Wheel"
@@ -502,8 +387,8 @@ export default function Dashboard() {
                 Alternative Reality
               </p>
             </div>
-            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all">
-              <ArrowRight size={11} />
+            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all">
+              <ArrowRight size={12} />
             </div>
           </div>
         </div>
@@ -511,7 +396,7 @@ export default function Dashboard() {
         {/* Card 3: Timeline Activity */}
         <div
           onClick={() => navigate("/explore")}
-          className="rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden reflection-sheen"
+          className="rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg relative overflow-hidden"
         >
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
@@ -573,7 +458,7 @@ export default function Dashboard() {
         {/* Card 4: Upcoming Branches (Torii Gate & Mount Fuji Scene) */}
         <div
           onClick={() => navigate("/create?decision=What+if+I+moved+to+Japan")}
-          className="relative rounded-xl glass-card hover:border-[#C8E9A9]/50 p-3.5 flex flex-col justify-between h-[180px] cursor-pointer group transition-all duration-300 shadow-lg overflow-hidden reflection-sheen"
+          className="relative rounded-2xl glass-card hover:border-[#C8E9A9]/50 p-4 flex flex-col justify-between h-[190px] cursor-pointer group transition-all duration-300 shadow-lg overflow-hidden"
         >
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
@@ -610,8 +495,8 @@ export default function Dashboard() {
 
           {/* Card Footer with Circular Arrow Button */}
           <div className="flex items-center justify-end z-10">
-            <div className="w-6 h-6 rounded-full glass-btn-circle group-hover:border-[#C8E9A9]/60 flex items-center justify-center text-white/80 group-hover:text-white group-hover:scale-110 transition-all shadow-sm">
-              <ArrowRight size={11} />
+            <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/[0.12] group-hover:bg-[#C8E9A9] group-hover:text-[#050505] group-hover:border-[#C8E9A9] flex items-center justify-center text-white/80 transition-all shadow-sm">
+              <ArrowRight size={12} />
             </div>
           </div>
         </div>

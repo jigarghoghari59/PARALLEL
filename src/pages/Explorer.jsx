@@ -245,69 +245,48 @@ function ExplorerContent() {
       : "C";
 
   return (
-    <div className="relative w-full h-[calc(100vh-65px)] min-h-[640px] bg-[#050505] overflow-hidden flex flex-col justify-between select-none">
-      {/* Background Starlight & Cosmic Horizon Glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Subtle planetary curve at lower right */}
-        <div className="absolute -bottom-48 -right-48 w-[580px] h-[580px] rounded-full bg-[radial-gradient(circle_at_30%_30%,_#161c1a_0%,_#050505_70%)] border border-white/5 opacity-80" />
-        <div className="absolute -bottom-20 -right-20 w-[420px] h-[420px] rounded-full border border-[#C8E9A9]/10 pointer-events-none" />
-
-        {/* Orbit ellipses behind nodes */}
-        <svg className="absolute inset-0 w-full h-full opacity-25" viewBox="0 0 1200 800" fill="none">
-          <ellipse cx="600" cy="380" rx="460" ry="240" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" transform="rotate(-8 600 380)" />
-          <ellipse cx="600" cy="380" rx="360" ry="170" stroke="rgba(200,233,169,0.15)" strokeWidth="0.8" transform="rotate(4 600 380)" />
-        </svg>
-
-        {/* Faint distant stars */}
-        <div className="absolute top-16 left-1/3 w-1 h-1 bg-white rounded-full opacity-40" />
-        <div className="absolute top-36 right-1/4 w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-30" />
-        <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-white rounded-full opacity-50" />
-      </div>
-
-      {/* TOP HEADER CONTROLS BAR */}
-      <div className="relative z-20 flex items-center justify-between px-6 py-3 border-b border-white/[0.04]">
-        {/* Left: Back button & Title */}
-        <div className="flex flex-col gap-1.5">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all w-fit shadow-md reflection-sheen"
-          >
-            <ArrowLeft size={13} />
-            <span>Back to Dashboard</span>
-          </Link>
-
-          <div className="mt-1">
-            <span className="text-[10px] tracking-[0.2em] font-semibold text-[#A5A7A3] uppercase">
-              UNIVERSE EXPLORER
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-6 select-none">
+      {/* TOP HEADER TITLE */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+              Multiverse Timeline Explorer
             </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#F2F3F0] leading-tight">
-              EXPLORE YOUR PARALLEL TIMELINES
-            </h1>
-            <p className="text-[11px] text-[#A5A7A3]">
-              Click on any branch to dive deeper into that reality.
-            </p>
           </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#F2F3F0] leading-none">
+            EXPLORE PARALLEL TIMELINES
+          </h1>
+          <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal mt-2">
+            Click on any reality branch or turning point node to inspect details and divergence paths.
+          </p>
         </div>
 
         {/* Center: Zoom Controls Toolbar */}
-        <div className="hidden md:flex items-center">
-          <ZoomToolbar zoomLevel={zoomLevel} onZoomChange={setZoomLevel} />
-        </div>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center">
+            <ZoomToolbar zoomLevel={zoomLevel} onZoomChange={setZoomLevel} />
+          </div>
 
-        {/* Mobile Detail Panel Trigger */}
-        <div className="lg:hidden">
-          <button
-            onClick={() => setMobilePanelOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass-pill border-[#C8E9A9]/50 text-xs text-[#C8E9A9] font-medium"
-          >
-            <SlidersHorizontal size={13} />
-            <span>Inspect Reality</span>
-          </button>
+          {/* Mobile Detail Panel Trigger */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setMobilePanelOpen(true)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full glass-pill border-[#C8E9A9]/50 text-xs text-[#C8E9A9] font-semibold cursor-pointer"
+            >
+              <SlidersHorizontal size={13} />
+              <span>Inspect Reality</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* MAIN EXPLORER AREA (Sidebar + React Flow Canvas + Detail Panel) */}
-      <div className="relative flex-1 w-full h-full flex overflow-hidden">
+      {/* MAIN EXPLORER AREA (Rounded 3XL Glass Panel Canvas) */}
+      <div
+        data-lenis-prevent
+        className="relative w-full h-[620px] lg:h-[720px] rounded-3xl border border-white/[0.12] bg-[#07090b]/85 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] flex overflow-hidden relative"
+      >
         {/* ================= LEFT SIDEBAR ================= */}
         <div className="relative z-20 hidden md:flex flex-col justify-between w-[220px] p-4 border-r border-white/[0.08] bg-[#050505]/60 backdrop-blur-md shrink-0">
           <div className="space-y-5">

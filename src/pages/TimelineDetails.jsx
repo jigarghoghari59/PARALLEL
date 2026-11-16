@@ -197,43 +197,33 @@ export default function TimelineDetails() {
         <div className="absolute top-28 right-[12%] w-1 h-1 bg-white rounded-full opacity-50" />
       </div>
 
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
         {/* TOP HEADER CONTROLS BAR */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          {/* Left: Back to Explorer & Title */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link
-              to={universeId ? `/explore/${universeId}` : "/explore"}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#F2F3F0] transition-all shadow-md group reflection-sheen active:scale-95"
-            >
-              <ArrowLeft
-                size={13}
-                className="text-[#A5A7A3] group-hover:text-[#F2F3F0] transition-colors"
-              />
-              <span>Back to Explorer</span>
-            </Link>
-
-            {/* Vertical sage accent bar + Title */}
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-9 rounded-full bg-[#C8E9A9] shadow-[0_0_10px_#C8E9A9]" />
-              <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-                  Timeline Details
-                </h1>
-                <p className="text-[11px] text-[#A5A7A3] mt-1 font-medium">
-                  A complete journey of your alternate reality
-                </p>
-              </div>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+                Alternate Reality Journey
+              </span>
             </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
+              TIMELINE DETAILS & MILESTONES
+            </h1>
+            <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal mt-2">
+              A comprehensive chronological journey of your alternate reality, career trajectory, and key divergence points.
+            </p>
           </div>
 
           {/* Right: View as Timeline Selector */}
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <span className="text-xs text-[#A5A7A3] font-medium">View as</span>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg glass-pill text-xs font-semibold text-[#F2F3F0] shadow-sm">
-              <span>Timeline</span>
-              <ChevronDown size={13} className="text-[#A5A7A3]" />
-            </div>
+          <div className="flex items-center gap-3">
+            <Link
+              to={universeId ? `/explore/${universeId}` : "/explore"}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#F2F3F0] transition-all shadow-md group active:scale-95 cursor-pointer"
+            >
+              <ArrowLeft size={13} className="text-[#C8E9A9]" />
+              <span>Back to Explorer</span>
+            </Link>
           </div>
         </div>
 
@@ -243,10 +233,10 @@ export default function TimelineDetails() {
           {/* LEFT COLUMN: REALITY OVERVIEW CARD (3 Cols)              */}
           {/* ======================================================== */}
           <div className="lg:col-span-3">
-            <div className="glass-card rounded-xl p-5 shadow-2xl relative flex flex-col justify-between overflow-hidden">
+            <div className="glass-card rounded-2xl p-5 shadow-2xl relative flex flex-col justify-between overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               {/* Top Planet Visual */}
-              <div className="relative w-full h-44 rounded-lg overflow-hidden bg-black/80 border border-white/10 mb-4 group">
+              <div className="relative w-full h-44 rounded-xl overflow-hidden bg-black/80 border border-white/10 mb-4 group">
                 <img
                   src={
                     reality.image ||
@@ -342,7 +332,7 @@ export default function TimelineDetails() {
                   onClick={() =>
                     navigate(`/simulate/${universe.id}/${reality.id}`)
                   }
-                  className="w-full py-2.5 rounded-xl glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer reflection-sheen active:scale-95"
+                  className="w-full py-2.5 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer active:scale-95"
                 >
                   <Play
                     size={11}
@@ -356,13 +346,13 @@ export default function TimelineDetails() {
                     onClick={() =>
                       navigate(`/simulate/${universe.id}/${reality.id}`)
                     }
-                    className="py-1.5 rounded-lg glass-pill text-[11px] text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40 transition-all cursor-pointer"
+                    className="py-2 rounded-full glass-pill text-[11px] text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40 transition-all cursor-pointer"
                   >
                     Experience Day
                   </button>
                   <button
                     onClick={() => navigate("/compare")}
-                    className="py-1.5 rounded-lg glass-pill text-[11px] text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40 transition-all cursor-pointer"
+                    className="py-2 rounded-full glass-pill text-[11px] text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40 transition-all cursor-pointer"
                   >
                     Compare Realities
                   </button>
@@ -413,7 +403,7 @@ export default function TimelineDetails() {
                     {/* Right: Event Card Container */}
                     <div
                       onClick={() => toggleEventExpand(evt.id)}
-                      className={`flex-1 glass-card rounded-xl p-4 sm:p-5 transition-all duration-300 shadow-xl cursor-pointer overflow-hidden reflection-sheen ${
+                      className={`flex-1 glass-card rounded-2xl p-4 sm:p-5 transition-all duration-300 shadow-xl cursor-pointer overflow-hidden ${
                         isExpanded
                           ? "border-[#C8E9A9]/70 shadow-[0_0_24px_rgba(200,233,169,0.2)]"
                           : "hover:border-[#C8E9A9]/50"
@@ -550,7 +540,7 @@ export default function TimelineDetails() {
             {/* 2x2 Grid of Insight Cards */}
             <div className="grid grid-cols-2 gap-3">
               {/* Card 1: Skills */}
-              <div className="glass-card rounded-xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden reflection-sheen">
+              <div className="glass-card rounded-2xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="text-[#C8E9A9] mb-2">
                   <Code2 size={16} />
@@ -566,7 +556,7 @@ export default function TimelineDetails() {
               </div>
 
               {/* Card 2: Opportunities */}
-              <div className="glass-card rounded-xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden reflection-sheen">
+              <div className="glass-card rounded-2xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="text-[#C8E9A9] mb-2">
                   <Briefcase size={16} />
@@ -582,7 +572,7 @@ export default function TimelineDetails() {
               </div>
 
               {/* Card 3: Challenges */}
-              <div className="glass-card rounded-xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden reflection-sheen">
+              <div className="glass-card rounded-2xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="text-[#C8E9A9] mb-2">
                   <AlertTriangle size={16} />
@@ -598,7 +588,7 @@ export default function TimelineDetails() {
               </div>
 
               {/* Card 4: Outcome */}
-              <div className="glass-card rounded-xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden reflection-sheen">
+              <div className="glass-card rounded-2xl p-3.5 shadow-lg flex flex-col justify-between overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="text-[#C8E9A9] mb-2">
                   <TrendingUp size={16} />
@@ -615,7 +605,7 @@ export default function TimelineDetails() {
             </div>
 
             {/* Bottom Card: What Makes This Reality Unique? */}
-            <div className="relative glass-card rounded-xl p-4 shadow-xl overflow-hidden reflection-sheen">
+            <div className="relative glass-card rounded-2xl p-4.5 shadow-xl overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg glass-panel flex items-center justify-center text-[#C8E9A9] shrink-0 mt-0.5">

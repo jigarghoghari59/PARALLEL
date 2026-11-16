@@ -308,40 +308,33 @@ export default function Compare() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-x-hidden select-none pb-12">
-      {/* Background Starlight & Cosmic Rings */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-12 left-1/4 w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-40 left-1/3 w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-40" />
-        <div className="absolute top-28 right-[12%] w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/3 left-1/6 w-1 h-1 bg-white rounded-full opacity-30" />
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
+      {/* Top Header */}
+      <div className="mb-8">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+            Reality Comparison Matrix
+          </span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
+          COMPARE PARALLEL REALITIES
+        </h1>
+        <p className="text-sm sm:text-base text-[#A5A7A3] font-normal mt-2 max-w-xl">
+          Examine divergence points, career vectors, coherence scores, and lifestyle differences between your alternate realities side by side.
+        </p>
       </div>
 
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+      <div>
         {/* TOP LEVEL GRID (Left Sidebar 3 Cols, Right Content 9 Cols) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* ======================================================== */}
           {/* LEFT COLUMN: PRESETS & EXPLORE MORE (3 Cols)             */}
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
-            {/* Back to Explorer Pill */}
-            <Link
-              to={currentUniverse ? `/explore/${currentUniverse.id}` : "/explore"}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all shadow-sm reflection-sheen"
-            >
-              <ArrowLeft size={13} />
-              <span>Back to Explorer</span>
-            </Link>
-
-            {/* Page Title Block */}
-            <div className="pt-1">
-              <h1 className="text-2xl font-extrabold text-[#F2F3F0] tracking-tight">
-                Compare Realities
-              </h1>
-              <p className="text-xs text-[#A5A7A3] mt-1 font-medium">
-                See how different choices shape your life.
-              </p>
-            </div>
+            <h2 className="text-xs font-bold text-[#A5A7A3] uppercase tracking-[0.2em] px-1">
+              Comparison Presets
+            </h2>
 
             {/* Presets List */}
             <div className="space-y-2.5 pt-2">
@@ -382,7 +375,7 @@ export default function Compare() {
             </div>
 
             {/* Bottom Card: Explore More */}
-            <div className="glass-card rounded-xl p-4.5 shadow-xl relative overflow-hidden">
+            <div className="glass-card rounded-2xl p-4.5 shadow-xl relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="text-[#C8E9A9] mb-2">
                 <Compass size={16} />
@@ -394,7 +387,7 @@ export default function Compare() {
 
               <button
                 onClick={handleOpenNewComparison}
-                className="mt-4 w-full py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer reflection-sheen active:scale-95"
+                className="mt-4 w-full py-2.5 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer active:scale-95"
               >
                 <span>Create New Comparison</span>
                 <ArrowRight size={13} />
@@ -413,7 +406,7 @@ export default function Compare() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative">
                   {/* REALITY A CARD */}
                   {realityA && (
-                    <div className="glass-card rounded-xl p-4.5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen">
+                    <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
                       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                       <div>
                         {/* Pill Badge */}
@@ -431,7 +424,7 @@ export default function Compare() {
                         </p>
 
                         {/* Banner Image */}
-                        <div className="relative w-full h-36 rounded-lg overflow-hidden bg-black/80 border border-white/5 my-3.5">
+                        <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-3.5">
                           <img
                             src={
                               realityA.image ||
@@ -522,7 +515,7 @@ export default function Compare() {
 
                   {/* REALITY B CARD */}
                   {realityB && (
-                    <div className="glass-card rounded-xl p-4.5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen">
+                    <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
                       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                       <div>
                         {/* Pill Badge */}
@@ -540,7 +533,7 @@ export default function Compare() {
                         </p>
 
                         {/* Banner Image */}
-                        <div className="relative w-full h-36 rounded-lg overflow-hidden bg-black/80 border border-white/5 my-3.5">
+                        <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-3.5">
                           <img
                             src={
                               realityB.image ||
@@ -627,7 +620,7 @@ export default function Compare() {
               </div>
 
               {/* RIGHT UPPER: QUICK INSIGHTS & PROGRESS BARS (4 Cols) */}
-              <div className="xl:col-span-4 flex flex-col justify-between glass-card rounded-xl p-5 shadow-2xl space-y-4 overflow-hidden reflection-sheen">
+              <div className="xl:col-span-4 flex flex-col justify-between glass-card rounded-2xl p-5 shadow-2xl space-y-4 overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div>
                   {/* Header */}
@@ -705,7 +698,7 @@ export default function Compare() {
             {/* LOWER ROW: GROUPED BAR CHART & FINAL VERDICT */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
               {/* RECHARTS GROUPED BAR CHART (8 Cols) */}
-              <div className="xl:col-span-8 glass-card rounded-xl p-5 shadow-2xl overflow-hidden reflection-sheen">
+              <div className="xl:col-span-8 glass-card rounded-2xl p-5 shadow-2xl overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 {/* Chart Header + Legend */}
                 <div className="flex items-center justify-between mb-4">
@@ -806,7 +799,7 @@ export default function Compare() {
               </div>
 
               {/* FINAL VERDICT CARD (4 Cols) */}
-              <div className="xl:col-span-4 relative glass-card rounded-xl p-5 shadow-2xl overflow-hidden flex flex-col justify-between reflection-sheen">
+              <div className="xl:col-span-4 relative glass-card rounded-2xl p-5 shadow-2xl overflow-hidden flex flex-col justify-between">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
                 <div className="relative z-10">
                   {/* Header */}

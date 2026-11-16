@@ -117,54 +117,53 @@ export default function Saved() {
         <div className="absolute bottom-24 right-1/3 w-1.5 h-1.5 bg-[#9678C9] rounded-full opacity-30" />
       </div>
 
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 space-y-8 select-none">
         {/* ======================================================== */}
         {/* TOP HEADER SECTION (Title + Planet Inset Banner)        */}
         {/* ======================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Title Block (7 Cols) */}
-          <div className="lg:col-span-7 space-y-2">
-            {/* Pill Counter Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill text-xs text-[#F2F3F0] shadow-sm">
-              <Database size={13} className="text-[#C8E9A9]" />
-              <span className="font-medium">
-                {isArchivePage
-                  ? `${filteredUniverses.length} Universes Bookmarked`
-                  : `${totalCount} Universes Saved`}
+          <div className="lg:col-span-7 space-y-3">
+            {/* Pill Counter Badge matching Landing Page */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+                {isArchivePage ? "Bookmarked Archive" : "Multiverse Archive"}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
             </div>
 
             {/* Main Page Heading */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F2F3F0] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-extrabold text-[#F2F3F0] tracking-tight leading-[1.08]">
               {isArchivePage ? (
                 <>
-                  Multiverse <span className="text-[#C8E9A9]">Archive</span>
+                  MULTIVERSE <span className="text-[#C8E9A9]">ARCHIVE</span>
                 </>
               ) : (
                 <>
-                  Saved <span className="text-[#C8E9A9]">Universes</span>
+                  SAVED <span className="text-[#C8E9A9]">UNIVERSES</span>
                 </>
               )}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xs sm:text-sm text-[#A5A7A3] font-medium leading-relaxed">
+            <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-lg">
               {isArchivePage
-                ? "Your bookmarked turning points and high-priority timelines."
-                : "Revisit your explored realities anytime."}
+                ? "Your bookmarked turning points and high-priority alternate timelines."
+                : "Revisit your explored realities, branch points, and divergent life journeys."}
             </p>
           </div>
 
           {/* Right Celestial Planet Inset Banner (5 Cols) */}
           <div className="lg:col-span-5">
-            <div className="relative w-full h-32 sm:h-36 rounded-xl glass-card overflow-hidden flex items-center justify-between p-6 shadow-2xl group">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+            <div className="relative w-full h-36 sm:h-40 rounded-3xl glass-card overflow-hidden flex items-center justify-between p-6 sm:p-7 shadow-2xl group border border-white/[0.12] bg-[#07090b]">
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
               {/* Left Quote */}
-              <div className="relative z-10 max-w-[200px] sm:max-w-[240px]">
-                <p className="text-[11px] sm:text-xs font-semibold text-[#A5A7A3] uppercase tracking-[0.22em] leading-relaxed">
-                  SOME POSSIBILITIES <br />
-                  ARE WORTH EXPLORING AGAIN.
+              <div className="relative z-10 max-w-[220px]">
+                <p className="text-[11px] font-bold text-[#C8E9A9] uppercase tracking-[0.22em] mb-1">
+                  Reflection
+                </p>
+                <p className="text-xs sm:text-sm font-semibold text-[#F2F3F0] leading-snug">
+                  Some possibilities are worth exploring again.
                 </p>
               </div>
 
@@ -175,7 +174,7 @@ export default function Saved() {
                   alt="Planet from orbit"
                   className="w-full h-full object-cover brightness-[0.9] contrast-[1.1]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0B0D0E] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#07090b] via-transparent to-transparent" />
               </div>
             </div>
           </div>
@@ -184,12 +183,12 @@ export default function Saved() {
         {/* ======================================================== */}
         {/* SEARCH & FILTER CONTROLS BAR                             */}
         {/* ======================================================== */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
           {/* Search Box */}
-          <div className="relative w-full sm:w-80">
+          <div className="relative w-full sm:w-88">
             <Search
               size={14}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A5A7A3]"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A5A7A3]"
             />
             <input
               type="text"
@@ -200,33 +199,36 @@ export default function Saved() {
               }}
               placeholder="Search realities, paths, industries..."
               aria-label="Search saved universes"
-              className="w-full glass-input focus:border-[#C8E9A9] focus-visible:ring-1 focus-visible:ring-[#C8E9A9]/50 rounded-lg pl-9 pr-4 py-2 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/60 outline-none transition-all shadow-inner"
+              className="w-full glass-input focus:border-[#C8E9A9] focus-visible:ring-1 focus-visible:ring-[#C8E9A9]/50 rounded-full pl-10 pr-4 py-2.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/60 outline-none transition-all shadow-inner"
             />
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 self-start sm:self-auto overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
+          <div className="flex items-center gap-2 self-start sm:self-auto overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
             {[
               { id: "all", label: "All Realities" },
               { id: "original", label: "Original" },
               { id: "alternative", label: "Alternative" },
               { id: "bookmarked", label: "Bookmarked" },
-            ].map((f) => (
-              <button
-                key={f.id}
-                onClick={() => {
-                  setSelectedFilter(f.id);
-                  setCurrentPage(1);
-                }}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 cursor-pointer ${
-                  selectedFilter === f.id
-                    ? "bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] shadow-[0_0_16px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)]"
-                    : "glass-pill text-[#A5A7A3] hover:text-[#F2F3F0] hover:border-[#C8E9A9]/40"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
+            ].map((f) => {
+              const active = selectedFilter === f.id;
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => {
+                    setSelectedFilter(f.id);
+                    setCurrentPage(1);
+                  }}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                    active
+                      ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_16px_rgba(200,233,169,0.35)]"
+                      : "bg-white/[0.03] text-[#A5A7A3] hover:text-white border border-white/[0.08] hover:border-white/20"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -234,7 +236,7 @@ export default function Saved() {
         {/* CARDS GRID (3 Columns × 2 Rows matching reference UI)    */}
         {/* ======================================================== */}
         {paginatedUniverses.length === 0 ? (
-          <div className="glass-card rounded-xl p-12 text-center shadow-xl relative overflow-hidden reflection-sheen">
+          <div className="glass-card rounded-3xl p-12 text-center shadow-xl relative overflow-hidden bg-[#07090b] border border-white/[0.12]">
             <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
             <Database size={32} className="text-[#C8E9A9] mx-auto mb-3 opacity-80" />
             <h3 className="text-base font-bold text-[#F2F3F0] mb-1">
@@ -289,14 +291,14 @@ export default function Saved() {
               return (
                 <div
                   key={uni.id || idx}
-                  className="glass-card hover:border-[#C8E9A9]/50 rounded-xl p-4.5 transition-all duration-300 shadow-2xl flex flex-col justify-between group relative overflow-hidden reflection-sheen"
+                  className="glass-card hover:border-[#C8E9A9]/60 rounded-3xl p-5 transition-all duration-300 shadow-2xl flex flex-col justify-between group relative overflow-hidden bg-[#07090b] border border-white/[0.12]"
                 >
-                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
                   {/* Card Upper Half */}
                   <div>
-                    <div className="flex items-start gap-3.5 mb-3">
+                    <div className="flex items-start gap-4 mb-3">
                       {/* Left Square Thumbnail */}
-                      <div className="w-24 h-24 sm:w-26 sm:h-26 rounded-lg overflow-hidden bg-black/60 border border-white/10 shrink-0 relative group-hover:scale-[1.02] transition-transform duration-300">
+                      <div className="w-24 h-24 sm:w-26 sm:h-26 rounded-2xl overflow-hidden bg-black/60 border border-white/10 shrink-0 relative group-hover:scale-[1.03] transition-transform duration-300">
                         <img
                           src={thumbnail}
                           alt={displayTitle}

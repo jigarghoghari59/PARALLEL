@@ -212,80 +212,69 @@ export default function Simulate() {
   const timelineEntries = currentSimulation?.entries || [];
 
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-x-hidden select-none pb-12">
-      {/* Background Starscape */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-10 left-[18%] w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-36 left-[48%] w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-40" />
-        <div className="absolute top-28 right-[12%] w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-white rounded-full opacity-30" />
-      </div>
-
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 pt-5">
-        {/* ======================================================== */}
-        {/* TOP SUB-HEADER BAR                                       */}
-        {/* ======================================================== */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          {/* Left: Back button & Title */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link
-              to={`/explore/${universe.id}`}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all shadow-sm shrink-0 reflection-sheen"
-            >
-              <ArrowLeft size={13} />
-              <span>Back to Explorer</span>
-            </Link>
-
-            <div className="flex items-center gap-2.5">
-              <Compass size={20} className="text-[#C8E9A9]" />
-              <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-                  Life Simulation
-                </h1>
-                <p className="text-[11px] text-[#A5A7A3] mt-1 font-medium">
-                  Experience a day in your alternate universe.
-                </p>
-              </div>
-            </div>
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
+      {/* Top Header matching Landing Page */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit mb-3 shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+              Quantum Day Simulation
+            </span>
           </div>
-
-          {/* Right: Day Switcher & Generate New Day Button */}
-          <div className="flex items-center gap-2.5 self-start sm:self-auto">
-            {/* Day Switcher (if multiple days saved) */}
-            {simulations.length > 1 && (
-              <div className="flex items-center gap-1 glass-pill p-1 shadow-sm rounded-lg">
-                {simulations.map((sim, sIdx) => (
-                  <button
-                    key={sim.id || sIdx}
-                    onClick={() => setActiveSimIndex(sIdx)}
-                    className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
-                      activeSimIndex === sIdx
-                        ? "bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] shadow-[0_0_10px_rgba(200,233,169,0.35)] font-bold"
-                        : "text-[#A5A7A3] hover:text-[#F2F3F0]"
-                    }`}
-                  >
-                    {sim.dayLabel || `Day ${sIdx + 1}`}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Generate New Day Button */}
-            <button
-              onClick={handleGenerateDay}
-              disabled={loading}
-              className="px-4 py-2 rounded-lg glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] flex items-center gap-2 transition-all shadow-md group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer reflection-sheen active:scale-95"
-            >
-              <RefreshCw
-                size={13}
-                className={`text-[#C8E9A9] ${
-                  loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"
-                }`}
-              />
-              <span>{loading ? "Simulating Day..." : "Generate New Day"}</span>
-            </button>
-          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
+            A DAY IN YOUR ALTERNATE REALITY
+          </h1>
+          <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal mt-2">
+            Experience morning routines, work decisions, and personal life milestones projected for this timeline.
+          </p>
         </div>
+
+        {/* Right Action Bar */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Day Switcher (if multiple days saved) */}
+          {simulations.length > 1 && (
+            <div className="flex items-center gap-1 glass-pill p-1 shadow-sm rounded-full">
+              {simulations.map((sim, sIdx) => (
+                <button
+                  key={sim.id || sIdx}
+                  onClick={() => setActiveSimIndex(sIdx)}
+                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer ${
+                    activeSimIndex === sIdx
+                      ? "bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] shadow-[0_0_10px_rgba(200,233,169,0.35)] font-bold"
+                      : "text-[#A5A7A3] hover:text-[#F2F3F0]"
+                  }`}
+                >
+                  {sim.dayLabel || `Day ${sIdx + 1}`}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Generate New Day Button */}
+          <button
+            onClick={handleGenerateDay}
+            disabled={loading}
+            className="px-4 py-2 rounded-full glass-pill hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] flex items-center gap-2 transition-all shadow-md group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-95"
+          >
+            <RefreshCw
+              size={13}
+              className={`text-[#C8E9A9] ${
+                loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"
+              }`}
+            />
+            <span>{loading ? "Simulating Day..." : "Generate New Day"}</span>
+          </button>
+
+          <Link
+            to={`/explore/${universe.id}`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill hover:border-[#C8E9A9]/50 text-xs text-[#F2F3F0] transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            <ArrowLeft size={13} className="text-[#C8E9A9]" />
+            <span>Back to Explorer</span>
+          </Link>
+        </div>
+      </div>
 
         {/* ======================================================== */}
         {/* 3-COLUMN MAIN LAYOUT                                     */}
@@ -295,7 +284,7 @@ export default function Simulate() {
           {/* LEFT COLUMN: REALITY CARD (3 Cols)                       */}
           {/* ======================================================== */}
           <div className="lg:col-span-3">
-            <div className="glass-card rounded-xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden reflection-sheen">
+            <div className="glass-card rounded-2xl p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div>
                 {/* Badge */}
@@ -313,7 +302,7 @@ export default function Simulate() {
                 </p>
 
                 {/* Thumbnail Image */}
-                <div className="relative w-full h-36 rounded-lg overflow-hidden bg-black/80 border border-white/5 my-4 group">
+                <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-4 group">
                   <img
                     src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80"
                     alt="City Skyline"
@@ -393,7 +382,7 @@ export default function Simulate() {
                 onClick={() =>
                   navigate(`/universe/${universe.id}/reality/${reality.id}`)
                 }
-                className="mt-6 w-full py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer reflection-sheen active:scale-95"
+                className="mt-6 w-full py-2.5 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] cursor-pointer active:scale-95"
               >
                 <span>Explore This Reality</span>
                 <ArrowRight size={14} />
@@ -406,7 +395,7 @@ export default function Simulate() {
           {/* ======================================================== */}
           <div className="lg:col-span-6 space-y-4">
             {/* Panoramic Wide Banner */}
-            <div className="relative w-full h-48 sm:h-56 rounded-xl overflow-hidden glass-card shadow-2xl flex items-center justify-between p-6 sm:p-8 group reflection-sheen">
+            <div className="relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden glass-card shadow-2xl flex items-center justify-between p-6 sm:p-8 group">
               <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
               {/* Background Futuristic Skyline */}
               <img
@@ -431,7 +420,7 @@ export default function Simulate() {
             </div>
 
             {/* Vertical Day Timeline Card */}
-            <div className="glass-card rounded-xl p-5 sm:p-6 shadow-2xl relative overflow-hidden reflection-sheen">
+            <div className="glass-card rounded-2xl p-5 sm:p-6 shadow-2xl relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               {timelineEntries.length === 0 ? (
                 /* Empty state when no simulation exists yet */
@@ -451,7 +440,7 @@ export default function Simulate() {
                   <button
                     onClick={handleGenerateDay}
                     disabled={loading}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.8)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] inline-flex items-center gap-2 reflection-sheen cursor-pointer active:scale-95"
+                    className="px-6 py-3 rounded-full bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:shadow-[0_0_28px_rgba(200,233,169,0.55)] inline-flex items-center gap-2 cursor-pointer active:scale-95"
                   >
                     <Play size={14} className="fill-current" />
                     <span>Experience a Day in this Universe</span>
@@ -512,7 +501,7 @@ export default function Simulate() {
                         </div>
 
                         {/* Right: Rectangular Photo Thumbnail */}
-                        <div className="w-24 sm:w-28 h-14 sm:h-16 rounded-lg overflow-hidden bg-black/60 border border-white/5 shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-300">
+                        <div className="w-24 sm:w-28 h-14 sm:h-16 rounded-xl overflow-hidden bg-black/60 border border-white/5 shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-300">
                           <img
                             src={
                               entry.image ||
@@ -535,7 +524,7 @@ export default function Simulate() {
           {/* ======================================================== */}
           <div className="lg:col-span-3 space-y-4">
             {/* Card 1: Reality Overview */}
-            <div className="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden">
+            <div className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-4">
                 <Layers size={14} className="text-[#C8E9A9] stroke-[2.2]" />
@@ -595,7 +584,7 @@ export default function Simulate() {
             </div>
 
             {/* Card 2: Key Highlights */}
-            <div className="glass-card rounded-xl p-5 shadow-2xl overflow-hidden reflection-sheen">
+            <div className="glass-card rounded-2xl p-5 shadow-2xl overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="flex items-center gap-2 text-xs font-bold text-[#F2F3F0] tracking-wide mb-3">
                 <Trophy size={14} className="text-[#C8E9A9]" />
@@ -619,7 +608,7 @@ export default function Simulate() {
             </div>
 
             {/* Card 3: Quote Card */}
-            <div className="relative glass-card rounded-xl p-5 shadow-2xl overflow-hidden min-h-[140px] flex flex-col justify-between reflection-sheen">
+            <div className="relative glass-card rounded-2xl p-5 shadow-2xl overflow-hidden min-h-[140px] flex flex-col justify-between">
               <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <div className="relative z-10">
                 <span className="text-2xl text-[#C8E9A9] font-serif font-black leading-none block mb-1">
@@ -649,6 +638,5 @@ export default function Simulate() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

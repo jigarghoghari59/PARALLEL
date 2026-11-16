@@ -207,34 +207,29 @@ export default function CreateUniverse() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-hidden select-none px-4 md:px-8 py-5 max-w-[1600px] mx-auto flex flex-col justify-between">
-      {/* Background Starscape with subtle twinkling dots */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-10 left-1/4 w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-36 left-1/5 w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-30" />
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-[#9678C9] rounded-full opacity-30" />
-        <div className="absolute bottom-12 right-1/4 w-1 h-1 bg-white rounded-full opacity-40" />
-      </div>
-
+    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
       {/* MAIN DUAL-COLUMN LAYOUT */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_1.15fr] gap-8 items-start pt-2 pb-4">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_1.15fr] gap-8 lg:gap-12 items-start pt-2 pb-8">
         {/* ================= LEFT COLUMN: FORM CONTROLS ================= */}
-        <div className="flex flex-col gap-4">
-          {/* Header pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill w-fit text-[11px] tracking-[0.2em] font-medium text-[#A5A7A3] uppercase">
-            <span>CREATE UNIVERSE</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+        <div className="flex flex-col gap-5">
+          {/* Header pill matching Landing Page */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.12] backdrop-blur-xl w-fit shadow-[0_0_20px_rgba(200,233,169,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
+              Quantum Branching Engine
+            </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-[#F2F3F0] leading-none">
-            WHAT IF...?
+          {/* Heading matching Landing Page Monumental Typography */}
+          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-[#F2F3F0] leading-[1.08]">
+            <span>WHAT IF...?</span>
+            <br />
+            <span className="text-[#C8E9A9]">SYNTHESIZE REALITIES</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm text-[#A5A7A3] font-normal leading-relaxed max-w-[460px] -mt-1 mb-1">
-            Enter a decision, and explore the alternate realities that could have been.
+          <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-[480px]">
+            Enter a turning point or life decision. The multiverse engine generates coherent branching timelines, career trajectories, and milestones.
           </p>
 
           {/* Error Banner (if error occurred) */}
@@ -487,25 +482,25 @@ export default function CreateUniverse() {
           </div>
 
           {/* ACTION BUTTON & ESTIMATED TIME */}
-          <div className="flex items-center gap-4 mt-1">
+          <div className="flex items-center gap-4 mt-2">
             <button
               type="button"
               onClick={handleGenerate}
               disabled={!isDecisionValid || isLoading}
-              className={`flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl font-bold text-xs tracking-wider uppercase transition-all shadow-[0_2px_24px_rgba(200,233,169,0.25)] reflection-sheen ${
+              className={`flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all duration-300 ${
                 isDecisionValid && !isLoading
-                  ? "bg-gradient-to-b from-[#D4F2B7] to-[#B5E090] text-[#050505] cursor-pointer shadow-[0_0_24px_rgba(200,233,169,0.38),inset_0_1px_1.5px_rgba(255,255,255,0.85)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:scale-[1.02] active:scale-95"
+                  ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_24px_rgba(200,233,169,0.38)] hover:bg-[#d5f2b8] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:scale-[1.02] active:scale-95 cursor-pointer"
                   : "bg-white/[0.08] text-white/30 border border-white/[0.08] cursor-not-allowed"
               }`}
             >
               <GitFork size={15} className="stroke-[2.5]" />
-              <span>GENERATE UNIVERSE</span>
-              <ArrowRight size={15} />
+              <span>Synthesize Realities</span>
+              <ArrowRight size={15} className="stroke-[2.5]" />
             </button>
 
-            <div className="flex items-center gap-1.5 text-xs text-[#A5A7A3] font-mono">
+            <div className="flex items-center gap-1.5 text-xs text-[#A5A7A3]">
               <Clock size={13} />
-              <span>≈ 30s</span>
+              <span>Est. time: ~15-30s</span>
             </div>
           </div>
         </div>
