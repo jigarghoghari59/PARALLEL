@@ -140,7 +140,7 @@ export const BranchModal = ({
       // Assign a default visual theme if not provided
       if (!childReality.image) {
         childReality.image =
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=700&q=80";
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85";
       }
 
       // Append to universe and update storage

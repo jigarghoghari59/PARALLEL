@@ -170,7 +170,7 @@ export default function Saved() {
               {/* Planet sphere with glowing horizon */}
               <div className="absolute -right-16 -top-10 -bottom-10 w-64 sm:w-72 rounded-full overflow-hidden pointer-events-none opacity-85 group-hover:scale-105 transition-transform duration-700">
                 <img
-                  src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=600&q=80"
+                  src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=85"
                   alt="Planet from orbit"
                   className="w-full h-full object-cover brightness-[0.9] contrast-[1.1]"
                 />
@@ -272,7 +272,7 @@ export default function Saved() {
               const thumbnail =
                 uni.image ||
                 uni.realities?.[0]?.image ||
-                "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80";
+                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=85";
 
               const displayTitle =
                 uni.title ||

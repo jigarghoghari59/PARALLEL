@@ -29,11 +29,11 @@ import { useUniverse } from "../context/UniverseContext";
 import { api } from "../services/apiClient";
 
 const DEFAULT_TIMELINE_IMAGES = {
-  morning: "https://images.unsplash.com/photo-1540518614846-7ede433c457b?auto=format&fit=crop&w=300&q=80",
-  work: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=300&q=80",
-  decision: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80",
-  fitness: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80",
-  night: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=300&q=80",
+  morning: "https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?auto=format&fit=crop&w=600&q=85",
+  work: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=85",
+  decision: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=85",
+  fitness: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=85",
+  night: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=85",
 };
 
 // Helper to choose appropriate entry icon
@@ -304,8 +304,11 @@ export default function Simulate() {
                 {/* Thumbnail Image */}
                 <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-4 group">
                   <img
-                    src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80"
-                    alt="City Skyline"
+                    src={
+                      reality.image ||
+                      "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=85"
+                    }
+                    alt={reality.name || "Alternate Reality"}
                     className="w-full h-full object-cover brightness-[0.75] contrast-[1.05] group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-transparent" />
@@ -399,7 +402,7 @@ export default function Simulate() {
               <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
               {/* Background Futuristic Skyline */}
               <img
-                src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80"
+                src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1600&q=85"
                 alt="Futuristic Skyline"
                 className="absolute inset-0 w-full h-full object-cover brightness-[0.6] contrast-[1.1] group-hover:scale-105 transition-transform duration-700"
               />
@@ -623,7 +626,7 @@ export default function Simulate() {
               {/* Cosmic sphere in bottom-right corner */}
               <div className="absolute -bottom-8 -right-8 w-28 h-28 rounded-full overflow-hidden pointer-events-none opacity-85">
                 <img
-                  src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=400&q=80"
+                  src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=85"
                   alt="Planet from orbit"
                   className="w-full h-full object-cover brightness-[0.8] contrast-[1.1]"
                 />

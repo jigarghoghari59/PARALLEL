@@ -207,10 +207,10 @@ export default function CreateUniverse() {
   };
 
   return (
-    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
-      {/* MAIN DUAL-COLUMN LAYOUT */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_1.15fr] gap-8 lg:gap-12 items-start pt-2 pb-8">
-        {/* ================= LEFT COLUMN: FORM CONTROLS ================= */}
+    <div className="relative w-full max-w-[860px] mx-auto px-4 sm:px-6 lg:px-8 py-8 select-none">
+      {/* MAIN CENTERED FORM CONTAINER */}
+      <div className="relative z-10 flex flex-col gap-6 pt-2 pb-8">
+        {/* ================= FORM CONTROLS ================= */}
         <div className="flex flex-col gap-5">
           {/* Header pill matching Landing Page */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit shadow-sm">
@@ -228,7 +228,7 @@ export default function CreateUniverse() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-[480px]">
+          <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-[640px]">
             Enter a turning point or life decision. The multiverse engine generates coherent branching timelines, career trajectories, and milestones.
           </p>
 
@@ -501,124 +501,6 @@ export default function CreateUniverse() {
             <div className="flex items-center gap-1.5 text-xs text-[#A5A7A3]">
               <Clock size={13} />
               <span>Est. time: ~15-30s</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ================= RIGHT COLUMN: COSMIC PORTAL & PREVIEW ================= */}
-        <div className="relative flex flex-col items-center justify-between h-full min-h-[460px]">
-          {/* Swirling Cosmic Wormhole / Traveler Visual */}
-          <div className="relative w-full h-[320px] sm:h-[360px] rounded-xl overflow-hidden flex items-center justify-center">
-            {/* Space background with starlight vortex */}
-            <img
-              src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80"
-              alt="Cosmic Portal"
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-125"
-            />
-            {/* Swirling radial portal overlay */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_#050505_95%)] pointer-events-none" />
-
-            {/* Glowing Center Vortex Rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-56 h-56 rounded-full border border-cyan-200/25 animate-spin duration-1000 shadow-[0_0_80px_rgba(200,233,169,0.2)]" />
-              <div className="absolute w-44 h-44 rounded-full border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.2)]" />
-              <div className="absolute w-32 h-32 rounded-full border border-[#C8E9A9]/30" />
-            </div>
-
-            {/* Solitary Explorer Silhouette standing on a rock */}
-            <div className="absolute bottom-4 z-10 flex flex-col items-center">
-              <svg viewBox="0 0 100 120" className="w-20 h-24 drop-shadow-2xl">
-                {/* Rock peak */}
-                <path d="M10 120 L40 75 L60 75 L90 120 Z" fill="#060708" />
-                {/* Explorer backpack & body */}
-                <ellipse cx="45" cy="50" rx="8" ry="12" fill="#0A0C0E" />
-                <rect x="44" y="38" width="12" height="24" rx="4" fill="#070809" />
-                {/* Head / Hood */}
-                <circle cx="50" cy="30" r="6" fill="#070809" />
-                {/* Legs */}
-                <line x1="47" y1="62" x2="44" y2="80" stroke="#070809" strokeWidth="4" strokeLinecap="round" />
-                <line x1="53" y1="62" x2="56" y2="80" stroke="#070809" strokeWidth="4" strokeLinecap="round" />
-              </svg>
-            </div>
-
-            {/* Vertical spaced tracking label */}
-            <div className="absolute right-5 top-1/2 -translate-y-1/2 hidden sm:flex flex-col items-center text-[10px] tracking-[0.3em] font-medium text-[#A5A7A3]/80 leading-loose uppercase select-none">
-              <span>EXPLORE</span>
-              <span>YOUR</span>
-              <span>POSSIBLE</span>
-              <span>TIMELINES</span>
-            </div>
-          </div>
-
-          {/* CARD: WHAT TO EXPECT? (PIPELINE PREVIEW) */}
-          <div className="w-full bg-[#0B0D0F] border border-white/[0.08] rounded-xl p-4 shadow-xl mt-4 relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Layers size={14} className="text-[#C8E9A9] stroke-[2.2]" />
-                <span className="text-[11px] font-semibold tracking-wider text-[#A5A7A3] uppercase">
-                  WHAT TO EXPECT?
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#121518] border border-white/[0.08] text-[10px] text-[#A5A7A3]">
-                <Eye size={11} />
-                <span>PREVIEW</span>
-              </div>
-            </div>
-
-            {/* Pipeline Step Diagram */}
-            <div className="flex items-center justify-between px-3 py-1">
-              {/* Step 1: Current Life */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-11 h-11 rounded-full overflow-hidden border border-[#C8E9A9]/50 shadow-[0_0_12px_rgba(200,233,169,0.25)] p-0.5 mb-2 bg-[#101113]">
-                  <img
-                    src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=100&q=70"
-                    alt="Current Life"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <span className="text-[10px] text-[#A5A7A3] font-medium max-w-[70px] leading-tight">
-                  Your Current Life
-                </span>
-              </div>
-
-              {/* Connector line 1 */}
-              <div className="flex-1 flex items-center justify-center px-2">
-                <div className="w-full h-[1px] bg-gradient-to-r from-[#292C2C] via-[#C8E9A9]/60 to-[#292C2C] relative flex items-center justify-center">
-                  <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-                </div>
-              </div>
-
-              {/* Step 2: Alternative Timelines */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-11 h-11 rounded-full bg-[#121518] border border-white/[0.1] flex items-center justify-center text-[#F2F3F0] font-bold text-sm shadow-md mb-2">
-                  ?
-                </div>
-                <span className="text-[10px] text-[#A5A7A3] font-medium max-w-[70px] leading-tight">
-                  Alternative Timelines
-                </span>
-              </div>
-
-              {/* Connector line 2 */}
-              <div className="flex-1 flex items-center justify-center px-2">
-                <div className="w-full h-[1px] bg-gradient-to-r from-[#292C2C] via-[#C8E9A9]/60 to-[#292C2C] relative flex items-center justify-center">
-                  <span className="w-2 h-2 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-                </div>
-              </div>
-
-              {/* Step 3: New Possibilities */}
-              <div className="flex flex-col items-center text-center">
-                <div className="w-11 h-11 rounded-full overflow-hidden border border-white/20 shadow-md p-0.5 mb-2 bg-[#101113]">
-                  <img
-                    src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?auto=format&fit=crop&w=100&q=70"
-                    alt="New Possibilities"
-                    className="w-full h-full object-cover rounded-full grayscale brightness-80"
-                  />
-                </div>
-                <span className="text-[10px] text-[#A5A7A3] font-medium max-w-[70px] leading-tight">
-                  New Possibilities
-                </span>
-              </div>
             </div>
           </div>
         </div>

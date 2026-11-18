@@ -1,7 +1,7 @@
 // src/services/universeService.js
 
 const STORAGE_KEY = "parallel.universes";
-const INITIALIZED_KEY = "parallel.initialized_v4";
+const INITIALIZED_KEY = "parallel.initialized_v5";
 
 export const SAMPLE_UNIVERSES = [
   {
@@ -15,7 +15,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 10,
     createdAt: 1761480000000, // Oct 26, 2025
     bookmarked: true,
-    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=85",
     comparisons: {
       "real-mechanical-eng:real-software-dev": {
         realities: [
@@ -67,7 +67,7 @@ export const SAMPLE_UNIVERSES = [
         opportunities: ["Staff Engineer at hypergrowth scale-up", "Open source protocol leadership"],
         challenges: ["Fast-paced framework churn", "Screen fatigue"],
         outcome: "Deep technical mastery and financial independence within the core software sector.",
-        image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80",
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=85",
         events: [
           {
             id: "evt-01",
@@ -112,7 +112,7 @@ export const SAMPLE_UNIVERSES = [
         opportunities: ["Research", "Startups", "Innovation"],
         challenges: ["High Technical Demands"],
         outcome: "A Pioneer in Robotics Field",
-        image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
+        image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85",
         events: [
           {
             id: "evt-m1",
@@ -204,7 +204,7 @@ export const SAMPLE_UNIVERSES = [
                 description: "You wake up in your cozy apartment in Bangalore, ready for a productive day.",
                 experience: "Calm anticipation of the robotics testing run ahead.",
                 important: false,
-                image: "https://images.unsplash.com/photo-1540518614846-7ede433c457b?auto=format&fit=crop&w=300&q=80"
+                image: "https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?auto=format&fit=crop&w=600&q=85"
               },
               {
                 time: "10:00 AM",
@@ -213,7 +213,7 @@ export const SAMPLE_UNIVERSES = [
                 description: "You're working on a cutting-edge robotics project at a top tech firm.",
                 experience: "Activating compliant actuators on the humanoid test rig.",
                 important: false,
-                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=300&q=80"
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=85"
               },
               {
                 time: "02:00 PM",
@@ -222,7 +222,7 @@ export const SAMPLE_UNIVERSES = [
                 description: "You get an opportunity to lead a new AI robotics team.",
                 experience: "Heart beats with excitement during executive review.",
                 important: true,
-                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80"
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=85"
               },
               {
                 time: "07:00 PM",
@@ -231,7 +231,7 @@ export const SAMPLE_UNIVERSES = [
                 description: "Gym, good food and friends.",
                 experience: "Unwinding and staying grounded with loved ones.",
                 important: false,
-                image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80"
+                image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=85"
               },
               {
                 time: "11:00 PM",
@@ -240,7 +240,7 @@ export const SAMPLE_UNIVERSES = [
                 description: "You reflect on your journey — and feel content.",
                 experience: "Peaceful reflection looking over Bangalore skyline.",
                 important: false,
-                image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=300&q=80"
+                image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=85"
               }
             ],
             generatedAt: 1761480000000
@@ -262,7 +262,7 @@ export const SAMPLE_UNIVERSES = [
         opportunities: ["Product Leadership, Startup Founder Fellowship"],
         challenges: ["High Responsibility, Market Pressure"],
         outcome: "A fulfilling career with global impact.",
-        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=85",
         events: [
           {
             id: "evt-pm1",
@@ -305,7 +305,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 10,
     createdAt: 1761393600000, // Oct 25, 2025
     bookmarked: false,
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85",
     realities: [
       {
         id: "real-mech-core",
@@ -359,7 +359,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 8,
     createdAt: 1761393600000, // Oct 25, 2025
     bookmarked: true,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1617654112368-307921291f42?auto=format&fit=crop&w=1000&q=85",
     realities: [
       {
         id: "real-auto-aero",
@@ -412,7 +412,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 10,
     createdAt: 1760961600000, // Oct 20, 2025
     bookmarked: false,
-    image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85",
     realities: [
       {
         id: "real-seed-founder",
@@ -500,7 +500,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 6,
     createdAt: 1760788800000, // Oct 18, 2025
     bookmarked: true,
-    image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1000&q=85",
     realities: [
       {
         id: "real-alpine-writer",
@@ -535,7 +535,7 @@ export const SAMPLE_UNIVERSES = [
     durationYears: 12,
     createdAt: 1760529600000, // Oct 15, 2025
     bookmarked: false,
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1000&q=85",
     realities: [
       {
         id: "real-orbital-mechanics",

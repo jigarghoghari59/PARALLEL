@@ -1,201 +1,236 @@
 // src/components/landing/HeroSection.jsx
-import React, { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Play, Sparkles, ChevronDown } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
+import EarthAndMoon from "./EarthAndMoon";
+
+// Safe error boundary for 3D WebGL runtime
+class PlanetErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(err) {
+    console.warn("[3D Solar System Globe WebGL Notice]:", err);
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
 
 export const HeroSection = ({ onLearnMoreClick }) => {
   const navigate = useNavigate();
   const heroRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
 
-  // Parallax transformations tied to Lenis scroll
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Parallax and scroll-driven blending into #050505
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
 
-  const planetY = useTransform(scrollYProgress, [0, 1], [0, 110]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 45]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.25]);
+  // 3D Canvas scroll fade & parallax
+  const planetY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const planetOpacity = useTransform(scrollYProgress, [0, 0.55, 0.95], [1, 0.7, 0]);
+
+  // Foreground text & buttons fade
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 70]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+
+  // Dynamic darkness blend veil as user scrolls down
+  const scrollDarkness = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0.65, 1]);
 
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[94vh] lg:min-h-screen flex items-center pt-24 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-12 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex flex-col items-center justify-start pt-28 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-12 overflow-hidden select-none bg-[#000000]"
     >
-      {/* Planetary Horizon & Celestial Silhouette Visual */}
+      {/* ======================================================== */}
+      {/* 1. 3D EARTH GLOBE & MOON (REALISTIC, NO RINGS OR FLASH)   */}
+      {/* ======================================================== */}
       <motion.div
-        style={{ y: planetY }}
-        className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden"
+        style={{
+          y: planetY,
+          opacity: planetOpacity,
+        }}
+        className="absolute inset-0 z-0 overflow-hidden pointer-events-auto"
       >
-        {/* Massive Atmospheric Planet Horizon */}
-        <div className="absolute right-[-15%] sm:right-[-6%] top-[3%] sm:top-[-4%] w-[85vw] sm:w-[68vw] lg:w-[60vw] max-w-[880px] aspect-square rounded-full">
-          {/* Subtle slow rotation simulation container */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 240, repeat: Infinity, ease: "linear" }}
-            className="w-full h-full relative rounded-full"
-          >
-            {/* Planet Inner Ambient Glow */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#050505] via-[#091114] to-[#1c3337] opacity-90 shadow-[inset_-30px_-30px_90px_rgba(5,5,5,0.95)]" />
-
-            {/* Atmospheric Rim Light (Cyan/Sage/White) */}
-            <div className="absolute inset-0 rounded-full border border-white/20 shadow-[0_0_80px_rgba(200,233,169,0.3),inset_0_0_50px_rgba(255,255,255,0.25)]" />
-
-            {/* Background Planet Texture / Artwork */}
-            <img
-              src="/images/landing-hero-planet.png"
-              alt="Parallel Universe Planet"
-              className="w-full h-full object-cover object-center rounded-full opacity-90 mix-blend-screen scale-105"
-              onError={(e) => {
-                e.currentTarget.src = "/images/portal-hero.png";
-              }}
-            />
-          </motion.div>
-
-          {/* Light Beams Rising from Horizon */}
-          <div className="absolute bottom-[20%] left-[30%] w-1.5 h-64 bg-gradient-to-t from-white/60 via-white/20 to-transparent blur-sm rotate-[-12deg]" />
-          <div className="absolute bottom-[18%] left-[35%] w-1 h-72 bg-gradient-to-t from-[#C8E9A9]/70 via-[#C8E9A9]/20 to-transparent blur-[2px] rotate-[-8deg]" />
-          <div className="absolute bottom-[22%] left-[42%] w-1 h-56 bg-gradient-to-t from-[#9678C9]/40 via-transparent to-transparent blur-sm" />
-        </div>
-
-        {/* Ambient Dark Gradient Wash to Blend Planet into Deep Space */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent z-1" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-1" />
+        <PlanetErrorBoundary>
+          <EarthAndMoon
+            cameraDistance={isMobile ? 3.7 : 3.35}
+            cameraFov={45}
+            mouseInteractive={!isMobile}
+            cloudOpacity={0.32}
+            starCount={isMobile ? 3000 : 5000}
+          />
+        </PlanetErrorBoundary>
       </motion.div>
 
-      {/* Main Content Container */}
-      <div className="relative z-10 max-w-[1440px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Headline Column */}
-        <motion.div
-          style={{ y: textY, opacity: heroOpacity }}
-          className="lg:col-span-7 flex flex-col justify-center"
+      {/* ======================================================== */}
+      {/* 2. SCROLL BLEND OVERLAYS (BLENDS SEAMLESSLY INTO #050505)*/}
+      {/* ======================================================== */}
+      {/* Top subtle vignette for top navbar */}
+      <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-[#000000]/90 via-[#000000]/40 to-transparent pointer-events-none z-10" />
+
+      {/* Permanent deep bottom fade merging hero into StatsStrip */}
+      <div className="absolute bottom-0 inset-x-0 h-48 sm:h-64 bg-gradient-to-b from-transparent via-[#050505]/75 to-[#050505] pointer-events-none z-10" />
+
+      {/* Dynamic scroll-driven dark blend layer */}
+      <motion.div
+        style={{ opacity: scrollDarkness }}
+        className="absolute inset-0 bg-[#050505] pointer-events-none z-10"
+      />
+
+      {/* ======================================================== */}
+      {/* 3. CENTER HEADLINE & FOREGROUND CONTENT (UNIQUE & STYLISH)*/}
+      {/* ======================================================== */}
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center px-4"
+      >
+        {/* Unique, Stylish Typography with Smooth Entrance & Specular #C8E9A9 Shine */}
+        <motion.h1
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.18, delayChildren: 0.15 },
+            },
+          }}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-[106px] font-[650] tracking-tighter leading-[0.98] mb-6 flex flex-col items-center drop-shadow-[0_8px_32px_rgba(0,0,0,0.8)]"
         >
-          {/* Category Pill Badge with Restrained Glow */}
+          {/* First Line: "One Life," */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.1] w-fit mb-6 shadow-[0_2px_16px_rgba(0,0,0,0.5)] group"
+            variants={{
+              hidden: { opacity: 0, y: 35, filter: "blur(10px)" },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+              },
+            }}
+            className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-            <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#F2F3F0]">
-              Digital Parallel Universe
+            <span className="text-shine-platinum">One</span>
+            <span className="text-shine-accent drop-shadow-[0_0_28px_rgba(200,233,169,0.5)]">
+              Life,
             </span>
-            <Sparkles size={11} className="text-[#C8E9A9] ml-0.5" />
           </motion.div>
 
-          {/* Monumental Editorial Headline with Staggered Line Animation */}
-          <div className="overflow-hidden mb-5">
-            <motion.h1
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.12,
-                  },
-                },
-              }}
-              className="text-4xl sm:text-6xl lg:text-[72px] font-extrabold tracking-tight leading-[1.05] text-[#F2F3F0]"
-            >
-              <motion.span
-                variants={{
-                  hidden: { opacity: 0, y: 35 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-                }}
-                className="block"
-              >
-                ONE LIFE.
-              </motion.span>
-              <motion.span
-                variants={{
-                  hidden: { opacity: 0, y: 35 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-                }}
-                className="block text-white"
-              >
-                INFINITE POSSIBILITIES.
-              </motion.span>
-            </motion.h1>
-          </div>
-
-          {/* Subtitle with Refined Editorial Hierarchy */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.28, ease: "easeOut" }}
-            className="text-sm sm:text-base lg:text-lg text-[#A5A7A3] font-normal leading-relaxed max-w-lg mb-8"
-          >
-            Explore the paths not taken. Discover the divergent milestones, careers, and lives that could have been.
-          </motion.p>
-
-          {/* Action Buttons */}
+          {/* Second Line: "Infinite Possibilities." */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.38, ease: "easeOut" }}
-            className="flex flex-wrap items-center gap-4"
+            variants={{
+              hidden: { opacity: 0, y: 35, filter: "blur(10px)" },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+              },
+            }}
+            className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap mt-1 sm:mt-2"
           >
-            {/* Primary Action Button: Start Exploring */}
-            <motion.button
-              whileHover={{ scale: 1.02, y: -1 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => navigate("/explore")}
-              className="flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#C8E9A9] text-[#050505] font-bold text-xs tracking-wider uppercase transition-all duration-300 shadow-[0_0_24px_rgba(200,233,169,0.35)] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:bg-[#d5f2b8] cursor-pointer"
-            >
-              <span>Start Exploring</span>
-              <ArrowRight size={14} className="stroke-[2.5]" />
-            </motion.button>
-
-            {/* Secondary Action Button: Learn More */}
-            <motion.button
-              whileHover={{ scale: 1.02, y: -1 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={onLearnMoreClick}
-              className="flex items-center gap-2 px-5 py-3.5 rounded-full bg-[#121518] hover:bg-[#181C20] text-[#F2F3F0] hover:text-white border border-white/[0.1] hover:border-white/25 font-semibold text-xs tracking-wider transition-all duration-200 cursor-pointer shadow-sm"
-            >
-              <span>Learn More</span>
-              <Play size={10} className="fill-[#F2F3F0] text-[#F2F3F0] ml-0.5" />
-            </motion.button>
+            <span className="text-shine-platinum">Infinite</span>
+            <span className="text-shine-accent drop-shadow-[0_0_28px_rgba(200,233,169,0.5)]">
+              Possibilities.
+            </span>
           </motion.div>
+        </motion.h1>
+
+        {/* Elegant Sci-Fi Subtitle Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-9 max-w-2xl px-5 py-2.5 rounded-full bg-black/45 border border-white/[0.08] backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+        >
+          <p className="text-xs sm:text-sm md:text-base font-light text-zinc-300 leading-relaxed tracking-wide">
+            <span className="text-white font-medium">Explore paths</span> · Discover worlds · Create yours. Explore the counterfactual life trajectories and decisions that could have been.
+          </p>
         </motion.div>
 
-        {/* Right Atmospheric Area with Floating Badge */}
-        <div className="lg:col-span-5 relative h-64 lg:h-[460px] flex items-center justify-end pointer-events-none">
-          {/* Floating Pill Badge: Explore Alternate Realities */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.45 }}
-            className="hidden sm:inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-[#090b0d] border border-white/12 shadow-[0_16px_36px_rgba(0,0,0,0.8)] pointer-events-auto cursor-pointer hover:border-[#C8E9A9]/50 transition-all hover:scale-105 mr-4"
+        {/* Action Buttons: Stylized #C8E9A9 Explore Universes with Shine & Animations */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6"
+        >
+          {/* Primary Action Button: #C8E9A9 with Shine, Glow Aura & Hover Animation */}
+          <motion.button
             onClick={() => navigate("/explore")}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="group relative flex items-center gap-3 px-8 py-4 rounded-full bg-[#C8E9A9] text-[#050505] font-semibold text-xs sm:text-sm tracking-wide shadow-[0_0_30px_rgba(200,233,169,0.4)] hover:shadow-[0_0_45px_rgba(200,233,169,0.7)] transition-shadow duration-300 cursor-pointer overflow-hidden btn-shimmer-sweep"
           >
-            <div className="w-5 h-5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 flex items-center justify-center text-[#C8E9A9]">
-              <Sparkles size={11} />
-            </div>
-            <div className="text-left">
-              <span className="text-[10px] text-[#A5A7A3] uppercase tracking-wider block font-medium">Explore</span>
-              <span className="text-xs font-bold text-[#F2F3F0] block leading-none">Alternate Realities</span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+            {/* Orbiting Planet Icon that spins smoothly on hover */}
+            <svg
+              className="w-4 h-4 text-[#050505] stroke-[2] transition-transform duration-500 ease-out group-hover:rotate-45 group-hover:scale-110"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(-25 12 12)" />
+            </svg>
+            <span className="relative z-10 font-bold tracking-tight">Explore Universes</span>
+            <ArrowRight
+              size={15}
+              className="stroke-[2.4] text-[#050505] ml-0.5 transition-transform duration-300 ease-out group-hover:translate-x-1.5"
+            />
+          </motion.button>
 
-      {/* Editorial Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
-      >
-        <span className="text-[9px] font-mono tracking-[0.24em] uppercase text-[#A5A7A3]/70">
-          Scroll to explore
-        </span>
-        <div className="w-[1px] h-8 bg-gradient-to-b from-[#C8E9A9] to-transparent animate-pulse" />
+          {/* Secondary Action Button: Create Reality */}
+          <motion.button
+            onClick={() => navigate("/create")}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="group flex items-center gap-2.5 px-7 py-4 rounded-full bg-black/50 hover:bg-white/[0.08] border border-white/[0.14] hover:border-[#C8E9A9]/50 backdrop-blur-xl text-zinc-300 hover:text-white font-medium text-xs sm:text-sm tracking-wide shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer"
+          >
+            <Plus size={15} className="text-zinc-400 group-hover:text-[#C8E9A9] transition-colors" />
+            <span>Create Reality</span>
+          </motion.button>
+        </motion.div>
       </motion.div>
+
+      {/* ======================================================== */}
+      {/* 4. SCROLL TO EXPLORE MOUSE INDICATOR (BOTTOM CENTER)     */}
+      {/* ======================================================== */}
+      <div
+        onClick={onLearnMoreClick}
+        className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 cursor-pointer group select-none"
+      >
+        {/* Minimal Mouse Capsule Icon */}
+        <div className="w-5 h-8 rounded-full border border-white/30 group-hover:border-white/60 flex justify-center pt-1.5 transition-colors">
+          <div className="w-1 h-2 rounded-full bg-white/70 animate-bounce" />
+        </div>
+
+        {/* Text Label */}
+        <span className="text-[9px] font-mono tracking-[0.28em] uppercase text-zinc-400 group-hover:text-zinc-200 transition-colors">
+          SCROLL TO EXPLORE
+        </span>
+      </div>
     </section>
   );
 };
+
+export default HeroSection;

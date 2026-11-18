@@ -61,12 +61,15 @@ export const StatsStrip = ({ stats }) => {
       path: "/create",
       icon: (
         <svg viewBox="0 0 32 32" className="w-7 h-7 text-[#C8E9A9]" fill="none">
+          <circle cx="10" cy="9" r="3" stroke="#C8E9A9" strokeWidth="1.8" />
+          <circle cx="22" cy="9" r="3" stroke="#C8E9A9" strokeWidth="1.8" />
+          <circle cx="16" cy="23" r="3" stroke="#C8E9A9" strokeWidth="1.8" />
           <path
-            d="M16 3L19 13L29 16L19 19L16 29L13 19L3 16L13 13L16 3Z"
+            d="M16 20V15M16 15L10 12M16 15L22 12"
             stroke="#C8E9A9"
-            strokeWidth="1.6"
+            strokeWidth="1.8"
+            strokeLinecap="round"
             strokeLinejoin="round"
-            fill="rgba(200, 233, 169, 0.15)"
           />
         </svg>
       ),

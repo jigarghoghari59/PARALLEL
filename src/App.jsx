@@ -31,6 +31,7 @@ const App = () => (
             <Route path="/saved" element={<Saved />} />
             <Route path="/archive" element={<Saved />} />
             <Route path="/settings" element={<Settings />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>

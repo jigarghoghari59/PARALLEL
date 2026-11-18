@@ -2,7 +2,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Bell, X, Compass, GitFork, Bookmark, Calendar, Settings, ArrowRight, User, Menu } from "lucide-react";
+import {
+  Search,
+  Bell,
+  X,
+  Compass,
+  GitFork,
+  Bookmark,
+  Calendar,
+  Settings,
+  ArrowRight,
+  User,
+  Menu,
+} from "lucide-react";
 import { settingsService } from "../../services/settingsService";
 
 export const LandingNav = () => {
@@ -82,7 +94,7 @@ export const LandingNav = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Close mobile menu on route change
+  // Close menus on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setShowNotifications(false);
@@ -123,7 +135,11 @@ export const LandingNav = () => {
               transition={{ duration: 0.45 }}
               className="relative w-8 h-8 flex items-center justify-center"
             >
-              <svg viewBox="0 0 40 24" className="w-8 h-5 text-[#F2F3F0] transition-transform duration-300 group-hover:scale-105" fill="none">
+              <svg
+                viewBox="0 0 40 24"
+                className="w-8 h-5 text-[#F2F3F0] transition-transform duration-300 group-hover:scale-105"
+                fill="none"
+              >
                 <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
                 <circle cx="28" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
                 <circle cx="12" cy="12" r="3" fill="#C8E9A9" />
@@ -143,7 +159,8 @@ export const LandingNav = () => {
           {/* Center: Desktop Navigation Bar with Controlled Geometry */}
           <nav className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#0B0D0F] border border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
             {navLinks.map((item) => {
-              const isActive = item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
+              const isActive =
+                item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
               return (
                 <Link
                   key={item.to}
@@ -276,7 +293,7 @@ export const LandingNav = () => {
               <img
                 src={
                   profile.avatar ||
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=85"
                 }
                 alt={profile.name}
                 className="w-full h-full object-cover grayscale brightness-90 group-hover:scale-110 transition-transform duration-300"
@@ -295,7 +312,7 @@ export const LandingNav = () => {
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation with Editorial Styling */}
+      {/* Mobile Drawer Navigation with Full More Index Included */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -303,43 +320,46 @@ export const LandingNav = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-[#050505] md:hidden flex flex-col justify-between pt-24 pb-8 px-6"
+            className="fixed inset-0 z-40 bg-[#050505] md:hidden flex flex-col justify-between pt-20 pb-8 px-6 overflow-y-auto"
           >
-            <div className="space-y-4">
-              <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C8E9A9]">
-                Navigation Index
-              </p>
+            <div className="space-y-6">
+              <div>
+                <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C8E9A9] mb-2">
+                  Navigation Index
+                </p>
 
-              <div className="space-y-2 pt-2">
-                {navLinks.map((item, idx) => {
-                  const isActive = item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
-                  return (
-                    <motion.div
-                      key={item.to}
-                      initial={{ opacity: 0, x: -16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: idx * 0.06 }}
-                    >
-                      <Link
-                        to={item.to}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between py-3 border-b border-white/[0.06] text-lg font-bold tracking-tight transition-colors ${
-                          isActive ? "text-[#C8E9A9]" : "text-[#F2F3F0] hover:text-[#C8E9A9]"
-                        }`}
+                <div className="space-y-1">
+                  {navLinks.map((item, idx) => {
+                    const isActive =
+                      item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
+                    return (
+                      <motion.div
+                        key={item.to}
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: idx * 0.05 }}
                       >
-                        <span className="flex items-center gap-3">
-                          <span className="text-xs font-mono text-[#A5A7A3]">{item.number}</span>
-                          <span>{item.label}</span>
-                        </span>
-                        <ArrowRight size={16} className={isActive ? "text-[#C8E9A9]" : "text-[#A5A7A3]"} />
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                        <Link
+                          to={item.to}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`flex items-center justify-between py-2.5 border-b border-white/[0.06] text-base font-bold tracking-tight transition-colors ${
+                            isActive ? "text-[#C8E9A9]" : "text-[#F2F3F0] hover:text-[#C8E9A9]"
+                          }`}
+                        >
+                          <span className="flex items-center gap-3">
+                            <span className="text-xs font-mono text-[#A5A7A3]">{item.number}</span>
+                            <span>{item.label}</span>
+                          </span>
+                          <ArrowRight size={14} className={isActive ? "text-[#C8E9A9]" : "text-[#A5A7A3]"} />
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Mobile Search */}
-              <form onSubmit={handleSearchSubmit} className="pt-4">
+              <form onSubmit={handleSearchSubmit} className="pt-2">
                 <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08]">
                   <Search size={14} className="text-[#A5A7A3]" />
                   <input
@@ -354,12 +374,16 @@ export const LandingNav = () => {
             </div>
 
             {/* Mobile Footer Area */}
-            <div className="pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs text-[#A5A7A3]">
+            <div className="pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs text-[#A5A7A3] mt-6">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
                 <span>Parallel Multiverse Engine</span>
               </div>
-              <Link to="/settings" onClick={() => setMobileMenuOpen(false)} className="hover:text-white transition-colors">
+              <Link
+                to="/settings"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-white transition-colors"
+              >
                 Settings
               </Link>
             </div>
@@ -369,3 +393,5 @@ export const LandingNav = () => {
     </>
   );
 };
+
+export default LandingNav;

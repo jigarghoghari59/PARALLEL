@@ -107,7 +107,7 @@ export const ConceptSection = () => {
               alt="Parallel Realities Skyline"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-95"
               onError={(e) => {
-                e.currentTarget.src = "/images/card-city.png";
+                e.currentTarget.src = "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1600&q=85";
               }}
             />
 

@@ -47,7 +47,7 @@ export const RealityDetailPanel = ({
   // Default banner image
   const bannerImage =
     reality.image ||
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=700&q=80";
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85";
 
   return (
     <div className="w-full h-full bg-[#0B0D0F] border border-white/[0.08] rounded-xl overflow-hidden flex flex-col shadow-2xl relative">

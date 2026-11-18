@@ -42,7 +42,7 @@ const DEFAULT_PRESETS = [
     realityIds: ["real-software-dev", "real-mechanical-eng"],
     title: "Computer Eng. vs Mechanical Eng.",
     subtitle: "2 Realities",
-    image: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=85",
   },
   {
     id: "preset-2",
@@ -50,7 +50,7 @@ const DEFAULT_PRESETS = [
     realityIds: ["real-auto-aero", "real-auto-motorsport"],
     title: "Stay in India vs Move Abroad",
     subtitle: "2 Realities",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=85",
   },
   {
     id: "preset-3",
@@ -58,7 +58,7 @@ const DEFAULT_PRESETS = [
     realityIds: ["real-seed-founder", "real-venture-partner"],
     title: "Tech vs Business",
     subtitle: "2 Realities",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=85",
   },
 ];
 
@@ -428,7 +428,7 @@ export default function Compare() {
                           <img
                             src={
                               realityA.image ||
-                              "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
+                              "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=85"
                             }
                             alt={realityA.name}
                             className="w-full h-full object-cover brightness-[0.75] contrast-[1.05]"
@@ -537,7 +537,7 @@ export default function Compare() {
                           <img
                             src={
                               realityB.image ||
-                              "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80"
+                              "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=85"
                             }
                             alt={realityB.name}
                             className="w-full h-full object-cover brightness-[0.75] contrast-[1.05]"
@@ -822,7 +822,7 @@ export default function Compare() {
                 {/* Planet Horizon in Bottom Right */}
                 <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full overflow-hidden pointer-events-none opacity-85">
                   <img
-                    src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=400&q=80"
+                    src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=85"
                     alt="Space Horizon"
                     className="w-full h-full object-cover brightness-[0.8] contrast-[1.1]"
                   />

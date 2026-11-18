@@ -109,7 +109,7 @@ export const TopNav = () => {
             <img
               src={
                 profile.avatar ||
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80"
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=85"
               }
               alt={profile.name || "avatar"}
               className="w-full h-full object-cover grayscale opacity-85 group-hover:scale-110 transition-transform"

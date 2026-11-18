@@ -27,7 +27,7 @@ export const CtaSection = () => {
               alt="Orbital Station Structure"
               className="w-full h-full object-cover object-left"
               onError={(e) => {
-                e.currentTarget.src = "/images/card-station.png";
+                e.currentTarget.src = "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=1600&q=85";
               }}
             />
             {/* Smooth gradient blend into the dark center/right container */}

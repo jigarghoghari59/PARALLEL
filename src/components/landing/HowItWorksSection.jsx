@@ -1,7 +1,7 @@
 // src/components/landing/HowItWorksSection.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import { Edit3, Sparkles, Box } from "lucide-react";
+import { GitFork, Orbit, Compass } from "lucide-react";
 
 export const HowItWorksSection = () => {
   const steps = [
@@ -9,21 +9,21 @@ export const HowItWorksSection = () => {
       step: "01",
       title: "Enter a Decision",
       subtitle: "What if...?",
-      icon: Edit3,
+      icon: GitFork,
       desc: "Input any pivotal life choice, career fork, or relocation thought into the prompt engine.",
     },
     {
       step: "02",
       title: "Explore Realities",
       subtitle: "Discover alternate paths",
-      icon: Sparkles,
+      icon: Orbit,
       desc: "The generative multiverse engine maps divergent career outcomes and milestone trajectories.",
     },
     {
       step: "03",
       title: "Experience the Journey",
       subtitle: "Live your alternate life",
-      icon: Box,
+      icon: Compass,
       desc: "Simulate day-to-day moments, personal relationships, and coherence metrics across the years.",
     },
   ];

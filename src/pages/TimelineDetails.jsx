@@ -53,6 +53,27 @@ function getEventIcon(category, index) {
   return <Activity size={16} className="text-[#F2F3F0]" />;
 }
 
+// Helper to get contextual high-resolution media banner matching the reality topic
+function getMediaBannerForReality(reality) {
+  const text = `${reality?.name || ""} ${reality?.career || ""} ${reality?.industry || ""}`.toLowerCase();
+  if (text.includes("software") || text.includes("computer") || text.includes("code") || text.includes("web") || text.includes("dev")) {
+    return "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=85";
+  }
+  if (text.includes("mech") || text.includes("robot") || text.includes("hardware") || text.includes("engineer")) {
+    return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85";
+  }
+  if (text.includes("car") || text.includes("motor") || text.includes("ev") || text.includes("auto")) {
+    return "https://images.unsplash.com/photo-1617654112368-307921291f42?auto=format&fit=crop&w=1000&q=85";
+  }
+  if (text.includes("peace") || text.includes("alpine") || text.includes("cabin") || text.includes("sanctuary")) {
+    return "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1000&q=85";
+  }
+  if (text.includes("space") || text.includes("orbit") || text.includes("astro") || text.includes("flight")) {
+    return "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1000&q=85";
+  }
+  return reality?.image || "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85";
+}
+
 export default function TimelineDetails() {
   const { universeId, realityId } = useParams();
   const navigate = useNavigate();
@@ -240,7 +261,7 @@ export default function TimelineDetails() {
                 <img
                   src={
                     reality.image ||
-                    "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=700&q=80"
+                    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=85"
                   }
                   alt={reality.name}
                   className="w-full h-full object-cover brightness-[0.8] contrast-[1.05] group-hover:scale-105 transition-transform duration-700"
@@ -524,8 +545,8 @@ export default function TimelineDetails() {
             <div className="relative w-full h-44 rounded-xl overflow-hidden bg-[#0B0D0F] border border-white/[0.08] shadow-xl group">
               <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
               <img
-                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
-                alt="Robotics Lab"
+                src={getMediaBannerForReality(reality)}
+                alt={reality?.name || "Lab and Innovation"}
                 className="w-full h-full object-cover brightness-[0.75] contrast-[1.05] group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-black/20" />

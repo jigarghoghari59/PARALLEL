@@ -162,6 +162,9 @@ export default function Dashboard() {
               src="/images/portal-hero.png"
               alt="Cosmic Portal Horizon"
               className="w-full h-full object-contain object-right brightness-[1.04] contrast-[1.05]"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=85";
+              }}
             />
 
             {/* Subtle Pulse Halo behind the Wormhole Gateway */}
@@ -234,7 +237,7 @@ export default function Dashboard() {
             <div className="w-8 h-8 flex items-center justify-center shrink-0">
               <svg viewBox="0 0 32 32" className="w-7 h-7 text-[#C8E9A9]" fill="none">
                 <circle cx="16" cy="7" r="3" stroke="#C8E9A9" strokeWidth="1.8" />
-                <path d="M16 10V18" stroke="#C8E9A9" strokeWidth="1.6" />
+                <path d="M16 10V18" stroke="#c8e9a9" strokeWidth="1.6" />
                 <path d="M16 18L10 24" stroke="#C8E9A9" strokeWidth="1.6" />
                 <path d="M16 18L22 24" stroke="#C8E9A9" strokeWidth="1.6" />
                 <circle cx="9" cy="25" r="2.5" fill="#C8E9A9" />
@@ -293,6 +296,9 @@ export default function Dashboard() {
               src="/images/quote-moon.png"
               alt="Crescent Planet"
               className="w-full h-full object-cover object-left opacity-90"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?auto=format&fit=crop&w=600&q=85";
+              }}
             />
           </div>
         </div>
@@ -323,12 +329,15 @@ export default function Dashboard() {
             </span>
           </div>
 
-          {/* Stacked City Perspective Skyline Image */}
+          {/* Stacked Software Workspace Image */}
           <div className="w-full h-[84px] rounded-xl overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
             <img
-              src="/images/card-city.png"
-              alt="Futuristic Skyline Perspective"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=85"
+              alt="Computer Engineering Code Workspace"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
+              onError={(e) => {
+                e.currentTarget.src = "/images/card-city.png";
+              }}
             />
           </div>
 
@@ -368,12 +377,15 @@ export default function Dashboard() {
             </span>
           </div>
 
-          {/* Space Station Wheel Image */}
+          {/* Robotics Automation Lab Image */}
           <div className="w-full h-[84px] rounded-xl overflow-hidden bg-black/60 relative border border-white/[0.08] my-1">
             <img
-              src="/images/card-station.png"
-              alt="Orbital Station Wheel"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=85"
+              alt="Autonomous Robotics Engineering"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
+              onError={(e) => {
+                e.currentTarget.src = "/images/card-station.png";
+              }}
             />
           </div>
 
@@ -468,6 +480,9 @@ export default function Dashboard() {
               src="/images/card-japan.png"
               alt="Japan Torii Gate"
               className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-500 opacity-90"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=800&q=85";
+              }}
             />
             {/* Smooth gradient blend into the card's dark background */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#090B0D] via-[#090B0D]/60 to-transparent" />

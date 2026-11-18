@@ -8,7 +8,7 @@ export const DEFAULT_PROFILE = {
   role: "Explorer",
   email: "jigar@example.com",
   joined: "Oct 25, 2025",
-  avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+  avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=85",
 };
 
 export const DEFAULT_SETTINGS = {
