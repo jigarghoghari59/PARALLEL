@@ -1,145 +1,139 @@
 /* src/components/common/ParallelLoader.css */
-/* Official PARALLEL Cinematic Loading Experience & Page Arrival Transition */
-/* Pure Text Transformation to "PARALLEL" */
+/* "Divergence" — PARALLEL loading experience. Palette & type come from the site's tokens. */
 
 :root {
   --loader-night: #050505;
   --loader-pale: #F2F3F0;
   --loader-accent: #C8E9A9;
   --loader-purple: #9678C9;
-  --loader-hint: rgba(242, 243, 240, 0.6);
+  --loader-hint: rgba(242, 243, 240, 0.55);
   --loader-hair: rgba(242, 243, 240, 0.12);
-  --loader-elastic: cubic-bezier(0.34, 1.9, 0.45, 1);
-  --loader-row: min(84vw, 420px);
 }
 
-/* ------------------------------------------------------------ The Loader */
-.caricamento {
+/* ------------------------------------------------------------ Loader shell */
+.plx {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  display: grid;
-  place-items: center;
-  background: var(--loader-night);
   overflow: hidden;
   user-select: none;
+  touch-action: none;
+  color: var(--loader-pale);
+  /* solid until the SVG veil takes over (set to transparent from JS) */
+  background: var(--loader-night);
 }
 
-.centro {
-  position: relative;
-  width: var(--loader-row);
+.plx__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.plx__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ HUD: counter + status */
+.plx__meta {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Word Track holding the 8 letters and square tiles */
-.word-track {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 56px;
-  user-select: none;
-}
-
-.char-slot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  height: 100%;
-}
-
-.char-square {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: var(--loader-pale);
-  border-radius: 1px;
-  opacity: 0;
-  box-shadow: 0 0 12px rgba(242, 243, 240, 0.5);
-}
-
-.char-glyph {
-  position: relative;
-  font-family: 'Syne', 'Space Grotesk', system-ui, sans-serif;
-  font-size: clamp(26px, 5.5vw, 42px);
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--loader-pale);
-  line-height: 1;
-  text-transform: uppercase;
-  opacity: 0;
-  text-shadow: 0 0 24px rgba(255, 255, 255, 0.35);
-  display: inline-block;
-  will-change: transform, opacity, filter;
-}
-
-.numero,
-.dicitura,
-.pronto {
-  position: absolute;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: clamp(9px, calc(var(--loader-row) * 0.032), 11px);
-  line-height: 1;
-  letter-spacing: 0.16em;
+  gap: 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   text-transform: uppercase;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
-.numero {
-  left: 50%;
-  bottom: 100%;
-  margin-bottom: 0.9em;
+.plx__count {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em; /* optical centring against trailing tracking */
   color: var(--loader-pale);
-  opacity: 0;
 }
 
-.dicitura {
-  left: 50%;
-  top: 100%;
-  margin-top: 0.9em;
+.plx__count::after {
+  content: "%";
+  margin-left: 0.5em;
+  opacity: 0.4;
+}
+
+.plx__status {
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  padding-left: 0.24em;
   color: var(--loader-hint);
-  opacity: 0;
+  will-change: transform, opacity;
 }
 
-.pronto {
-  left: 0;
-  right: 0;
-  top: 100%;
-  margin-top: 2.2em;
+/* ------------------------------------------------------------ Wordmark */
+.plx__word {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75em;
+  gap: 1.1rem;
 }
 
-.pronto span {
-  min-height: 1.2em;
-  color: var(--loader-accent);
+.plx__letters {
+  display: flex;
+  padding-left: 0.42em; /* balances the trailing letter-spacing so the word is truly centred */
+  font-family: "Syne", "Space Grotesk", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(20px, 2.6vw, 30px);
+  letter-spacing: 0.42em;
+  line-height: 1.1;
+  color: var(--loader-pale);
 }
 
-.lampo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  translate: -50% -50%;
-  background: var(--loader-pale);
-  box-shadow: 0 0 16px rgba(200, 233, 169, 0.8);
-  border-radius: 1px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
+.plx__mask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.1em 0;
 }
 
-/* ------------------------------------------------------------ Landing Page Arrival Elements */
-/* Flickering Status Label from Demo */
+.plx__glyph {
+  display: inline-block;
+  will-change: transform;
+}
+
+.plx__tag {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(9px, 1.9vw, 10.5px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--loader-hint);
+  white-space: nowrap;
+}
+
+.plx__tag i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--loader-accent) 50%, var(--loader-purple) 50%);
+  display: inline-block;
+}
+
+/* ------------------------------------------------------------ Landing hero status pill
+   (used by HeroSection via the `.etichetta` class — kept from the previous stylesheet) */
 .etichetta {
   margin: 0 0 1.4em;
   display: inline-flex;
@@ -163,81 +157,4 @@
   background: var(--loader-accent);
   box-shadow: 0 0 8px rgba(200, 233, 169, 0.8);
   border-radius: 1px;
-}
-
-/* ------------------------------------------------------------ Replay Pill Button (Exact match from demo) */
-.pillola {
-  position: fixed;
-  z-index: 9999;
-  left: 50%;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  translate: -50% 0;
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 20px;
-  border: 1px solid var(--loader-hair);
-  border-radius: 999px;
-  background: rgba(11, 13, 14, 0.85);
-  backdrop-filter: blur(12px);
-  color: var(--loader-pale);
-  font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  isolation: isolate;
-  opacity: 0;
-  visibility: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.pillola::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: var(--loader-accent);
-  opacity: 0;
-  transition: opacity 0.4s ease, inset 0.5s var(--loader-elastic);
-}
-
-.pillola__scritta {
-  font-stretch: 90%;
-  transition: font-stretch 0.5s var(--loader-elastic), color 0.3s ease;
-}
-
-.pillola__scritta::before {
-  content: attr(data-testo);
-  display: block;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  font-stretch: 100%;
-}
-
-@media (hover: hover) {
-  .pillola:hover {
-    border-color: var(--loader-accent);
-    box-shadow: 0 0 16px rgba(200, 233, 169, 0.2);
-    color: #050505;
-  }
-  .pillola:hover::before {
-    inset: -2px -6px;
-    opacity: 1;
-  }
-  .pillola:hover .pillola__scritta {
-    font-stretch: 100%;
-    color: #050505;
-  }
-}
-
-.pillola:active::before {
-  inset: 1px 2px;
-}
-
-.pillola:focus-visible {
-  outline: 2px solid var(--loader-accent);
-  outline-offset: 4px;
 }

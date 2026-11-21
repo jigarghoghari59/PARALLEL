@@ -49,22 +49,29 @@ export default function Dashboard() {
           </div>
 
           <div className="relative mb-3">
+            {/* Vivid High-Intensity Halo Glow */}
+            <div
+              className="absolute -inset-x-8 -inset-y-4 pointer-events-none -z-10 blur-2xl bg-[radial-gradient(ellipse_at_center,rgba(200,233,169,0.5)_0%,rgba(150,120,201,0.3)_40%,transparent_75%)] animate-cosmic-halo"
+              aria-hidden="true"
+            />
             <motion.h1
               initial="hidden"
               animate="visible"
-              className="font-syne text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight leading-[1.1] select-none"
+              className="font-syne text-3xl sm:text-4xl lg:text-[44px] xl:text-[48px] font-[900] tracking-[-0.035em] leading-[1.04] select-none"
             >
               <div className="overflow-hidden py-0.5">
                 <motion.span
                   variants={{
-                    hidden: { opacity: 0, y: 16 },
+                    hidden: { opacity: 0, y: 35, scale: 0.8, filter: "blur(6px)" },
                     visible: {
                       opacity: 1,
                       y: 0,
-                      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.05 },
+                      scale: 1,
+                      filter: "blur(0px)",
+                      transition: { type: "spring", stiffness: 280, damping: 18, delay: 0.05 },
                     },
                   }}
-                  className="inline-block text-white"
+                  className="inline-block text-white drop-shadow-[0_2px_18px_rgba(255,255,255,0.7)]"
                 >
                   One life.
                 </motion.span>
@@ -74,27 +81,31 @@ export default function Dashboard() {
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <motion.span
                     variants={{
-                      hidden: { opacity: 0, y: 16 },
+                      hidden: { opacity: 0, y: 35, scale: 0.8, filter: "blur(6px)" },
                       visible: {
                         opacity: 1,
                         y: 0,
-                        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.15 },
+                        scale: 1,
+                        filter: "blur(0px)",
+                        transition: { type: "spring", stiffness: 280, damping: 18, delay: 0.2 },
                       },
                     }}
-                    className="inline-block text-accent font-semibold"
+                    className="inline-block laser-sage-text drop-shadow-[0_0_24px_rgba(200,233,169,0.9)] pb-0.5"
                   >
                     Infinite
                   </motion.span>
                   <motion.span
                     variants={{
-                      hidden: { opacity: 0, y: 16 },
+                      hidden: { opacity: 0, y: 35, scale: 0.8, filter: "blur(6px)" },
                       visible: {
                         opacity: 1,
                         y: 0,
-                        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.25 },
+                        scale: 1,
+                        filter: "blur(0px)",
+                        transition: { type: "spring", stiffness: 280, damping: 18, delay: 0.35 },
                       },
                     }}
-                    className="inline-block text-white font-bold"
+                    className="inline-block laser-sheen-text drop-shadow-[0_2px_22px_rgba(255,255,255,0.6)]"
                   >
                     possibilities.
                   </motion.span>

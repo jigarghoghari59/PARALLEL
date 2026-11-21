@@ -48,10 +48,18 @@ export const EarthAndMoon = ({
       container.appendChild(renderer.domElement);
     } catch (e) {
       console.warn("[EarthAndMoon] WebGL not available:", e);
+      // Nothing to wait for — let the loader proceed.
+      window.__parallelHeroReady = true;
+      window.dispatchEvent(new Event("parallel:hero-ready"));
       return;
     }
 
-    const textureLoader = new THREE.TextureLoader();
+    // Tell the page loader when the hero scene's textures have actually arrived.
+    const loadingManager = new THREE.LoadingManager(() => {
+      window.__parallelHeroReady = true;
+      window.dispatchEvent(new Event("parallel:hero-ready"));
+    });
+    const textureLoader = new THREE.TextureLoader(loadingManager);
     textureLoader.crossOrigin = "anonymous";
 
     // Earth size: scaled so the visible curved dome covers the bottom ~55-60% of the screen

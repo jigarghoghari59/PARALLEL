@@ -19,14 +19,25 @@ import NotFound from './pages/NotFound';
 const App = () => {
   const appContentRef = useRef(null);
 
+  // The landing page settles into place while the loader's portals open.
+  // Transform-only (no blur on a WebGL page), origin pinned near the hero, and
+  // cleared afterwards so `position: fixed` children (the nav) behave normally.
   const handleTransitionStart = () => {
-    if (appContentRef.current) {
-      gsap.fromTo(
-        appContentRef.current,
-        { scale: 1.035, filter: "blur(6px)", opacity: 0.8 },
-        { scale: 1.0, filter: "blur(0px)", opacity: 1.0, duration: 1.15, ease: "power3.out" }
-      );
-    }
+    const el = appContentRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const origin = `50% ${Math.round(window.innerHeight * 0.45)}px`;
+    gsap.fromTo(
+      el,
+      { scale: 1.06, transformOrigin: origin },
+      {
+        scale: 1,
+        transformOrigin: origin,
+        duration: 1.8,
+        ease: "expo.out",
+        clearProps: "transform,transformOrigin",
+      }
+    );
   };
 
   return (
