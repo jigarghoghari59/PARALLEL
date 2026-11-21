@@ -6,13 +6,6 @@ import {
   Search,
   Bell,
   X,
-  Compass,
-  GitFork,
-  Bookmark,
-  Calendar,
-  Settings,
-  ArrowRight,
-  User,
   Menu,
 } from "lucide-react";
 import { settingsService } from "../../services/settingsService";
@@ -112,7 +105,7 @@ export const LandingNav = () => {
   const navLinks = [
     { to: "/", label: "Home", number: "01" },
     { to: "/explore", label: "Explore", number: "02" },
-    { to: "/create", label: "Create Reality", number: "03" },
+    { to: "/create", label: "Create reality", number: "03" },
     { to: "/saved", label: "Saved", number: "04" },
     { to: "/archive", label: "Archive", number: "05" },
   ];
@@ -120,15 +113,16 @@ export const LandingNav = () => {
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        data-page-nav=""
+        className={`fixed top-0 inset-x-0 z-50 transition-colors duration-200 ${
           isScrolled
-            ? "py-3 bg-[#050505]/95 border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+            ? "py-3 bg-paper/95 border-b border-rule shadow-lg backdrop-blur-sm"
             : "py-5 bg-transparent"
         } px-4 sm:px-6 lg:px-12`}
       >
         <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
           {/* Left: Brand Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+          <Link to="/" data-page-logo="" className="flex items-center gap-2.5 group shrink-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -137,27 +131,28 @@ export const LandingNav = () => {
             >
               <svg
                 viewBox="0 0 40 24"
-                className="w-8 h-5 text-[#F2F3F0] transition-transform duration-300 group-hover:scale-105"
+                className="w-8 h-5 text-ink transition-transform duration-200"
                 fill="none"
+                aria-hidden="true"
               >
                 <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
                 <circle cx="28" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
-                <circle cx="12" cy="12" r="3" fill="#C8E9A9" />
-                <circle cx="28" cy="12" r="3" fill="#9678C9" />
+                <circle cx="12" cy="12" r="3" fill="var(--color-accent)" />
+                <circle cx="28" cy="12" r="3" fill="var(--color-purple)" />
               </svg>
             </motion.div>
             <motion.span
               initial={{ opacity: 0, x: -6 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.45, delay: 0.05 }}
-              className="text-[#F2F3F0] text-sm sm:text-base font-bold tracking-[0.24em] uppercase group-hover:text-white transition-colors"
+              className="text-ink text-sm sm:text-base font-bold tracking-normal group-hover:text-white transition-colors"
             >
-              PARALLEL
+              Parallel
             </motion.span>
           </Link>
 
-          {/* Center: Desktop Navigation Bar with Controlled Geometry */}
-          <nav className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#0B0D0F] border border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          {/* Center: Desktop Navigation Bar */}
+          <nav className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-card border border-rule shadow-sm">
             {navLinks.map((item) => {
               const isActive =
                 item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
@@ -165,22 +160,23 @@ export const LandingNav = () => {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors duration-200 group ${
-                    isActive ? "text-[#050505] font-semibold" : "text-[#A5A7A3] hover:text-[#F2F3F0]"
+                  data-page-voce=""
+                  className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-colors duration-150 group ${
+                    isActive ? "text-accent-ink font-semibold" : "text-muted hover:text-ink"
                   }`}
                 >
                   {/* Active sliding pill */}
                   {isActive && (
                     <motion.div
                       layoutId="activeNavIndicator"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4F2B7] to-[#B5E090] shadow-[0_0_16px_rgba(200,233,169,0.35)]"
+                      className="absolute inset-0 rounded-full bg-accent"
                       transition={{ type: "spring", stiffness: 420, damping: 32 }}
                     />
                   )}
 
                   {/* Hover animated bottom line for non-active links */}
                   {!isActive && (
-                    <span className="absolute bottom-1 left-4 right-4 h-[1.5px] bg-[#C8E9A9] scale-x-0 group-hover:scale-x-100 transition-transform duration-250 origin-left" />
+                    <span className="absolute bottom-1 left-4 right-4 h-[1.5px] bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-150 origin-left" />
                   )}
 
                   <span className="relative z-10">{item.label}</span>
@@ -190,17 +186,25 @@ export const LandingNav = () => {
           </nav>
 
           {/* Right: Search + Notifications + Profile */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            {/* Search Pill */}
-            <form onSubmit={handleSearchSubmit} className="hidden sm:flex items-center relative group">
-              <div
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0B0D0F] border transition-all duration-200 ${
+          <div data-page-nav-right="" className="flex items-center gap-2.5 shrink-0">
+            {/* Search Pill: Fixed container prevents layout shifts, while form expands cleanly to the left */}
+            <div className="hidden sm:block relative w-44 lg:w-48 h-8">
+              <form
+                onSubmit={handleSearchSubmit}
+                onClick={() => searchInputRef.current?.focus()}
+                className={`absolute right-0 top-0 h-8 rounded-full bg-card border flex items-center gap-2 px-3 transition-all duration-200 ease-out cursor-text ${
                   searchFocused
-                    ? "border-[#C8E9A9]/60 shadow-[0_0_12px_rgba(200,233,169,0.2)] w-56"
-                    : "border-white/[0.08] hover:border-white/20 w-44 lg:w-48"
+                    ? "w-64 lg:w-72 border-accent shadow-md shadow-accent/5 z-20"
+                    : "w-44 lg:w-48 border-rule hover:border-white/20 z-10"
                 }`}
               >
-                <Search size={13} className={searchFocused ? "text-[#C8E9A9]" : "text-[#A5A7A3]"} />
+                <Search
+                  size={13}
+                  className={`shrink-0 transition-colors ${
+                    searchFocused ? "text-accent" : "text-muted"
+                  }`}
+                  aria-hidden="true"
+                />
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -209,27 +213,24 @@ export const LandingNav = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
-                  className="bg-transparent text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/60 focus:outline-none w-full"
+                  className="bg-transparent text-xs text-ink placeholder:text-muted/60 focus:outline-none w-full"
                 />
-                <kbd className="hidden lg:inline-block px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-white/[0.06] border border-white/10 text-[#A5A7A3]">
-                  ⌘K
-                </kbd>
-              </div>
-            </form>
+              </form>
+            </div>
 
             {/* Notification Bell */}
             <div className="relative">
               <button
                 onClick={() => setShowNotifications((prev) => !prev)}
                 aria-label="Notifications"
-                className={`relative w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                className={`relative w-8 h-8 rounded-full border flex items-center justify-center transition-colors duration-150 cursor-pointer ${
                   showNotifications
-                    ? "bg-[#C8E9A9] text-[#050505] border-[#C8E9A9]"
-                    : "bg-white/[0.03] hover:bg-white/[0.06] text-[#A5A7A3] hover:text-[#F2F3F0] border-white/[0.08]"
+                    ? "bg-accent text-accent-ink border-accent"
+                    : "bg-surface hover:bg-card text-muted hover:text-ink border-rule"
                 }`}
               >
-                <Bell size={13} />
-                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
+                <Bell size={13} aria-hidden="true" />
+                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true" />
               </button>
 
               {/* Notification Popover */}
@@ -239,21 +240,22 @@ export const LandingNav = () => {
                     initial={{ opacity: 0, y: 8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-3 w-80 sm:w-88 rounded-2xl bg-[#090b0d] border border-white/[0.12] p-4 shadow-[0_20px_48px_rgba(0,0,0,0.85)] z-50"
+                    transition={{ duration: 0.18 }}
+                    className="absolute right-0 mt-3 w-80 sm:w-88 rounded-card bg-card border border-rule p-4 shadow-2xl z-50"
                   >
-                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.08]">
+                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-rule">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-[#F2F3F0] uppercase tracking-wider">Signals</span>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#C8E9A9]/20 text-[#C8E9A9]">
+                        <span className="text-xs font-semibold text-ink">Signals</span>
+                        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent">
                           2 new
                         </span>
                       </div>
                       <button
                         onClick={() => setShowNotifications(false)}
-                        className="text-[#A5A7A3] hover:text-[#F2F3F0] text-xs cursor-pointer"
+                        className="text-muted hover:text-ink text-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
+                        aria-label="Close notifications"
                       >
-                        <X size={13} />
+                        <X size={13} aria-hidden="true" />
                       </button>
                     </div>
 
@@ -261,13 +263,13 @@ export const LandingNav = () => {
                       {notifications.map((n) => (
                         <div
                           key={n.id}
-                          className="p-2.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.04] transition-colors cursor-pointer"
+                          className="p-2.5 rounded-lg bg-surface hover:bg-card border border-rule transition-colors cursor-pointer"
                         >
                           <div className="flex items-start justify-between gap-2">
-                            <h4 className="text-xs font-semibold text-[#F2F3F0] leading-snug">{n.title}</h4>
-                            <span className="text-[10px] text-[#A5A7A3] whitespace-nowrap">{n.time}</span>
+                            <h4 className="text-xs font-semibold text-ink leading-snug">{n.title}</h4>
+                            <span className="text-xs text-muted whitespace-nowrap">{n.time}</span>
                           </div>
-                          <p className="text-[11px] text-[#A5A7A3] mt-1 leading-relaxed">{n.desc}</p>
+                          <p className="text-xs text-muted mt-1 leading-relaxed">{n.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -275,9 +277,9 @@ export const LandingNav = () => {
                     <Link
                       to="/explore"
                       onClick={() => setShowNotifications(false)}
-                      className="mt-3 block text-center py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] text-[11px] font-semibold text-[#C8E9A9] border border-white/[0.06] transition-colors"
+                      className="mt-3 block text-center py-2 rounded-lg bg-surface hover:bg-card text-xs font-medium text-accent border border-rule transition-colors"
                     >
-                      View Multiverse Telemetry →
+                      View multiverse telemetry
                     </Link>
                   </motion.div>
                 )}
@@ -287,16 +289,16 @@ export const LandingNav = () => {
             {/* Profile Avatar & Drawer Link */}
             <Link
               to="/settings"
-              aria-label="Settings & Profile"
-              className="relative w-8 h-8 rounded-full border border-white/[0.12] overflow-hidden group shrink-0 hover:border-[#C8E9A9]/60 transition-colors"
+              aria-label="Settings and profile"
+              className="relative w-8 h-8 rounded-full border border-rule overflow-hidden group shrink-0 hover:border-accent/60 transition-colors"
             >
               <img
                 src={
                   profile.avatar ||
                   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=85"
                 }
-                alt={profile.name}
-                className="w-full h-full object-cover grayscale brightness-90 group-hover:scale-110 transition-transform duration-300"
+                alt={profile.name || "User profile"}
+                className="w-full h-full object-cover grayscale opacity-90"
               />
             </Link>
 
@@ -304,28 +306,28 @@ export const LandingNav = () => {
             <button
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label="Toggle mobile menu"
-              className="md:hidden w-8 h-8 rounded-full border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#F2F3F0] hover:border-white/20 transition-colors cursor-pointer"
+              className="md:hidden w-8 h-8 rounded-full border border-rule bg-surface flex items-center justify-center text-ink hover:border-white/20 transition-colors cursor-pointer"
             >
-              {mobileMenuOpen ? <X size={15} /> : <Menu size={15} />}
+              {mobileMenuOpen ? <X size={15} aria-hidden="true" /> : <Menu size={15} aria-hidden="true" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation with Full More Index Included */}
+      {/* Mobile Drawer Navigation */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-[#050505] md:hidden flex flex-col justify-between pt-20 pb-8 px-6 overflow-y-auto"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-paper md:hidden flex flex-col justify-between pt-20 pb-8 px-6 overflow-y-auto"
           >
             <div className="space-y-6">
               <div>
-                <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C8E9A9] mb-2">
-                  Navigation Index
+                <p className="text-xs font-medium text-accent mb-2">
+                  Navigation index
                 </p>
 
                 <div className="space-y-1">
@@ -337,55 +339,25 @@ export const LandingNav = () => {
                         key={item.to}
                         initial={{ opacity: 0, x: -16 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: idx * 0.05 }}
+                        transition={{ duration: 0.25, delay: idx * 0.04 }}
                       >
                         <Link
                           to={item.to}
                           onClick={() => setMobileMenuOpen(false)}
-                          className={`flex items-center justify-between py-2.5 border-b border-white/[0.06] text-base font-bold tracking-tight transition-colors ${
-                            isActive ? "text-[#C8E9A9]" : "text-[#F2F3F0] hover:text-[#C8E9A9]"
+                          className={`flex items-center justify-between py-2.5 border-b border-rule text-base font-semibold transition-colors ${
+                            isActive ? "text-accent" : "text-ink hover:text-accent"
                           }`}
                         >
                           <span className="flex items-center gap-3">
-                            <span className="text-xs font-mono text-[#A5A7A3]">{item.number}</span>
+                            <span className="text-xs text-muted">{item.number}</span>
                             <span>{item.label}</span>
                           </span>
-                          <ArrowRight size={14} className={isActive ? "text-[#C8E9A9]" : "text-[#A5A7A3]"} />
                         </Link>
                       </motion.div>
                     );
                   })}
                 </div>
               </div>
-
-              {/* Mobile Search */}
-              <form onSubmit={handleSearchSubmit} className="pt-2">
-                <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08]">
-                  <Search size={14} className="text-[#A5A7A3]" />
-                  <input
-                    type="text"
-                    placeholder="Search realities..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-transparent text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/60 focus:outline-none w-full"
-                  />
-                </div>
-              </form>
-            </div>
-
-            {/* Mobile Footer Area */}
-            <div className="pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs text-[#A5A7A3] mt-6">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
-                <span>Parallel Multiverse Engine</span>
-              </div>
-              <Link
-                to="/settings"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-white transition-colors"
-              >
-                Settings
-              </Link>
             </div>
           </motion.div>
         )}
@@ -393,5 +365,3 @@ export const LandingNav = () => {
     </>
   );
 };
-
-export default LandingNav;

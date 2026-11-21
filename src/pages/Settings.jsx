@@ -14,14 +14,13 @@ import {
   AlertTriangle,
   ArrowRight,
   Lock,
-  RefreshCw,
   Layers,
   GitBranch,
-  Mail,
-  Calendar,
-  ExternalLink,
   Cpu,
   Compass,
+  Zap,
+  Palette,
+  BarChart3,
 } from "lucide-react";
 import { useUniverse } from "../context/UniverseContext";
 import { settingsService } from "../services/settingsService";
@@ -79,7 +78,7 @@ export default function Settings() {
   const [creditsModalOpen, setCreditsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
-  // Edit Profile form state (direct inline editing)
+  // Edit Profile form state
   const [editForm, setEditForm] = useState({
     name: profile.name || "Jigar Ghoghari",
     email: profile.email || "jigar@example.com",
@@ -220,65 +219,62 @@ export default function Settings() {
   };
 
   return (
-    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
+    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 select-none">
       {/* Floating Status Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#0E1114] border border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] shadow-[0_0_24px_rgba(200,233,169,0.35)] animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <CheckCircle2 size={14} className="text-[#C8E9A9]" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-card border border-accent/60 text-xs font-semibold text-ink">
+          <CheckCircle2 size={14} className="text-accent" aria-hidden="true" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* TOP HEADER TITLE BAR */}
-      <div className="mb-8 border-b border-white/[0.06] pb-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-            System Configuration
+      <div className="mb-8 border-b border-rule pb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-rule w-fit mb-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
+          <span className="text-xs font-medium text-ink">
+            System configuration
           </span>
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-          SETTINGS & PREFERENCES
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
+          Settings & preferences
         </h1>
-        <p className="text-sm sm:text-base text-[#A5A7A3] font-normal mt-2 max-w-2xl">
+        <p className="text-sm text-muted font-normal mt-2 max-w-2xl">
           Manage your explorer identity, alert telemetry, data sovereignty, and multiverse repository controls.
         </p>
       </div>
 
       {/* MAIN TWO-COLUMN SETTINGS WORKSPACE */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* ======================================================== */}
-        {/* LEFT COLUMN: NAVIGATION SIDEBAR (4 Cols)                 */}
-        {/* ======================================================== */}
+        {/* LEFT COLUMN: NAVIGATION SIDEBAR (4 Cols) */}
         <aside className="lg:col-span-4 space-y-4">
-          {/* User Account Capsule Card */}
-          <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-4.5 shadow-xl relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-            <div className="flex items-center gap-3.5">
-              <div className="relative w-13 h-13 rounded-full border border-white/10 ring-2 ring-white/[0.04] overflow-hidden bg-black/60 shrink-0">
+          {/* User Account Capsule */}
+          <div className="bg-card border border-rule rounded-card p-4">
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12 rounded-full border border-rule overflow-hidden bg-paper-3 shrink-0">
                 <img
                   src={
                     profile.avatar ||
                     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=85"
                   }
                   alt={profile.name}
-                  className="w-full h-full object-cover grayscale brightness-95"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5 font-bold text-sm text-[#F2F3F0] truncate">
+                <div className="flex items-center gap-1.5 font-bold text-sm text-ink truncate">
                   <span className="truncate">{profile.name}</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9] shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                 </div>
-                <div className="text-[11px] text-[#A5A7A3] truncate">
+                <div className="text-[11px] text-muted truncate">
                   {profile.email}
                 </div>
                 <div className="mt-1 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] font-medium text-[#C8E9A9]">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface border border-rule text-xs font-medium text-accent">
                     {profile.role || "Explorer"}
                   </span>
-                  <span className="text-[10px] text-[#A5A7A3]/70 font-mono">
+                  <span className="text-xs text-muted">
                     Joined {profile.joined || "Oct 2025"}
                   </span>
                 </div>
@@ -287,7 +283,7 @@ export default function Settings() {
           </div>
 
           {/* Navigation Category Tabs */}
-          <nav className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-2 shadow-xl space-y-1">
+          <nav className="bg-card border border-rule rounded-card p-2 space-y-1">
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -296,91 +292,85 @@ export default function Settings() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl transition-all text-left cursor-pointer group relative ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-btn transition-colors text-left cursor-pointer group relative focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                     isActive
-                      ? "bg-[#141A15] text-[#F2F3F0] border border-[#C8E9A9]/40 shadow-sm"
-                      : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.03] border border-transparent"
+                      ? "bg-accent/10 text-ink border border-accent/40"
+                      : "text-muted hover:text-ink hover:bg-surface border border-transparent"
                   }`}
                 >
                   <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 transition-colors ${
                       isActive
-                        ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_12px_rgba(200,233,169,0.4)]"
-                        : "bg-white/[0.04] text-[#A5A7A3] group-hover:text-[#F2F3F0]"
+                        ? "bg-accent text-accent-ink"
+                        : "bg-surface text-muted group-hover:text-ink"
                     }`}
                   >
-                    <Icon size={16} />
+                    <Icon size={15} aria-hidden="true" />
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div
                       className={`text-xs font-semibold leading-tight ${
-                        isActive ? "text-[#F2F3F0]" : "text-[#E0E2DC]"
+                        isActive ? "text-ink" : "text-ink/80"
                       }`}
                     >
                       {tab.label}
                     </div>
-                    <div className="text-[10px] text-[#A5A7A3] leading-tight mt-0.5 truncate">
+                    <div className="text-[11px] text-muted leading-tight mt-0.5 truncate">
                       {tab.description}
                     </div>
                   </div>
 
                   {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                   )}
                 </button>
               );
             })}
           </nav>
 
-          {/* System Telemetry & Storage Pill */}
-          <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-4 shadow-xl">
-            <div className="flex items-center justify-between text-xs mb-2">
-              <span className="text-[#A5A7A3] font-medium">Repository Footprint</span>
-              <span className="text-[#F2F3F0] font-mono font-bold">
+          {/* System Telemetry & Storage Capsule */}
+          <div className="bg-card border border-rule rounded-card p-4 space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted font-medium">Repository footprint</span>
+              <span className="text-ink font-semibold tabular-nums">
                 {storageUsage.formatted || "12.5 MB"}
               </span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-surface overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#C8E9A9] to-[#91B77A] rounded-full"
+                className="h-full bg-accent rounded-full"
                 style={{ width: "28%" }}
               />
             </div>
-            <div className="flex items-center justify-between text-[10px] text-[#A5A7A3]/70 font-mono mt-2">
-              <span>Local-First Sovereign Storage</span>
-              <span className="text-[#C8E9A9]">Encrypted</span>
+            <div className="flex items-center justify-between text-xs text-muted pt-1">
+              <span>Local storage</span>
+              <span className="text-accent font-medium">Active</span>
             </div>
           </div>
         </aside>
 
-        {/* ======================================================== */}
-        {/* RIGHT COLUMN: DEDICATED ACTIVE SETTINGS PANEL (8 Cols)   */}
-        {/* ======================================================== */}
-        <main className="lg:col-span-8 min-h-[560px]">
-          {/* ====================================================== */}
-          {/* TAB 1: PROFILE & IDENTITY                              */}
-          {/* ====================================================== */}
+        {/* RIGHT COLUMN: ACTIVE SETTINGS PANEL (8 Cols) */}
+        <main className="lg:col-span-8 min-h-[520px]">
+          {/* TAB 1: PROFILE & IDENTITY */}
           {activeTab === "profile" && (
-            <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden animate-in fade-in duration-200">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-
+            <div className="bg-card border border-rule rounded-card p-6 sm:p-7 space-y-6">
               {/* Section Header */}
-              <div className="border-b border-white/[0.06] pb-5">
+              <div className="border-b border-rule pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <User size={18} className="text-[#C8E9A9]" />
-                  <h2 className="text-lg font-bold text-[#F2F3F0]">
-                    Profile & Explorer Identity
+                  <User size={16} className="text-accent" aria-hidden="true" />
+                  <h2 className="text-base font-bold text-ink">
+                    Profile & explorer identity
                   </h2>
                 </div>
-                <p className="text-xs text-[#A5A7A3]">
+                <p className="text-xs text-muted">
                   Configure your public persona, avatar image, and multiverse credentials.
                 </p>
               </div>
 
               {/* Avatar Uploader Row */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 p-4 rounded-xl bg-[#121518]/70 border border-white/[0.06]">
-                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-black/60 border border-white/10 shrink-0 shadow-lg">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pb-5 border-b border-rule">
+                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-paper-3 border border-rule shrink-0">
                   <img
                     src={
                       editForm.avatar ||
@@ -392,14 +382,14 @@ export default function Settings() {
                   />
                 </div>
 
-                <div className="space-y-2 flex-1">
-                  <div className="text-xs font-semibold text-[#F2F3F0]">
-                    Profile Photo
+                <div className="space-y-1.5 flex-1">
+                  <div className="text-xs font-semibold text-ink">
+                    Profile photo
                   </div>
-                  <p className="text-[11px] text-[#A5A7A3]">
-                    Upload a square PNG, JPG, or WebP image under 2MB. Stored locally in your client cache.
+                  <p className="text-xs text-muted">
+                    Upload a square image under 2MB. Stored locally in your client cache.
                   </p>
-                  <div className="flex items-center gap-2.5 pt-1">
+                  <div className="flex items-center gap-2 pt-1">
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -410,18 +400,18 @@ export default function Settings() {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#181C20] hover:bg-[#20252A] border border-white/[0.1] hover:border-[#C8E9A9]/60 text-xs font-medium text-[#F2F3F0] transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs font-medium text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                     >
-                      <Upload size={13} className="text-[#C8E9A9]" />
-                      <span>Upload Photo</span>
+                      <Upload size={13} className="text-accent" aria-hidden="true" />
+                      <span>Upload photo</span>
                     </button>
                     {editForm.avatar && (
                       <button
                         type="button"
                         onClick={handleRemoveAvatar}
-                        className="px-3 py-1.5 rounded-lg text-xs text-[#A5A7A3] hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                        className="px-3 py-1.5 rounded-btn text-xs text-muted hover:text-ink hover:bg-surface transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                       >
-                        Reset Default
+                        Reset default
                       </button>
                     )}
                   </div>
@@ -429,11 +419,11 @@ export default function Settings() {
               </div>
 
               {/* Profile Details Form */}
-              <form onSubmit={handleSaveProfile} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <form onSubmit={handleSaveProfile} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-semibold text-[#F2F3F0] block mb-1.5">
-                      Explorer Full Name
+                    <label className="text-xs font-semibold text-ink block mb-1.5">
+                      Explorer full name
                     </label>
                     <input
                       type="text"
@@ -443,14 +433,14 @@ export default function Settings() {
                         setEditForm((prev) => ({ ...prev, name: e.target.value }));
                         setIsDirty(true);
                       }}
-                      className="w-full bg-[#121518] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-4 py-2.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/50 outline-none transition-colors"
+                      className="w-full bg-surface border border-rule focus:border-accent rounded-input px-3 py-2 text-xs text-ink outline-none transition-colors focus-visible:ring-1 focus-visible:ring-accent"
                       placeholder="e.g. Jigar Ghoghari"
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-[#F2F3F0] block mb-1.5">
-                      Designation / Role
+                    <label className="text-xs font-semibold text-ink block mb-1.5">
+                      Designation / role
                     </label>
                     <input
                       type="text"
@@ -459,15 +449,15 @@ export default function Settings() {
                         setEditForm((prev) => ({ ...prev, role: e.target.value }));
                         setIsDirty(true);
                       }}
-                      className="w-full bg-[#121518] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-4 py-2.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/50 outline-none transition-colors"
+                      className="w-full bg-surface border border-rule focus:border-accent rounded-input px-3 py-2 text-xs text-ink outline-none transition-colors focus-visible:ring-1 focus-visible:ring-accent"
                       placeholder="e.g. Chrononaut, Reality Architect"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#F2F3F0] block mb-1.5">
-                    Email Address
+                  <label className="text-xs font-semibold text-ink block mb-1.5">
+                    Email address
                   </label>
                   <input
                     type="email"
@@ -477,17 +467,17 @@ export default function Settings() {
                       setEditForm((prev) => ({ ...prev, email: e.target.value }));
                       setIsDirty(true);
                     }}
-                    className="w-full bg-[#121518] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-4 py-2.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/50 outline-none transition-colors"
+                    className="w-full bg-surface border border-rule focus:border-accent rounded-input px-3 py-2 text-xs text-ink outline-none transition-colors focus-visible:ring-1 focus-visible:ring-accent"
                     placeholder="explorer@parallel.multiverse"
                   />
-                  <p className="text-[10px] text-[#A5A7A3] mt-1">
-                    Used strictly for localized data exports and identification. Never shared with third parties.
+                  <p className="text-[11px] text-muted mt-1">
+                    Used strictly for localized data exports and identification.
                   </p>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#F2F3F0] block mb-1.5">
-                    Personal Log / Bio
+                  <label className="text-xs font-semibold text-ink block mb-1.5">
+                    Personal log / bio
                   </label>
                   <textarea
                     rows={3}
@@ -496,17 +486,17 @@ export default function Settings() {
                       setEditForm((prev) => ({ ...prev, bio: e.target.value }));
                       setIsDirty(true);
                     }}
-                    className="w-full bg-[#121518] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl p-3.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/50 outline-none transition-colors resize-none"
-                    placeholder="Brief manifesto or chronicle of your counterfactual explorations..."
+                    className="w-full bg-surface border border-rule focus:border-accent rounded-input p-3 text-xs text-ink outline-none transition-colors resize-none focus-visible:ring-1 focus-visible:ring-accent"
+                    placeholder="Brief manifesto or chronicle of your counterfactual explorations…"
                   />
                 </div>
 
                 {/* Form Actions */}
-                <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                  <div className="text-[11px] text-[#A5A7A3]">
+                <div className="pt-3 border-t border-rule flex items-center justify-between">
+                  <div className="text-xs text-muted">
                     {isDirty ? (
-                      <span className="text-[#C8E9A9] font-medium flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] inline-block animate-pulse" />
+                      <span className="text-accent font-medium flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block motion-safe:animate-pulse" />
                         Unsaved edits pending
                       </span>
                     ) : (
@@ -514,12 +504,12 @@ export default function Settings() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     {isDirty && (
                       <button
                         type="button"
                         onClick={handleDiscardProfile}
-                        className="px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-medium text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 text-xs font-medium text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                       >
                         Discard
                       </button>
@@ -527,13 +517,13 @@ export default function Settings() {
                     <button
                       type="submit"
                       disabled={!isDirty}
-                      className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md cursor-pointer ${
+                      className={`px-4 py-2 rounded-btn text-xs font-semibold transition-transform cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                         isDirty
-                          ? "bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] shadow-[0_0_16px_rgba(200,233,169,0.3)] active:scale-95"
-                          : "bg-white/[0.06] text-[#A5A7A3]/50 cursor-not-allowed"
+                          ? "bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink"
+                          : "bg-surface text-muted/50"
                       }`}
                     >
-                      Save Profile
+                      Save profile
                     </button>
                   </div>
                 </div>
@@ -541,42 +531,38 @@ export default function Settings() {
             </div>
           )}
 
-          {/* ====================================================== */}
-          {/* TAB 2: NOTIFICATIONS                                   */}
-          {/* ====================================================== */}
+          {/* TAB 2: NOTIFICATIONS */}
           {activeTab === "notifications" && (
-            <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden animate-in fade-in duration-200">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-
+            <div className="bg-card border border-rule rounded-card p-6 sm:p-7 space-y-6">
               {/* Section Header */}
-              <div className="border-b border-white/[0.06] pb-5">
+              <div className="border-b border-rule pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Bell size={18} className="text-[#C8E9A9]" />
-                  <h2 className="text-lg font-bold text-[#F2F3F0]">
-                    Notification Channels & Alerts
+                  <Bell size={16} className="text-accent" aria-hidden="true" />
+                  <h2 className="text-base font-bold text-ink">
+                    Notification channels & alerts
                   </h2>
                 </div>
-                <p className="text-xs text-[#A5A7A3]">
+                <p className="text-xs text-muted">
                   Select the signals and updates delivered to your console during reality branching and day simulations.
                 </p>
               </div>
 
               {/* Group 1: Reality & Timeline Signals */}
-              <div className="space-y-4">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C8E9A9]">
-                  Reality & Timeline Signals
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-accent">
+                  Reality and timeline signals
                 </h3>
 
-                <div className="space-y-3">
+                <div className="divide-y divide-rule/60">
                   {[
                     {
                       key: "universeUpdates",
-                      title: "New Universe Convergence",
+                      title: "New universe convergence",
                       description: "Alert me when an AI-generated alternate reality branch completes its causal trajectory.",
                     },
                     {
                       key: "explorationTips",
-                      title: "Exploration & Branch Prompts",
+                      title: "Exploration and branch prompts",
                       description: "Deliver intelligent decision recommendations and speculative prompts at fork nodes.",
                     },
                   ].map((item) => {
@@ -584,13 +570,13 @@ export default function Settings() {
                     return (
                       <div
                         key={item.key}
-                        className="flex items-center justify-between p-4 rounded-xl bg-[#121518]/60 border border-white/[0.06] hover:border-white/10 transition-colors"
+                        className="flex items-center justify-between py-3"
                       >
                         <div className="space-y-0.5 pr-4">
-                          <div className="text-xs font-semibold text-[#F2F3F0]">
+                          <div className="text-xs font-semibold text-ink">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                          <div className="text-xs text-muted leading-relaxed">
                             {item.description}
                           </div>
                         </div>
@@ -600,13 +586,13 @@ export default function Settings() {
                           role="switch"
                           aria-checked={enabled}
                           onClick={() => handleToggleNotification(item.key)}
-                          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                            enabled ? "bg-[#C8E9A9]" : "bg-[#292C2C]"
+                          className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
+                            enabled ? "bg-accent" : "bg-paper-3"
                           }`}
                         >
                           <span
-                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-[#050505] shadow-lg ring-0 transition duration-200 ease-in-out ${
-                              enabled ? "translate-x-5" : "translate-x-0"
+                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-paper shadow-sm transition duration-150 ${
+                              enabled ? "translate-x-5" : "translate-x-0.5"
                             }`}
                           />
                         </button>
@@ -617,35 +603,35 @@ export default function Settings() {
               </div>
 
               {/* Group 2: System Telemetry */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#A5A7A3]">
-                  System & Platform Communications
+              <div className="space-y-3 pt-2">
+                <h3 className="text-xs font-semibold text-muted">
+                  System and platform communications
                 </h3>
 
-                <div className="space-y-3">
+                <div className="divide-y divide-rule/60">
                   {[
                     {
                       key: "productUpdates",
-                      title: "Engine & Model Upgrades",
-                      description: "Announcements regarding Gemini reasoning updates, DAG improvements, and new parameters.",
+                      title: "Engine and model upgrades",
+                      description: "Announcements regarding reasoning updates and causal graph enhancements.",
                     },
                     {
                       key: "marketingOffers",
-                      title: "Community Dispatches & Axioms",
-                      description: "Periodic dispatches on counterfactual theory, causal graph benchmarks, and feature releases.",
+                      title: "Community dispatches and axioms",
+                      description: "Periodic dispatches on counterfactual theory and feature releases.",
                     },
                   ].map((item) => {
                     const enabled = Boolean(settings.notifications?.[item.key]);
                     return (
                       <div
                         key={item.key}
-                        className="flex items-center justify-between p-4 rounded-xl bg-[#121518]/60 border border-white/[0.06] hover:border-white/10 transition-colors"
+                        className="flex items-center justify-between py-3"
                       >
                         <div className="space-y-0.5 pr-4">
-                          <div className="text-xs font-semibold text-[#F2F3F0]">
+                          <div className="text-xs font-semibold text-ink">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                          <div className="text-xs text-muted leading-relaxed">
                             {item.description}
                           </div>
                         </div>
@@ -655,13 +641,13 @@ export default function Settings() {
                           role="switch"
                           aria-checked={enabled}
                           onClick={() => handleToggleNotification(item.key)}
-                          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                            enabled ? "bg-[#C8E9A9]" : "bg-[#292C2C]"
+                          className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
+                            enabled ? "bg-accent" : "bg-paper-3"
                           }`}
                         >
                           <span
-                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-[#050505] shadow-lg ring-0 transition duration-200 ease-in-out ${
-                              enabled ? "translate-x-5" : "translate-x-0"
+                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-paper shadow-sm transition duration-150 ${
+                              enabled ? "translate-x-5" : "translate-x-0.5"
                             }`}
                           />
                         </button>
@@ -673,51 +659,47 @@ export default function Settings() {
             </div>
           )}
 
-          {/* ====================================================== */}
-          {/* TAB 3: PRIVACY & SECURITY                              */}
-          {/* ====================================================== */}
+          {/* TAB 3: PRIVACY & SECURITY */}
           {activeTab === "security" && (
-            <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden animate-in fade-in duration-200">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-
+            <div className="bg-card border border-rule rounded-card p-6 sm:p-7 space-y-6">
               {/* Section Header */}
-              <div className="border-b border-white/[0.06] pb-5">
+              <div className="border-b border-rule pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Shield size={18} className="text-[#C8E9A9]" />
-                  <h2 className="text-lg font-bold text-[#F2F3F0]">
-                    Data Protection & Security Controls
+                  <Shield size={16} className="text-accent" aria-hidden="true" />
+                  <h2 className="text-base font-bold text-ink">
+                    Data protection & security controls
                   </h2>
                 </div>
-                <p className="text-xs text-[#A5A7A3]">
+                <p className="text-xs text-muted">
                   Parallel utilizes zero-cloud telemetry by default. All alternate universes and decisions remain locally sovereign.
                 </p>
               </div>
 
-              {/* Local-first Sovereignty Banner */}
-              <div className="p-4 rounded-xl bg-[#141A15] border border-[#C8E9A9]/20 flex items-start gap-3.5">
-                <Lock size={18} className="text-[#C8E9A9] shrink-0 mt-0.5" />
+              {/* Local-first Sovereignty Inset */}
+              <div className="py-3 border-b border-rule flex items-start gap-3">
+                <Lock size={16} className="text-accent shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="space-y-1">
-                  <div className="text-xs font-bold text-[#F2F3F0]">
-                    Zero-Cloud Local Sovereignty
+                  <div className="text-xs font-semibold text-ink">
+                    Zero-cloud local sovereignty
                   </div>
-                  <p className="text-[11px] text-[#A5A7A3] leading-relaxed">
-                    Your life decisions, branched realities, and day simulations are never transmitted to a centralized tracking database. Data is persisted exclusively in your client-side LocalStorage repository.
+                  <p className="text-xs text-muted leading-relaxed">
+                    Your life decisions, branched realities, and day simulations are never transmitted to a tracking database. Data is persisted in your client-side LocalStorage repository.
                   </p>
                 </div>
               </div>
 
               {/* Security Preferences */}
-              <div className="space-y-4">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#A5A7A3]">
-                  Telemetry & Diagnostics
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-muted">
+                  Telemetry and diagnostics
                 </h3>
 
-                <div className="p-4 rounded-xl bg-[#121518]/60 border border-white/[0.06] flex items-center justify-between gap-4">
+                <div className="py-3 border-b border-rule flex items-center justify-between gap-4">
                   <div className="space-y-0.5">
-                    <div className="text-xs font-semibold text-[#F2F3F0]">
-                      Anonymous Graph Topology Telemetry
+                    <div className="text-xs font-semibold text-ink">
+                      Anonymous graph topology telemetry
                     </div>
-                    <div className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                    <div className="text-xs text-muted leading-relaxed">
                       Allow anonymized, aggregated tree branch counts to improve AI narrative coherence algorithms.
                     </div>
                   </div>
@@ -727,213 +709,205 @@ export default function Settings() {
                     role="switch"
                     aria-checked={Boolean(settings.privacy?.dataSharing)}
                     onClick={() => handleTogglePrivacy("dataSharing")}
-                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                      settings.privacy?.dataSharing ? "bg-[#C8E9A9]" : "bg-[#292C2C]"
+                    className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
+                      settings.privacy?.dataSharing ? "bg-accent" : "bg-paper-3"
                     }`}
                   >
                     <span
-                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-[#050505] shadow-lg ring-0 transition duration-200 ease-in-out ${
-                        settings.privacy?.dataSharing ? "translate-x-5" : "translate-x-0"
+                      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-paper shadow-sm transition duration-150 ${
+                        settings.privacy?.dataSharing ? "translate-x-5" : "translate-x-0.5"
                       }`}
                     />
                   </button>
                 </div>
               </div>
 
-              {/* Archive Export Card */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#A5A7A3]">
-                  Data Portability
+              {/* Archive Export */}
+              <div className="space-y-3 pt-2">
+                <h3 className="text-xs font-semibold text-muted">
+                  Data portability
                 </h3>
 
-                <div className="p-4 rounded-xl bg-[#121518]/60 border border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="py-3 border-b border-rule flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="space-y-0.5">
-                    <div className="text-xs font-semibold text-[#F2F3F0]">
-                      Export Complete Multiverse Archive
+                    <div className="text-xs font-semibold text-ink">
+                      Export complete multiverse archive
                     </div>
-                    <div className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                    <div className="text-xs text-muted leading-relaxed">
                       Download a structured JSON backup containing all universes, realities, branch choices, and timeline states.
                     </div>
                   </div>
 
                   <button
                     onClick={handleExportData}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#181C20] hover:bg-[#20252A] border border-white/[0.1] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs font-medium text-ink transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                   >
-                    <Download size={13} className="text-[#C8E9A9]" />
+                    <Download size={13} className="text-accent" aria-hidden="true" />
                     <span>Download JSON</span>
                   </button>
                 </div>
               </div>
 
               {/* Danger Zone */}
-              <div className="space-y-4 pt-4 border-t border-rose-500/20">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-rose-400">
-                  Danger Zone
+              <div className="space-y-3 pt-3">
+                <h3 className="text-xs font-semibold text-muted">
+                  Danger zone
                 </h3>
 
-                <div className="p-4 rounded-xl bg-rose-950/15 border border-rose-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="space-y-0.5">
-                    <div className="text-xs font-semibold text-rose-300">
-                      Purge All Multiverse Data
+                    <div className="text-xs font-semibold text-ink">
+                      Purge all multiverse data
                     </div>
-                    <div className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                    <div className="text-xs text-muted leading-relaxed">
                       Permanently wipe all stored timelines, custom branches, simulation states, and cached profiles.
                     </div>
                   </div>
 
                   <button
                     onClick={() => setClearDataModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600/40 border border-rose-500/40 text-xs font-semibold text-rose-300 transition-colors shrink-0 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule text-xs font-semibold text-ink hover:text-accent transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                   >
-                    <Trash2 size={13} />
-                    <span>Purge Everything</span>
+                    <Trash2 size={13} aria-hidden="true" />
+                    <span>Purge everything</span>
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ====================================================== */}
-          {/* TAB 4: DATA & STORAGE                                  */}
-          {/* ====================================================== */}
+          {/* TAB 4: DATA & STORAGE */}
           {activeTab === "data" && (
-            <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden animate-in fade-in duration-200">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-
+            <div className="bg-card border border-rule rounded-card p-6 sm:p-7 space-y-6">
               {/* Section Header */}
-              <div className="border-b border-white/[0.06] pb-5">
+              <div className="border-b border-rule pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Database size={18} className="text-[#C8E9A9]" />
-                  <h2 className="text-lg font-bold text-[#F2F3F0]">
-                    Repository Metrics & Storage Health
+                  <Database size={16} className="text-accent" aria-hidden="true" />
+                  <h2 className="text-base font-bold text-ink">
+                    Repository metrics & storage health
                   </h2>
                 </div>
-                <p className="text-xs text-[#A5A7A3]">
+                <p className="text-xs text-muted">
                   Monitor your local universe memory, total timeline nodes, and storage quotas.
                 </p>
               </div>
 
               {/* 3 Metric Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="p-4 rounded-xl bg-[#121518] border border-white/[0.08]">
-                  <div className="w-8 h-8 rounded-lg bg-[#141A15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mb-3 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                    <Layers size={15} />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3.5 border-b sm:border-b-0 sm:border-r border-rule">
+                  <div className="w-7 h-7 rounded-md bg-surface border border-rule flex items-center justify-center text-accent mb-2">
+                    <Layers size={14} aria-hidden="true" />
                   </div>
-                  <div className="text-2xl font-black text-[#F2F3F0]">
+                  <div className="text-2xl font-black text-ink tabular-nums">
                     {universesCount}
                   </div>
-                  <div className="text-xs font-semibold text-[#A5A7A3] mt-0.5">
-                    Active Universes
+                  <div className="text-xs font-medium text-muted mt-0.5">
+                    Active universes
                   </div>
-                  <div className="text-[10px] text-[#A5A7A3]/60 mt-1">
+                  <div className="text-[11px] text-muted/60 mt-0.5">
                     Causal timelines created
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#121518] border border-white/[0.08]">
-                  <div className="w-8 h-8 rounded-lg bg-[#141A15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mb-3 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                    <GitBranch size={15} />
+                <div className="p-3.5 border-b sm:border-b-0 sm:border-r border-rule">
+                  <div className="w-7 h-7 rounded-md bg-surface border border-rule flex items-center justify-center text-accent mb-2">
+                    <GitBranch size={14} aria-hidden="true" />
                   </div>
-                  <div className="text-2xl font-black text-[#F2F3F0]">
+                  <div className="text-2xl font-black text-ink tabular-nums">
                     {totalBranchesCount}
                   </div>
-                  <div className="text-xs font-semibold text-[#A5A7A3] mt-0.5">
-                    Branch Nodes
+                  <div className="text-xs font-medium text-muted mt-0.5">
+                    Branch nodes
                   </div>
-                  <div className="text-[10px] text-[#A5A7A3]/60 mt-1">
+                  <div className="text-[11px] text-muted/60 mt-0.5">
                     Total decision checkpoints
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#121518] border border-white/[0.08]">
-                  <div className="w-8 h-8 rounded-lg bg-[#141A15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mb-3 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                    <Database size={15} />
+                <div className="p-3.5">
+                  <div className="w-7 h-7 rounded-md bg-surface border border-rule flex items-center justify-center text-accent mb-2">
+                    <Database size={14} aria-hidden="true" />
                   </div>
-                  <div className="text-2xl font-black text-[#F2F3F0]">
+                  <div className="text-2xl font-black text-ink tabular-nums">
                     {storageUsage.formatted || "12.5 MB"}
                   </div>
-                  <div className="text-xs font-semibold text-[#A5A7A3] mt-0.5">
-                    Cache Consumed
+                  <div className="text-xs font-medium text-muted mt-0.5">
+                    Cache consumed
                   </div>
-                  <div className="text-[10px] text-[#A5A7A3]/60 mt-1">
-                    Estimated browser footprint
+                  <div className="text-[11px] text-muted/60 mt-0.5">
+                    Browser footprint
                   </div>
                 </div>
               </div>
 
-              {/* Storage Quota Breakdown Card */}
-              <div className="p-5 rounded-xl bg-[#121518]/60 border border-white/[0.06] space-y-3">
+              {/* Storage Quota Usage */}
+              <div className="py-3 border-t border-rule space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#F2F3F0]">Client Storage Quota Usage</span>
-                  <span className="text-[#C8E9A9] font-mono font-bold">Optimal</span>
+                  <span className="font-semibold text-ink">Client storage quota usage</span>
+                  <span className="text-accent font-semibold">Optimal</span>
                 </div>
-                <div className="w-full h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-paper-3 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#C8E9A9] to-[#91B77A] rounded-full"
+                    className="h-full bg-accent rounded-full"
                     style={{ width: "24%" }}
                   />
                 </div>
-                <p className="text-[11px] text-[#A5A7A3] leading-relaxed">
-                  Browser storage operates with ample capacity. High volume simulations and recursively generated timelines are compressed automatically upon saving.
+                <p className="text-xs text-muted leading-relaxed">
+                  Browser storage operates with ample capacity. High volume simulations are compressed automatically upon saving.
                 </p>
               </div>
 
               {/* Data Actions Strip */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-[11px] text-[#A5A7A3]">
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-rule">
+                <div className="text-xs text-muted">
                   Looking to review all saved multiverse trees?
                 </div>
 
-                <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="flex items-center gap-2.5 w-full sm:w-auto">
                   <button
                     onClick={handleExportData}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#181C20] hover:bg-[#20252A] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-colors cursor-pointer"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs font-medium text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                   >
-                    <Download size={13} className="text-[#C8E9A9]" />
+                    <Download size={13} className="text-accent" aria-hidden="true" />
                     <span>Export JSON</span>
                   </button>
 
                   <button
                     onClick={() => navigate("/saved")}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs transition-all shadow-[0_0_16px_rgba(200,233,169,0.3)] cursor-pointer active:scale-95"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                   >
-                    <span>View Saved Timelines</span>
-                    <ArrowRight size={13} />
+                    <span>View saved timelines</span>
+                    <ArrowRight size={13} aria-hidden="true" />
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ====================================================== */}
-          {/* TAB 5: SYSTEM & ABOUT                                  */}
-          {/* ====================================================== */}
+          {/* TAB 5: SYSTEM & ABOUT */}
           {activeTab === "about" && (
-            <div className="bg-[#0B0D0E] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden animate-in fade-in duration-200">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/30 to-transparent pointer-events-none" />
-
+            <div className="bg-card border border-rule rounded-card p-6 sm:p-7 space-y-6">
               {/* Section Header */}
-              <div className="border-b border-white/[0.06] pb-5">
+              <div className="border-b border-rule pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Info size={18} className="text-[#C8E9A9]" />
-                  <h2 className="text-lg font-bold text-[#F2F3F0]">
-                    System Architecture & Speculative Fiction Ethics
+                  <Info size={16} className="text-accent" aria-hidden="true" />
+                  <h2 className="text-base font-bold text-ink">
+                    System architecture & speculative fiction ethics
                   </h2>
                 </div>
-                <p className="text-xs text-[#A5A7A3]">
+                <p className="text-xs text-muted">
                   Technical specifications, engine axioms, and ethical disclosures governing PARALLEL.
                 </p>
               </div>
 
-              {/* Speculative Fiction Ethical Notice Banner */}
-              <div className="p-4 rounded-xl bg-[#141A15] border border-[#C8E9A9]/20 flex items-start gap-3.5">
-                <Compass size={20} className="text-[#C8E9A9] shrink-0 mt-0.5" />
+              {/* Speculative Fiction Ethical Notice */}
+              <div className="py-3 border-b border-rule flex items-start gap-3">
+                <Compass size={18} className="text-accent shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="space-y-1">
-                  <div className="text-xs font-bold text-[#F2F3F0]">
-                    Mandatory Speculative Fiction Disclosure
+                  <div className="text-xs font-semibold text-ink">
+                    Mandatory speculative fiction disclosure
                   </div>
-                  <p className="text-[11px] text-[#A5A7A3] leading-relaxed">
+                  <p className="text-xs text-muted leading-relaxed">
                     All parallel universes, divergent timelines, coherence statistics, and day simulation narratives generated by PARALLEL are works of AI-driven speculative fiction and counterfactual models. They do not constitute guaranteed predictions, psychological diagnoses, or deterministic life advice.
                   </p>
                 </div>
@@ -941,54 +915,54 @@ export default function Settings() {
 
               {/* Architecture Specifications */}
               <div className="space-y-3">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#A5A7A3]">
-                  Core Multiverse Architecture
+                <h3 className="text-xs font-semibold text-muted">
+                  Core multiverse architecture
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="p-3.5 rounded-xl bg-[#121518]/70 border border-white/[0.06] space-y-1">
-                    <span className="text-[10px] font-mono text-[#C8E9A9] uppercase">Topology</span>
-                    <div className="font-bold text-[#F2F3F0]">Directed Acyclic Graph (DAG)</div>
-                    <p className="text-[11px] text-[#A5A7A3]">Strict parent-child reality branching with immutability guarantees.</p>
+                  <div className="p-3 border border-rule/60 rounded-md space-y-1">
+                    <span className="text-[11px] text-accent">Topology</span>
+                    <div className="font-semibold text-ink">Directed Acyclic Graph (DAG)</div>
+                    <p className="text-xs text-muted">Strict parent-child reality branching with immutability guarantees.</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#121518]/70 border border-white/[0.06] space-y-1">
-                    <span className="text-[10px] font-mono text-[#C8E9A9] uppercase">AI Reasoning</span>
-                    <div className="font-bold text-[#F2F3F0]">Gemini 2.5 Flash Server-Side</div>
-                    <p className="text-[11px] text-[#A5A7A3]">Strict Zod schema validation with automatic retry on malformed JSON.</p>
+                  <div className="p-3 border border-rule/60 rounded-md space-y-1">
+                    <span className="text-[11px] text-accent">AI reasoning</span>
+                    <div className="font-semibold text-ink">Gemini 2.5 Flash Server-Side</div>
+                    <p className="text-xs text-muted">Strict Zod schema validation with automatic retry on malformed JSON.</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#121518]/70 border border-white/[0.06] space-y-1">
-                    <span className="text-[10px] font-mono text-[#C8E9A9] uppercase">Frontend Engine</span>
-                    <div className="font-bold text-[#F2F3F0]">React 19 + Vite + ES Modules</div>
-                    <p className="text-[11px] text-[#A5A7A3]">Near-black design system with sage accent and high-speed reactivity.</p>
+                  <div className="p-3 border border-rule/60 rounded-md space-y-1">
+                    <span className="text-[11px] text-accent">Frontend engine</span>
+                    <div className="font-semibold text-ink">React 19 + Vite + ES Modules</div>
+                    <p className="text-xs text-muted">Near-black design system with sage accent and high-speed reactivity.</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#121518]/70 border border-white/[0.06] space-y-1">
-                    <span className="text-[10px] font-mono text-[#C8E9A9] uppercase">Release Tier</span>
-                    <div className="font-bold text-[#F2F3F0]">PARALLEL v1.0.0 Stable</div>
-                    <p className="text-[11px] text-[#A5A7A3]">Client-first persistence architecture with zero external tracking.</p>
+                  <div className="p-3 border border-rule/60 rounded-md space-y-1">
+                    <span className="text-[11px] text-accent">Release tier</span>
+                    <div className="font-semibold text-ink">PARALLEL v1.0.0 Stable</div>
+                    <p className="text-xs text-muted">Client-first persistence architecture with zero external tracking.</p>
                   </div>
                 </div>
               </div>
 
               {/* Author Credits & Actions */}
-              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+              <div className="pt-3 border-t border-rule flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-bold text-[#F2F3F0]">
+                  <div className="text-xs font-bold text-ink">
                     Created by Jigar Ghoghari
                   </div>
-                  <div className="text-[11px] text-[#A5A7A3]">
-                    One Life. Infinite Possibilities. · ©2026
+                  <div className="text-[11px] text-muted">
+                    One Life. Infinite Possibilities. &bull; &copy; 2026
                   </div>
                 </div>
 
                 <button
                   onClick={() => setCreditsModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#181C20] hover:bg-[#20252A] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs font-medium text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                 >
-                  <Cpu size={13} className="text-[#C8E9A9]" />
-                  <span>View Full Manifest</span>
+                  <Cpu size={13} className="text-accent" aria-hidden="true" />
+                  <span>View full manifest</span>
                 </button>
               </div>
             </div>
@@ -996,9 +970,7 @@ export default function Settings() {
         </main>
       </div>
 
-      {/* ======================================================== */}
-      {/* MODAL 1: CLEAR DATA CONFIRMATION                         */}
-      {/* ======================================================== */}
+      {/* MODAL 1: CLEAR DATA CONFIRMATION */}
       <Modal
         open={clearDataModalOpen}
         onClose={() => setClearDataModalOpen(false)}
@@ -1006,9 +978,9 @@ export default function Settings() {
         maxWidth="max-w-md"
       >
         <div className="space-y-4 pt-1">
-          <div className="flex items-start gap-3 p-3.5 rounded-xl bg-red-950/20 border border-red-500/20">
-            <AlertTriangle size={18} className="text-red-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-[#A5A7A3] leading-relaxed">
+          <div className="flex items-start gap-3 p-3.5 rounded-card bg-surface border border-rule">
+            <AlertTriangle size={16} className="text-accent shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="text-xs text-muted leading-relaxed">
               Are you sure you want to permanently clear all saved universes,
               branch points, and life simulations? This action deletes your local data irreversibly.
             </div>
@@ -1017,75 +989,89 @@ export default function Settings() {
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               onClick={() => setClearDataModalOpen(false)}
-              className="px-4 py-2 rounded-xl border border-white/[0.08] bg-[#121518] hover:bg-[#181C20] text-xs font-medium text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-btn border border-rule bg-surface hover:bg-surface/80 active:bg-paper-2 text-xs font-medium text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirmClear}
-              className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
-              Yes, Purge Everything
+              Purge everything
             </button>
           </div>
         </div>
       </Modal>
 
-      {/* ======================================================== */}
-      {/* MODAL 2: VIEW CREDITS                                    */}
-      {/* ======================================================== */}
+      {/* MODAL 2: VIEW CREDITS */}
       <Modal
         open={creditsModalOpen}
         onClose={() => setCreditsModalOpen(false)}
         title="System Manifest & Credits"
         maxWidth="max-w-lg"
       >
-        <div className="space-y-4 pt-1 text-xs text-[#A5A7A3] leading-relaxed">
-          <div className="p-3.5 rounded-xl bg-[#141A15] border border-[#C8E9A9]/20 flex items-center gap-3">
-            <Compass size={22} className="text-[#C8E9A9] shrink-0" />
+        <div className="space-y-4 pt-1 text-xs text-muted leading-relaxed">
+          <div className="p-3.5 rounded-card bg-surface border border-rule flex items-center gap-3">
+            <Compass size={20} className="text-accent shrink-0" aria-hidden="true" />
             <div>
-              <div className="font-bold text-[#F2F3F0] text-sm">
+              <div className="font-bold text-ink text-sm">
                 PARALLEL Multiverse Exploration System
               </div>
-              <div className="text-[11px] text-[#A5A7A3]">
+              <div className="text-[11px] text-muted">
                 AI-driven counterfactual reality branching engine.
               </div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <h5 className="font-bold text-[#F2F3F0] uppercase tracking-wider text-[10px]">
-              Technology Foundation
+            <h5 className="font-semibold text-ink text-xs">
+              Technology foundation
             </h5>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="bg-[#121518] border border-white/[0.08] p-2.5 rounded-xl">
-                ⚡ <strong className="text-[#F2F3F0]">Vite + React 19</strong> (ES Modules)
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="bg-surface border border-rule p-2.5 rounded-card flex items-center gap-2">
+                <Zap size={14} className="text-accent shrink-0" aria-hidden="true" />
+                <div>
+                  <strong className="text-ink block">Vite + React 19</strong>
+                  <span className="text-[11px] text-muted">ES Modules</span>
+                </div>
               </div>
-              <div className="bg-[#121518] border border-white/[0.08] p-2.5 rounded-xl">
-                🤖 <strong className="text-[#F2F3F0]">Gemini 2.5 Flash</strong> (Server-side)
+              <div className="bg-surface border border-rule p-2.5 rounded-card flex items-center gap-2">
+                <Cpu size={14} className="text-accent shrink-0" aria-hidden="true" />
+                <div>
+                  <strong className="text-ink block">Gemini 2.5 Flash</strong>
+                  <span className="text-[11px] text-muted">Server-side Zod</span>
+                </div>
               </div>
-              <div className="bg-[#121518] border border-white/[0.08] p-2.5 rounded-xl">
-                🎨 <strong className="text-[#F2F3F0]">Tailwind CSS</strong> (Near-black)
+              <div className="bg-surface border border-rule p-2.5 rounded-card flex items-center gap-2">
+                <Palette size={14} className="text-accent shrink-0" aria-hidden="true" />
+                <div>
+                  <strong className="text-ink block">Tailwind CSS</strong>
+                  <span className="text-[11px] text-muted">Near-black tokens</span>
+                </div>
               </div>
-              <div className="bg-[#121518] border border-white/[0.08] p-2.5 rounded-xl">
-                📊 <strong className="text-[#F2F3F0]">Lucide Icons & Framer</strong>
+              <div className="bg-surface border border-rule p-2.5 rounded-card flex items-center gap-2">
+                <BarChart3 size={14} className="text-accent shrink-0" aria-hidden="true" />
+                <div>
+                  <strong className="text-ink block">Lucide & Framer</strong>
+                  <span className="text-[11px] text-muted">Dynamic graphics</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="space-y-1">
-            <h5 className="font-bold text-[#F2F3F0] uppercase tracking-wider text-[10px]">
+            <h5 className="font-semibold text-ink text-xs">
               Author
             </h5>
             <p>
-              Architected and designed by <strong className="text-[#F2F3F0]">Jigar Ghoghari</strong>.
+              Architected and designed by <strong className="text-ink">Jigar Ghoghari</strong>.
             </p>
           </div>
 
           <div className="flex justify-end pt-2">
             <button
               onClick={() => setCreditsModalOpen(false)}
-              className="px-5 py-2 rounded-xl bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+              className="px-4 py-2 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               Close
             </button>

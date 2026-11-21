@@ -1,8 +1,7 @@
 // src/pages/Compare.jsx
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import {
-  ArrowLeft,
   Compass,
   Target,
   Award,
@@ -14,11 +13,8 @@ import {
   AlertTriangle,
   Lightbulb,
   BarChart3,
-  RefreshCw,
-  Layers,
   ArrowRight,
   Check,
-  Scale,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -34,7 +30,7 @@ import { useUniverse } from "../context/UniverseContext";
 import { api } from "../services/apiClient";
 import { Modal } from "../components/common/Modal";
 
-// Preset comparison items matching reference UI
+// Preset comparison items
 const DEFAULT_PRESETS = [
   {
     id: "preset-1",
@@ -154,7 +150,7 @@ export default function Compare() {
         finalSummary: res.finalSummary || "",
         quickInsights:
           res.quickInsights ||
-          "Both paths lead to successful careers, but with different experiences and opportunities.",
+          "Both paths lead to distinct careers with unique compounding advantages.",
       };
 
       saveComparison(currentUniverse.id, comparedIds, dataToSave);
@@ -162,7 +158,7 @@ export default function Compare() {
       setLoading(false);
     } catch (err) {
       console.error("[Compare] API error:", err);
-      // Fallback fallback illustrative scores so user always sees rich visuals
+      // Fallback illustrative scores
       const fallbackScores = {
         realities: comparedRealities.map((r, idx) => ({
           id: r.id,
@@ -175,12 +171,12 @@ export default function Compare() {
           summary: r.summary || "",
         })),
         takeaways: [
-          "Choose what excites you more — coding or creating in the physical world.",
+          "Choose what excites you more, software architectures or physical engineering systems.",
         ],
         finalSummary:
-          "Both realities are incredible. It all comes down to what kind of impact you want to make.",
+          "Both realities present viable trajectories. The optimal path depends on your target domain and preferred pace.",
         quickInsights:
-          "Both paths lead to successful careers, but with different experiences and opportunities.",
+          "Both paths lead to distinct careers with unique compounding advantages.",
       };
       setComparisonData(fallbackScores);
       setLoading(false);
@@ -290,15 +286,15 @@ export default function Compare() {
 
   const quickInsightsText =
     comparisonData?.quickInsights ||
-    "Both paths lead to successful careers, but with different experiences and opportunities.";
+    "Both paths lead to distinct careers with unique compounding advantages.";
 
   const keyTakeawayText =
     comparisonData?.takeaways?.[0] ||
-    "Choose what excites you more — coding or creating in the physical world.";
+    "Choose what excites you more, software architectures or physical engineering systems.";
 
   const finalVerdictText =
     comparisonData?.finalSummary ||
-    "Both realities are incredible. It all comes down to what kind of impact you want to make.";
+    "Both realities present viable trajectories. The optimal path depends on your target domain and preferred pace.";
 
   const isPresetActive = (preset) => {
     if (!currentUniverse) return false;
@@ -308,36 +304,34 @@ export default function Compare() {
   };
 
   return (
-    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
+    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 select-none">
       {/* Top Header */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-            Reality Comparison Matrix
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-rule w-fit mb-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
+          <span className="text-xs font-medium text-ink">
+            Reality comparison matrix
           </span>
         </div>
-        <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-          COMPARE PARALLEL REALITIES
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
+          Compare parallel realities
         </h1>
-        <p className="text-sm sm:text-base text-[#A5A7A3] font-normal mt-2 max-w-xl">
+        <p className="text-sm text-muted font-normal mt-2 max-w-xl">
           Examine divergence points, career vectors, coherence scores, and lifestyle differences between your alternate realities side by side.
         </p>
       </div>
 
       <div>
         {/* TOP LEVEL GRID (Left Sidebar 3 Cols, Right Content 9 Cols) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* ======================================================== */}
-          {/* LEFT COLUMN: PRESETS & EXPLORE MORE (3 Cols)             */}
-          {/* ======================================================== */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* LEFT COLUMN: PRESETS & EXPLORE MORE (3 Cols) */}
           <div className="lg:col-span-3 space-y-4">
-            <h2 className="text-xs font-bold text-[#A5A7A3] uppercase tracking-[0.2em] px-1">
-              Comparison Presets
+            <h2 className="text-xs font-semibold text-muted px-1">
+              Comparison presets
             </h2>
 
             {/* Presets List */}
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-2 pt-1">
               {DEFAULT_PRESETS.map((preset) => {
                 const active = isPresetActive(preset);
 
@@ -345,27 +339,27 @@ export default function Compare() {
                   <button
                     key={preset.id}
                     onClick={() => handleSelectPreset(preset)}
-                    className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all duration-300 shadow-md cursor-pointer overflow-hidden ${
+                    className={`w-full text-left p-3 rounded-card flex items-center gap-3 transition-colors duration-150 cursor-pointer overflow-hidden border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                       active
-                        ? "bg-[#141a15] border border-[#C8E9A9] shadow-[0_0_16px_rgba(200,233,169,0.25)]"
-                        : "bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20"
+                        ? "bg-accent/10 border-accent/40 text-ink"
+                        : "bg-surface/50 hover:bg-surface border-rule text-muted hover:text-ink"
                     }`}
                   >
                     {/* Thumbnail Image */}
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-black/70 border border-white/5 shrink-0">
+                    <div className="w-11 h-11 rounded-lg overflow-hidden bg-paper-3 border border-rule shrink-0">
                       <img
                         src={preset.image}
                         alt={preset.title}
-                        className="w-full h-full object-cover brightness-85"
+                        className="w-full h-full object-cover opacity-80"
                       />
                     </div>
 
                     {/* Text */}
                     <div className="min-w-0 flex-1">
-                      <h4 className="text-xs font-bold text-[#F2F3F0] truncate leading-tight">
+                      <h4 className="text-xs font-semibold text-ink truncate leading-tight">
                         {preset.title}
                       </h4>
-                      <p className="text-[10px] text-[#A5A7A3] mt-0.5">
+                      <p className="text-[11px] text-muted mt-0.5">
                         {preset.subtitle}
                       </p>
                     </div>
@@ -374,30 +368,27 @@ export default function Compare() {
               })}
             </div>
 
-            {/* Bottom Card: Explore More */}
-            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-4.5 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              <div className="text-[#C8E9A9] mb-2">
-                <Compass size={16} />
+            {/* Inset Panel: Explore More */}
+            <div className="border border-rule rounded-card p-4 space-y-2 bg-surface/40">
+              <div className="text-accent">
+                <Compass size={16} aria-hidden="true" />
               </div>
-              <h3 className="text-xs font-bold text-[#F2F3F0]">Explore More</h3>
-              <p className="text-[11px] text-[#A5A7A3] mt-1 leading-relaxed">
+              <h3 className="text-xs font-semibold text-ink">Explore more</h3>
+              <p className="text-xs text-muted leading-relaxed">
                 Discover new comparisons across different decisions.
               </p>
 
               <button
                 onClick={handleOpenNewComparison}
-                className="mt-4 w-full py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] cursor-pointer active:scale-95"
+                className="mt-3 w-full py-2 px-3 rounded-full bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs flex items-center justify-center gap-2 transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <span>Create New Comparison</span>
-                <ArrowRight size={13} />
+                <span>Create new comparison</span>
+                <ArrowRight size={13} aria-hidden="true" />
               </button>
             </div>
           </div>
 
-          {/* ======================================================== */}
-          {/* MAIN COMPARISON WORKSPACE (9 Cols)                       */}
-          {/* ======================================================== */}
+          {/* MAIN COMPARISON WORKSPACE (9 Cols) */}
           <div className="lg:col-span-9 space-y-6">
             {/* UPPER ROW: SIDE-BY-SIDE REALITY CARDS + QUICK INSIGHTS */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
@@ -406,100 +397,98 @@ export default function Compare() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative">
                   {/* REALITY A CARD */}
                   {realityA && (
-                    <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden">
-                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                    <div className="bg-card border border-rule rounded-card p-5 flex flex-col justify-between overflow-hidden">
                       <div>
                         {/* Pill Badge */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase mb-1.5 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
-                          REALITY A
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-medium mb-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                          Reality A
                         </div>
 
                         {/* Title & Career */}
-                        <h2 className="text-base sm:text-lg font-extrabold text-[#F2F3F0] tracking-tight leading-snug">
+                        <h2 className="text-base font-bold text-ink tracking-tight leading-snug">
                           {realityA.name}
                         </h2>
-                        <p className="text-xs text-[#A5A7A3] font-medium mt-0.5">
+                        <p className="text-xs text-muted font-medium mt-0.5">
                           {realityA.career || "Software Developer"}
                         </p>
 
                         {/* Banner Image */}
-                        <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-3.5">
+                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-paper-3 border border-rule my-3">
                           <img
                             src={
                               realityA.image ||
                               "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=85"
                             }
                             alt={realityA.name}
-                            className="w-full h-full object-cover brightness-[0.75] contrast-[1.05]"
+                            className="w-full h-full object-cover opacity-80"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-transparent" />
                         </div>
 
                         {/* Attributes List */}
-                        <div className="space-y-2 text-xs pt-1">
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                        <div className="space-y-2 text-xs pt-1 divide-y divide-rule/60">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Briefcase size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Career</span>
+                              <Briefcase size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Career</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityA.career || "Software Development"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <GraduationCap size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Skills</span>
+                              <GraduationCap size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Skills</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityA.skills)
                                 ? realityA.skills.slice(0, 3).join(", ")
                                 : "Programming, System Design"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Building2 size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Industry</span>
+                              <Building2 size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Industry</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityA.industry || "Tech & Product"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Trophy size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Opportunities</span>
+                              <Trophy size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Opportunities</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityA.opportunities)
                                 ? realityA.opportunities.slice(0, 2).join(", ")
                                 : "FAANG, Startups"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <AlertTriangle size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Challenges</span>
+                              <AlertTriangle size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Challenges</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityA.challenges)
                                 ? realityA.challenges.slice(0, 1).join(", ")
                                 : "High Competition"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Target size={12} className="text-[#C8E9A9]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Outcome</span>
+                              <Target size={12} className="text-accent" aria-hidden="true" />
+                              <span className="text-xs text-muted">Outcome</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityA.outcome || "Successful Tech Career"}
                             </span>
                           </div>
@@ -509,106 +498,104 @@ export default function Compare() {
                   )}
 
                   {/* FLOATING "VS" CIRCULAR BADGE IN THE MIDDLE */}
-                  <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-[#121518] border border-[#C8E9A9]/50 shadow-[0_0_18px_rgba(200,233,169,0.3)] items-center justify-center text-[10px] font-extrabold text-[#F2F3F0] tracking-wider pointer-events-none">
-                    VS
+                  <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-surface border border-rule items-center justify-center text-[11px] font-bold text-ink pointer-events-none">
+                    vs
                   </div>
 
                   {/* REALITY B CARD */}
                   {realityB && (
-                    <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden">
-                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                    <div className="bg-card border border-rule rounded-card p-5 flex flex-col justify-between overflow-hidden">
                       <div>
                         {/* Pill Badge */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#181520] border border-[#9678C9]/40 text-[#9678C9] text-[9px] font-bold tracking-wider uppercase mb-1.5 shadow-[0_0_10px_rgba(150,120,201,0.2)]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#9678C9]" />
-                          REALITY B
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple/10 border border-purple/30 text-purple text-xs font-medium mb-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple" />
+                          Reality B
                         </div>
 
                         {/* Title & Career */}
-                        <h2 className="text-base sm:text-lg font-extrabold text-[#F2F3F0] tracking-tight leading-snug">
+                        <h2 className="text-base font-bold text-ink tracking-tight leading-snug">
                           {realityB.name}
                         </h2>
-                        <p className="text-xs text-[#A5A7A3] font-medium mt-0.5">
+                        <p className="text-xs text-muted font-medium mt-0.5">
                           {realityB.career || "Robotics Engineer"}
                         </p>
 
                         {/* Banner Image */}
-                        <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-3.5">
+                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-paper-3 border border-rule my-3">
                           <img
                             src={
                               realityB.image ||
                               "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=85"
                             }
                             alt={realityB.name}
-                            className="w-full h-full object-cover brightness-[0.75] contrast-[1.05]"
+                            className="w-full h-full object-cover opacity-80"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-transparent" />
                         </div>
 
                         {/* Attributes List */}
-                        <div className="space-y-2 text-xs pt-1">
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                        <div className="space-y-2 text-xs pt-1 divide-y divide-rule/60">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Briefcase size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Career</span>
+                              <Briefcase size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Career</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityB.career || "Robotics & Automation"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <GraduationCap size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Skills</span>
+                              <GraduationCap size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Skills</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityB.skills)
                                 ? realityB.skills.slice(0, 3).join(", ")
                                 : "Mechanical Design, AI"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Building2 size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Industry</span>
+                              <Building2 size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Industry</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityB.industry || "Automotive, Robotics"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Trophy size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Opportunities</span>
+                              <Trophy size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Opportunities</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityB.opportunities)
                                 ? realityB.opportunities.slice(0, 2).join(", ")
                                 : "R&D, Innovation"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <AlertTriangle size={12} className="text-[#A5A7A3]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Challenges</span>
+                              <AlertTriangle size={12} className="text-muted" aria-hidden="true" />
+                              <span className="text-xs text-muted">Challenges</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {Array.isArray(realityB.challenges)
                                 ? realityB.challenges.slice(0, 1).join(", ")
                                 : "Technical Complexity"}
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between text-[#A5A7A3]">
+                          <div className="flex items-center justify-between text-muted pt-1.5">
                             <div className="flex items-center gap-2">
-                              <Target size={12} className="text-[#C8E9A9]" />
-                              <span className="text-[11px] text-[#A5A7A3]">Outcome</span>
+                              <Target size={12} className="text-accent" aria-hidden="true" />
+                              <span className="text-xs text-muted">Outcome</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-[#F2F3F0] truncate max-w-[150px]">
+                            <span className="text-xs font-medium text-ink truncate max-w-[150px]">
                               {realityB.outcome || "Leader in Robotics Field"}
                             </span>
                           </div>
@@ -620,31 +607,30 @@ export default function Compare() {
               </div>
 
               {/* RIGHT UPPER: QUICK INSIGHTS & PROGRESS BARS (4 Cols) */}
-              <div className="xl:col-span-4 flex flex-col justify-between bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl space-y-4 overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+              <div className="xl:col-span-4 flex flex-col justify-between bg-card border border-rule rounded-card p-5 space-y-4 overflow-hidden">
                 <div>
                   {/* Header */}
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-2.5">
-                    <TrendingUp size={13} className="text-[#C8E9A9]" />
-                    <span>Quick Insights</span>
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-ink mb-2">
+                    <TrendingUp size={14} className="text-accent" aria-hidden="true" />
+                    <span>Quick insights</span>
                   </div>
 
                   {/* Summary Text */}
-                  <p className="text-xs text-[#A5A7A3] leading-relaxed">
+                  <p className="text-xs text-muted leading-relaxed">
                     {quickInsightsText}
                   </p>
 
                   {/* Metric Progress Bars */}
-                  <div className="space-y-3.5 mt-5">
+                  <div className="space-y-3 mt-4">
                     {/* Career Growth */}
                     <div>
-                      <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                        <span className="text-[#F2F3F0]">Career Growth</span>
-                        <span className="text-[#F2F3F0] font-mono">92%</span>
+                      <div className="flex items-center justify-between text-xs font-medium mb-1">
+                        <span className="text-ink">Career Growth</span>
+                        <span className="text-muted tabular-nums">92%</span>
                       </div>
-                      <div className="w-full bg-[#161a15] h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-[#C8E9A9] h-full rounded-full transition-all duration-700 shadow-[0_0_8px_#C8E9A9]"
+                          className="bg-accent h-full rounded-full"
                           style={{ width: "92%" }}
                         />
                       </div>
@@ -652,13 +638,13 @@ export default function Compare() {
 
                     {/* Work-Life Balance */}
                     <div>
-                      <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                        <span className="text-[#F2F3F0]">Work-Life Balance</span>
-                        <span className="text-[#F2F3F0] font-mono">78%</span>
+                      <div className="flex items-center justify-between text-xs font-medium mb-1">
+                        <span className="text-ink">Work-Life Balance</span>
+                        <span className="text-muted tabular-nums">78%</span>
                       </div>
-                      <div className="w-full bg-[#161a15] h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-[#C8E9A9] h-full rounded-full transition-all duration-700 shadow-[0_0_8px_#C8E9A9]"
+                          className="bg-accent h-full rounded-full"
                           style={{ width: "78%" }}
                         />
                       </div>
@@ -666,13 +652,13 @@ export default function Compare() {
 
                     {/* Innovation Impact */}
                     <div>
-                      <div className="flex items-center justify-between text-xs font-semibold mb-1">
-                        <span className="text-[#F2F3F0]">Innovation Impact</span>
-                        <span className="text-[#F2F3F0] font-mono">95%</span>
+                      <div className="flex items-center justify-between text-xs font-medium mb-1">
+                        <span className="text-ink">Innovation Impact</span>
+                        <span className="text-muted tabular-nums">95%</span>
                       </div>
-                      <div className="w-full bg-[#161a15] h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-[#C8E9A9] h-full rounded-full transition-all duration-700 shadow-[0_0_8px_#C8E9A9]"
+                          className="bg-accent h-full rounded-full"
                           style={{ width: "95%" }}
                         />
                       </div>
@@ -681,13 +667,13 @@ export default function Compare() {
                 </div>
 
                 {/* Bottom Inset: Key Takeaway */}
-                <div className="bg-[#121518] border border-white/[0.08] rounded-xl p-3.5 flex items-start gap-3">
-                  <div className="text-amber-300 shrink-0 mt-0.5">
-                    <Lightbulb size={15} />
+                <div className="border-t border-rule pt-3 flex items-start gap-2.5">
+                  <div className="text-accent shrink-0 mt-0.5">
+                    <Lightbulb size={14} aria-hidden="true" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold text-[#F2F3F0]">Key Takeaway</h5>
-                    <p className="text-[11px] text-[#A5A7A3] mt-0.5 leading-relaxed">
+                    <h5 className="text-xs font-semibold text-ink">Key takeaway</h5>
+                    <p className="text-xs text-muted mt-0.5 leading-relaxed">
                       {keyTakeawayText}
                     </p>
                   </div>
@@ -698,28 +684,27 @@ export default function Compare() {
             {/* LOWER ROW: GROUPED BAR CHART & FINAL VERDICT */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
               {/* RECHARTS GROUPED BAR CHART (8 Cols) */}
-              <div className="xl:col-span-8 bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+              <div className="xl:col-span-8 bg-card border border-rule rounded-card p-5 overflow-hidden">
                 {/* Chart Header + Legend */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <BarChart3 size={15} className="text-[#A5A7A3]" />
-                    <h3 className="text-xs font-bold text-[#F2F3F0] tracking-wide">
-                      Side by Side Analysis
+                    <BarChart3 size={15} className="text-muted" aria-hidden="true" />
+                    <h3 className="text-xs font-semibold text-ink">
+                      Side by side analysis
                     </h3>
                   </div>
 
                   {/* Legend Indicators */}
                   <div className="flex items-center gap-3 text-xs">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-[#C8E9A9]" />
-                      <span className="text-[#A5A7A3] text-[11px] font-medium">
+                      <span className="w-2 h-2 rounded-full bg-accent" />
+                      <span className="text-muted text-xs">
                         Reality A
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-[#9678C9]" />
-                      <span className="text-[#A5A7A3] text-[11px] font-medium">
+                      <span className="w-2 h-2 rounded-full bg-purple" />
+                      <span className="text-muted text-xs">
                         Reality B
                       </span>
                     </div>
@@ -735,62 +720,63 @@ export default function Compare() {
                       barGap={6}
                     >
                       <CartesianGrid
-                        stroke="rgba(255,255,255,0.04)"
+                        stroke="var(--color-rule)"
+                        strokeOpacity={0.3}
                         vertical={false}
                       />
                       <XAxis
                         dataKey="category"
-                        tick={{ fill: "#A5A7A3", fontSize: 10, fontWeight: 500 }}
-                        axisLine={{ stroke: "rgba(255,255,255,0.08)" }}
+                        tick={{ fill: "var(--color-muted)", fontSize: 10, fontWeight: 500 }}
+                        axisLine={{ stroke: "var(--color-rule)" }}
                         tickLine={false}
                       />
                       <YAxis
                         domain={[0, 100]}
                         ticks={[0, 25, 50, 75, 100]}
-                        tick={{ fill: "#A5A7A3", fontSize: 10 }}
+                        tick={{ fill: "var(--color-muted)", fontSize: 10 }}
                         axisLine={false}
                         tickLine={false}
                         tickFormatter={(v) => `${v}%`}
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#0B0D0E",
-                          borderColor: "#292C2C",
-                          borderRadius: "12px",
+                          backgroundColor: "var(--color-card)",
+                          borderColor: "var(--color-rule)",
+                          borderRadius: "8px",
                           fontSize: "11px",
-                          color: "#F2F3F0",
+                          color: "var(--color-ink)",
                         }}
                         formatter={(val) => [`${val}%`, ""]}
                       />
                       {/* Reality A Bar: Sage */}
                       <Bar
                         dataKey="realityA"
-                        fill="#C8E9A9"
+                        fill="var(--color-accent)"
                         radius={[4, 4, 0, 0]}
                         name="Reality A"
                       >
                         <LabelList
                           dataKey="realityALabel"
                           position="top"
-                          fill="#F2F3F0"
+                          fill="var(--color-ink)"
                           fontSize={10}
-                          fontWeight={600}
+                          fontWeight={500}
                         />
                       </Bar>
 
                       {/* Reality B Bar: Purple */}
                       <Bar
                         dataKey="realityB"
-                        fill="#9678C9"
+                        fill="var(--color-purple)"
                         radius={[4, 4, 0, 0]}
                         name="Reality B"
                       >
                         <LabelList
                           dataKey="realityBLabel"
                           position="top"
-                          fill="#F2F3F0"
+                          fill="var(--color-ink)"
                           fontSize={10}
-                          fontWeight={600}
+                          fontWeight={500}
                         />
                       </Bar>
                     </BarChart>
@@ -799,39 +785,28 @@ export default function Compare() {
               </div>
 
               {/* FINAL VERDICT CARD (4 Cols) */}
-              <div className="xl:col-span-4 relative bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden flex flex-col justify-between">
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+              <div className="xl:col-span-4 relative bg-card border border-rule rounded-card p-5 overflow-hidden flex flex-col justify-between">
                 <div className="relative z-10">
                   {/* Header */}
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-2.5">
-                    <Award size={13} className="text-[#C8E9A9]" />
-                    <span>Final Verdict</span>
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-ink mb-2">
+                    <Award size={14} className="text-accent" aria-hidden="true" />
+                    <span>Final verdict</span>
                   </div>
 
                   {/* Main Verdict Heading */}
-                  <h3 className="text-base sm:text-lg font-extrabold text-[#F2F3F0] tracking-tight leading-snug">
-                    Both realities are incredible.
+                  <h3 className="text-base font-bold text-ink tracking-tight leading-snug">
+                    Both realities are viable paths.
                   </h3>
 
                   {/* Verdict Description */}
-                  <p className="text-xs text-[#A5A7A3] mt-1.5 leading-relaxed">
+                  <p className="text-xs text-muted mt-1 leading-relaxed">
                     {finalVerdictText}
                   </p>
                 </div>
 
-                {/* Planet Horizon in Bottom Right */}
-                <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full overflow-hidden pointer-events-none opacity-85">
-                  <img
-                    src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=85"
-                    alt="Space Horizon"
-                    className="w-full h-full object-cover brightness-[0.8] contrast-[1.1]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#0B0D0E] via-transparent to-transparent" />
-                </div>
-
                 {/* Speculative notice */}
-                <div className="relative z-10 pt-6 text-[10px] text-[#A5A7A3]/70">
-                  AI-generated illustrative ratings, not facts.
+                <div className="relative z-10 pt-6 text-[11px] text-muted/70">
+                  AI-generated speculative comparison, not predictive fact.
                 </div>
               </div>
             </div>
@@ -839,9 +814,7 @@ export default function Compare() {
         </div>
       </div>
 
-      {/* ======================================================== */}
-      {/* "CREATE NEW COMPARISON" MODAL                            */}
-      {/* ======================================================== */}
+      {/* "CREATE NEW COMPARISON" MODAL */}
       <Modal
         open={newComparisonModalOpen}
         onClose={() => setNewComparisonModalOpen(false)}
@@ -851,8 +824,8 @@ export default function Compare() {
         <div className="space-y-4 pt-1">
           {/* Pick Universe */}
           <div>
-            <label className="block text-xs font-bold text-[#F2F3F0] mb-1.5">
-              Select Universe:
+            <label className="block text-xs font-semibold text-ink mb-1.5">
+              Select universe:
             </label>
             <select
               value={modalSelectedUniverseId}
@@ -866,10 +839,10 @@ export default function Compare() {
                   setModalSelectedRealities([]);
                 }
               }}
-              className="w-full bg-[#0E1114] border border-white/[0.08] focus:border-[#C8E9A9] rounded-xl px-3 py-2 text-xs text-[#F2F3F0] outline-none"
+              className="w-full bg-surface border border-rule focus:border-accent rounded-input px-3 py-2 text-xs text-ink outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               {universes.map((u) => (
-                <option key={u.id} value={u.id} className="bg-[#0B0D0E] text-[#F2F3F0]">
+                <option key={u.id} value={u.id} className="bg-card text-ink">
                   {u.title || u.originalDecision} ({u.realities?.length || 0} realities)
                 </option>
               ))}
@@ -878,8 +851,8 @@ export default function Compare() {
 
           {/* Pick 2 to 3 realities */}
           <div>
-            <label className="block text-xs font-bold text-[#F2F3F0] mb-1.5">
-              Pick 2 or 3 Realities to Compare:
+            <label className="block text-xs font-semibold text-ink mb-1.5">
+              Pick 2 or 3 realities to compare:
             </label>
 
             {(() => {
@@ -888,7 +861,7 @@ export default function Compare() {
 
               if (realities.length < 2) {
                 return (
-                  <p className="text-xs text-[#A5A7A3] py-2">
+                  <p className="text-xs text-muted py-2">
                     This universe has fewer than 2 realities. Please create or branch realities first.
                   </p>
                 );
@@ -906,7 +879,7 @@ export default function Compare() {
                         );
                       } else {
                         if (modalSelectedRealities.length >= 3) {
-                          return; // Max 3
+                          return;
                         }
                         setModalSelectedRealities((prev) => [...prev, r.id]);
                       }
@@ -916,15 +889,15 @@ export default function Compare() {
                       <div
                         key={r.id}
                         onClick={toggleSelect}
-                        className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                        className={`p-2.5 rounded-card border flex items-center justify-between cursor-pointer transition-colors duration-150 ${
                           isSelected
-                            ? "bg-[#141a15] border-[#C8E9A9] text-[#F2F3F0] shadow-[0_0_12px_rgba(200,233,169,0.25)]"
-                            : "bg-[#0E1114] border-white/[0.08] hover:border-white/20 text-[#A5A7A3]"
+                            ? "bg-accent/10 border-accent/40 text-ink"
+                            : "bg-surface/50 border-rule hover:border-rule/80 text-muted"
                         }`}
                       >
                         <div className="min-w-0 pr-2">
-                          <div className="text-xs font-bold truncate">{r.name}</div>
-                          <div className="text-[10px] text-[#A5A7A3] truncate">
+                          <div className="text-xs font-semibold text-ink truncate">{r.name}</div>
+                          <div className="text-[11px] text-muted truncate">
                             {r.career || r.industry || "General"}
                           </div>
                         </div>
@@ -932,11 +905,11 @@ export default function Compare() {
                         <div
                           className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
                             isSelected
-                              ? "bg-[#C8E9A9] border-[#C8E9A9] text-[#050505] shadow-[0_0_6px_#C8E9A9]"
-                              : "border-white/20"
+                              ? "bg-accent border-accent text-accent-ink"
+                              : "border-rule"
                           }`}
                         >
-                          {isSelected && <Check size={12} strokeWidth={3} />}
+                          {isSelected && <Check size={12} strokeWidth={3} aria-hidden="true" />}
                         </div>
                       </div>
                     );
@@ -947,11 +920,11 @@ export default function Compare() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-rule">
             <button
               type="button"
               onClick={() => setNewComparisonModalOpen(false)}
-              className="px-4 py-2 rounded-lg bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-btn bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 text-xs text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               Cancel
             </button>
@@ -959,9 +932,9 @@ export default function Compare() {
               type="button"
               disabled={modalSelectedRealities.length < 2}
               onClick={handleApplyCustomComparison}
-              className="px-5 py-2 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
-              Compare Realities
+              Compare realities
             </button>
           </div>
         </div>

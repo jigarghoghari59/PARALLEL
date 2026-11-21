@@ -1,7 +1,7 @@
 // src/pages/Simulate.jsx
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Activity,
@@ -11,7 +11,6 @@ import {
   Code2,
   Dumbbell,
   Moon,
-  Coffee,
   CheckCircle2,
   Trophy,
   ArrowRight,
@@ -20,8 +19,6 @@ import {
   Lightbulb,
   AlertTriangle,
   Clock,
-  Quote,
-  Compass,
   Layers,
   Play,
 } from "lucide-react";
@@ -40,21 +37,21 @@ const DEFAULT_TIMELINE_IMAGES = {
 function getTimelineIcon(timeStr = "", title = "", iconType = "") {
   const normalized = `${timeStr} ${title} ${iconType}`.toLowerCase();
   if (normalized.includes("sun") || normalized.includes("morning") || normalized.includes("07:") || normalized.includes("08:")) {
-    return <Sun size={15} className="text-amber-300" />;
+    return <Sun size={15} className="text-accent" aria-hidden="true" />;
   }
   if (normalized.includes("briefcase") || normalized.includes("work") || normalized.includes("lab") || normalized.includes("10:") || normalized.includes("11:")) {
-    return <Briefcase size={15} className="text-[#C8E9A9]" />;
+    return <Briefcase size={15} className="text-accent" aria-hidden="true" />;
   }
   if (normalized.includes("code") || normalized.includes("decision") || normalized.includes("terminal") || normalized.includes("meeting") || normalized.includes("02:")) {
-    return <Code2 size={15} className="text-cyan-300" />;
+    return <Code2 size={15} className="text-ink" aria-hidden="true" />;
   }
   if (normalized.includes("dumbbell") || normalized.includes("gym") || normalized.includes("fitness") || normalized.includes("personal") || normalized.includes("07:00 pm")) {
-    return <Dumbbell size={15} className="text-[#9678C9]" />;
+    return <Dumbbell size={15} className="text-purple" aria-hidden="true" />;
   }
   if (normalized.includes("moon") || normalized.includes("night") || normalized.includes("end") || normalized.includes("sleep") || normalized.includes("11:")) {
-    return <Moon size={15} className="text-indigo-300" />;
+    return <Moon size={15} className="text-muted" aria-hidden="true" />;
   }
-  return <Activity size={15} className="text-[#C8E9A9]" />;
+  return <Activity size={15} className="text-accent" aria-hidden="true" />;
 }
 
 export default function Simulate() {
@@ -176,19 +173,18 @@ export default function Simulate() {
 
   if (!universe || !reality) {
     return (
-      <div className="min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] flex items-center justify-center p-6">
-        <div className="bg-[#0E1114] border border-white/[0.08] rounded-xl p-8 max-w-md text-center shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent pointer-events-none" />
-          <AlertTriangle size={32} className="text-[#C8E9A9] mx-auto mb-3" />
-          <h2 className="text-xl font-bold mb-2">Reality Not Found</h2>
-          <p className="text-xs text-[#A5A7A3] mb-6">
+      <div className="min-h-dvh bg-paper text-ink flex items-center justify-center p-6">
+        <div className="bg-card border border-rule rounded-card p-8 max-w-md text-center">
+          <AlertTriangle size={32} className="text-accent mx-auto mb-3" aria-hidden="true" />
+          <h2 className="text-xl font-bold mb-2">Reality not found</h2>
+          <p className="text-xs text-muted mb-6">
             The requested universe or reality could not be resolved.
           </p>
           <Link
             to="/explore"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#C8E9A9] hover:bg-[#d5f5b7] text-[#050505] font-bold text-xs shadow-lg transition-all active:scale-95"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           >
-            <ArrowLeft size={14} /> Back to Explorer
+            <ArrowLeft size={14} aria-hidden="true" /> Back to explorer
           </Link>
         </div>
       </div>
@@ -212,37 +208,37 @@ export default function Simulate() {
   const timelineEntries = currentSimulation?.entries || [];
 
   return (
-    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 select-none">
-      {/* Top Header matching Landing Page */}
+    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 select-none">
+      {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-              Quantum Day Simulation
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-rule w-fit mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
+            <span className="text-xs font-medium text-ink">
+              Quantum day simulation
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#F2F3F0] tracking-tight leading-none">
-            A DAY IN YOUR ALTERNATE REALITY
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
+            A day in your alternate reality
           </h1>
-          <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal mt-2">
+          <p className="text-xs sm:text-sm text-muted font-normal mt-2">
             Experience morning routines, work decisions, and personal life milestones projected for this timeline.
           </p>
         </div>
 
         {/* Right Action Bar */}
         <div className="flex flex-wrap items-center gap-2.5">
-          {/* Day Switcher (if multiple days saved) */}
+          {/* Day Switcher */}
           {simulations.length > 1 && (
-            <div className="flex items-center gap-1 bg-[#0E1114] border border-white/[0.08] p-1 shadow-sm rounded-full">
+            <div className="flex items-center gap-1 bg-surface border border-rule p-1 rounded-full">
               {simulations.map((sim, sIdx) => (
                 <button
                   key={sim.id || sIdx}
                   onClick={() => setActiveSimIndex(sIdx)}
-                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer ${
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                     activeSimIndex === sIdx
-                      ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_10px_rgba(200,233,169,0.35)] font-bold"
-                      : "text-[#A5A7A3] hover:text-[#F2F3F0]"
+                      ? "bg-accent text-accent-ink font-semibold"
+                      : "text-muted hover:text-ink"
                   }`}
                 >
                   {sim.dayLabel || `Day ${sIdx + 1}`}
@@ -255,391 +251,340 @@ export default function Simulate() {
           <button
             onClick={handleGenerateDay}
             disabled={loading}
-            className="px-4 py-2 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-white/20 text-xs font-semibold text-[#F2F3F0] flex items-center gap-2 transition-all shadow-md group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-95"
+            className="px-4 py-2 rounded-full bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule text-xs font-semibold text-ink flex items-center gap-2 transition-colors group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           >
             <RefreshCw
               size={13}
-              className={`text-[#C8E9A9] ${
-                loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"
+              aria-hidden="true"
+              className={`text-accent ${
+                loading ? "motion-safe:animate-spin" : ""
               }`}
             />
-            <span>{loading ? "Simulating Day..." : "Generate New Day"}</span>
+            <span>{loading ? "Simulating day…" : "Generate new day"}</span>
           </button>
 
           <Link
             to={`/explore/${universe.id}`}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0E1114] border border-white/[0.08] hover:border-white/20 text-xs text-[#F2F3F0] transition-all shadow-md active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 text-xs text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           >
-            <ArrowLeft size={13} className="text-[#C8E9A9]" />
-            <span>Back to Explorer</span>
+            <ArrowLeft size={13} className="text-accent" aria-hidden="true" />
+            <span>Back to explorer</span>
           </Link>
         </div>
       </div>
 
-        {/* ======================================================== */}
-        {/* 3-COLUMN MAIN LAYOUT                                     */}
-        {/* ======================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* ======================================================== */}
-          {/* LEFT COLUMN: REALITY CARD (3 Cols)                       */}
-          {/* ======================================================== */}
-          <div className="lg:col-span-3">
-            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl flex flex-col justify-between overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              <div>
-                {/* Badge */}
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase mb-2 shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
-                  REALITY B
-                </div>
-
-                {/* Reality Title & Subtitle */}
-                <h2 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-tight leading-snug">
-                  {reality.name || "Mechanical Engineering"}
-                </h2>
-                <p className="text-xs text-[#A5A7A3] mt-1 leading-relaxed">
-                  {reality.summary || "A different path, a different you."}
-                </p>
-
-                {/* Thumbnail Image */}
-                <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black/80 border border-white/5 my-4 group">
-                  <img
-                    src={
-                      reality.image ||
-                      "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=85"
-                    }
-                    alt={reality.name || "Alternate Reality"}
-                    className="w-full h-full object-cover brightness-[0.75] contrast-[1.05] group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0E] via-transparent to-transparent" />
-                </div>
-
-                {/* Attributes List */}
-                <div className="space-y-3.5 pt-1 border-t border-white/10 text-xs">
-                  {/* Career Path */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] shrink-0">
-                      <Briefcase size={13} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-[#A5A7A3] tracking-wide">
-                        Career Path
-                      </div>
-                      <div className="text-xs font-semibold text-[#F2F3F0] mt-0.5">
-                        {reality.career || "Robotics Engineer"}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Skills Gained */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] shrink-0">
-                      <GraduationCap size={13} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-[#A5A7A3] tracking-wide">
-                        Skills Gained
-                      </div>
-                      <div className="text-xs font-semibold text-[#F2F3F0] mt-0.5">
-                        {Array.isArray(reality.skills)
-                          ? reality.skills.slice(0, 3).join(", ")
-                          : "Mechanical Design, AI"}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Industry */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] shrink-0">
-                      <Building2 size={13} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-[#A5A7A3] tracking-wide">
-                        Industry
-                      </div>
-                      <div className="text-xs font-semibold text-[#F2F3F0] mt-0.5">
-                        {reality.industry || "Automation"}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Outcome */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] shrink-0">
-                      <Lightbulb size={13} className="text-[#C8E9A9]" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-[#A5A7A3] tracking-wide">
-                        Outcome
-                      </div>
-                      <div className="text-xs font-semibold text-[#F2F3F0] mt-0.5">
-                        {reality.outcome || "Innovation Leader"}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      {/* 3-COLUMN MAIN LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* LEFT COLUMN: REALITY CARD (3 Cols) */}
+        <div className="lg:col-span-3">
+          <div className="bg-card border border-rule rounded-card p-5 flex flex-col justify-between overflow-hidden">
+            <div>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple/10 border border-purple/30 text-purple text-xs font-medium mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple" />
+                Reality B
               </div>
 
-              {/* Bottom Action Button: Explore This Reality */}
-              <button
-                onClick={() =>
-                  navigate(`/universe/${universe.id}/reality/${reality.id}`)
-                }
-                className="mt-6 w-full py-2.5 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] cursor-pointer active:scale-95"
-              >
-                <span>Explore This Reality</span>
-                <ArrowRight size={14} />
-              </button>
-            </div>
-          </div>
+              {/* Reality Title & Subtitle */}
+              <h2 className="text-xl font-bold text-ink tracking-tight leading-snug">
+                {reality.name || "Mechanical Engineering"}
+              </h2>
+              <p className="text-xs text-muted mt-1 leading-relaxed">
+                {reality.summary || "A different path, a different you."}
+              </p>
 
-          {/* ======================================================== */}
-          {/* CENTER COLUMN: PANORAMA BANNER & DAY TIMELINE (6 Cols)   */}
-          {/* ======================================================== */}
-          <div className="lg:col-span-6 space-y-4">
-            {/* Panoramic Wide Banner */}
-            <div className="relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden bg-[#0B0D0F] border border-white/[0.08] shadow-xl flex items-center justify-between p-6 sm:p-8 group">
-              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              {/* Background Futuristic Skyline */}
-              <img
-                src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1600&q=85"
-                alt="Futuristic Skyline"
-                className="absolute inset-0 w-full h-full object-cover brightness-[0.6] contrast-[1.1] group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/80 pointer-events-none" />
-
-              {/* Explorer Silhouette in the Center */}
-              <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none">
-                <div className="w-20 h-28 bg-gradient-to-t from-black via-zinc-950 to-zinc-900 rounded-t-full opacity-90 blur-[0.5px]" />
+              {/* Thumbnail Image */}
+              <div className="relative w-full h-32 rounded-lg overflow-hidden bg-paper-3 border border-rule my-3">
+                <img
+                  src={
+                    reality.image ||
+                    "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=85"
+                  }
+                  alt={reality.name || "Alternate Reality"}
+                  className="w-full h-full object-cover opacity-80"
+                />
               </div>
 
-              {/* Right Inset Typography */}
-              <div className="relative z-10 ml-auto text-right">
-                <p className="text-[11px] sm:text-xs font-semibold text-[#A5A7A3] tracking-[0.26em] uppercase leading-relaxed font-mono">
-                  ANOTHER LIFE. <br />
-                  SAME YOU.
-                </p>
-              </div>
-            </div>
-
-            {/* Vertical Day Timeline Card */}
-            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              {timelineEntries.length === 0 ? (
-                /* Empty state when no simulation exists yet */
-                <div className="py-12 text-center space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#141a15] border border-[#C8E9A9]/30 flex items-center justify-center text-[#C8E9A9] mx-auto shadow-lg">
-                    <Clock size={24} />
+              {/* Attributes List */}
+              <div className="space-y-3 pt-1 border-t border-rule text-xs">
+                {/* Career Path */}
+                <div className="flex items-start gap-2.5">
+                  <div className="w-6 h-6 rounded-md bg-surface border border-rule flex items-center justify-center text-muted shrink-0">
+                    <Briefcase size={12} aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#F2F3F0]">
-                      No Simulation Generated Yet
-                    </h3>
-                    <p className="text-xs text-[#A5A7A3] max-w-sm mx-auto mt-1 leading-relaxed">
-                      Experience a fully simulated chronological day in this alternate reality from dawn to dusk.
-                    </p>
+                    <div className="text-xs text-muted">
+                      Career path
+                    </div>
+                    <div className="text-xs font-medium text-ink mt-0.5">
+                      {reality.career || "Robotics Engineer"}
+                    </div>
                   </div>
-
-                  <button
-                    onClick={handleGenerateDay}
-                    disabled={loading}
-                    className="px-6 py-3 rounded-full bg-[#C8E9A9] hover:bg-[#d5f2b8] text-[#050505] font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(200,233,169,0.35)] inline-flex items-center gap-2 cursor-pointer active:scale-95"
-                  >
-                    <Play size={14} className="fill-current" />
-                    <span>Experience a Day in this Universe</span>
-                  </button>
                 </div>
-              ) : (
-                /* Chronological Day Timeline Entries */
-                <div className="relative space-y-5">
-                  {/* Continuous Vertical Line */}
-                  <div className="absolute top-3 bottom-6 left-[72px] sm:left-[82px] w-[2px] bg-gradient-to-b from-[#C8E9A9] via-[#C8E9A9] to-[#C8E9A9]/20 pointer-events-none" />
 
-                  {timelineEntries.map((entry, idx) => {
-                    const isFirst = idx === 0;
-
-                    return (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.35, delay: idx * 0.08 }}
-                        className="relative z-10 flex items-center justify-between gap-3 sm:gap-4 group"
-                      >
-                        {/* Left: Time and Glowing Indicator */}
-                        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                          {/* Glowing Dot on path */}
-                          <div className="relative flex items-center justify-center">
-                            {isFirst ? (
-                              <div className="w-4 h-4 rounded-full border-2 border-[#C8E9A9] flex items-center justify-center bg-[#050505]">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />
-                              </div>
-                            ) : (
-                              <div className="w-2.5 h-2.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-                            )}
-                          </div>
-
-                          {/* Time string */}
-                          <span className="text-[11px] sm:text-xs font-bold text-[#F2F3F0] w-16 sm:w-18 tracking-tight font-mono">
-                            {entry.time}
-                          </span>
-                        </div>
-
-                        {/* Center: Circular Icon + Content */}
-                        <div className="flex items-start gap-3 flex-1 min-w-0 pr-2">
-                          {/* Icon Circle */}
-                          <div className="w-8 h-8 rounded-full bg-[#121518] border border-white/[0.08] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                            {getTimelineIcon(entry.time, entry.title, entry.iconType)}
-                          </div>
-
-                          {/* Title and Description */}
-                          <div className="min-w-0 flex-1">
-                            <h4 className="text-xs sm:text-sm font-bold text-[#F2F3F0] leading-snug group-hover:text-white transition-colors">
-                              {entry.title}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-[#A5A7A3] mt-0.5 leading-relaxed line-clamp-2">
-                              {entry.description}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Right: Rectangular Photo Thumbnail */}
-                        <div className="w-24 sm:w-28 h-14 sm:h-16 rounded-xl overflow-hidden bg-black/60 border border-white/5 shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-300">
-                          <img
-                            src={
-                              entry.image ||
-                              DEFAULT_TIMELINE_IMAGES.work
-                            }
-                            alt={entry.title}
-                            className="w-full h-full object-cover brightness-[0.8] contrast-[1.05]"
-                          />
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                {/* Skills Gained */}
+                <div className="flex items-start gap-2.5">
+                  <div className="w-6 h-6 rounded-md bg-surface border border-rule flex items-center justify-center text-muted shrink-0">
+                    <GraduationCap size={12} aria-hidden="true" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted">
+                      Skills gained
+                    </div>
+                    <div className="text-xs font-medium text-ink mt-0.5">
+                      {Array.isArray(reality.skills)
+                        ? reality.skills.slice(0, 3).join(", ")
+                        : "Mechanical Design, AI"}
+                    </div>
+                  </div>
                 </div>
-              )}
+
+                {/* Industry */}
+                <div className="flex items-start gap-2.5">
+                  <div className="w-6 h-6 rounded-md bg-surface border border-rule flex items-center justify-center text-muted shrink-0">
+                    <Building2 size={12} aria-hidden="true" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted">
+                      Industry
+                    </div>
+                    <div className="text-xs font-medium text-ink mt-0.5">
+                      {reality.industry || "Automation"}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Outcome */}
+                <div className="flex items-start gap-2.5">
+                  <div className="w-6 h-6 rounded-md bg-surface border border-rule flex items-center justify-center text-muted shrink-0">
+                    <Lightbulb size={12} className="text-accent" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted">
+                      Outcome
+                    </div>
+                    <div className="text-xs font-medium text-ink mt-0.5">
+                      {reality.outcome || "Innovation Leader"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Action Button: Explore This Reality */}
+            <button
+              onClick={() =>
+                navigate(`/universe/${universe.id}/reality/${reality.id}`)
+              }
+              className="mt-5 w-full py-2 px-3 rounded-full bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs flex items-center justify-center gap-2 transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+            >
+              <span>Explore this reality</span>
+              <ArrowRight size={13} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        {/* CENTER COLUMN: PANORAMA BANNER & DAY TIMELINE (6 Cols) */}
+        <div className="lg:col-span-6 space-y-4">
+          {/* Panoramic Wide Banner */}
+          <div className="relative w-full h-40 sm:h-44 rounded-card overflow-hidden bg-card border border-rule flex items-center justify-between p-6">
+            {/* Background Skyline */}
+            <img
+              src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1600&q=85"
+              alt="Futuristic Skyline"
+              className="absolute inset-0 w-full h-full object-cover opacity-30"
+            />
+
+            {/* Inset Typography */}
+            <div className="relative z-10 max-w-sm">
+              <p className="text-sm font-medium text-ink leading-relaxed">
+                Another life, same core self.
+              </p>
+              <p className="text-xs text-muted mt-1">
+                Projected timeline based on your divergent choice vector.
+              </p>
             </div>
           </div>
 
-          {/* ======================================================== */}
-          {/* RIGHT COLUMN: REALITY OVERVIEW & HIGHLIGHTS (3 Cols)     */}
-          {/* ======================================================== */}
-          <div className="lg:col-span-3 space-y-4">
-            {/* Card 1: Reality Overview */}
-            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#F2F3F0] tracking-wide mb-4">
-                <Layers size={14} className="text-[#C8E9A9] stroke-[2.2]" />
-                <span>Reality Overview</span>
+          {/* Vertical Day Timeline Card */}
+          <div className="bg-card border border-rule rounded-card p-5 sm:p-6 overflow-hidden">
+            {timelineEntries.length === 0 ? (
+              /* Empty state when no simulation exists yet */
+              <div className="py-10 text-center space-y-3">
+                <div className="w-10 h-10 rounded-full bg-surface border border-rule flex items-center justify-center text-accent mx-auto">
+                  <Clock size={20} aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-ink">
+                    No simulation generated yet
+                  </h3>
+                  <p className="text-xs text-muted max-w-sm mx-auto mt-1 leading-relaxed">
+                    Experience a simulated chronological day in this alternate reality from dawn to dusk.
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleGenerateDay}
+                  disabled={loading}
+                  className="px-5 py-2.5 rounded-full bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs inline-flex items-center gap-2 cursor-pointer transition-transform whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+                >
+                  <Play size={13} className="fill-current" aria-hidden="true" />
+                  <span>Simulate this day</span>
+                </button>
               </div>
+            ) : (
+              /* Chronological Day Timeline Entries */
+              <div className="relative space-y-4">
+                {timelineEntries.map((entry, idx) => {
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, delay: idx * 0.05 }}
+                      className="relative z-10 flex items-center justify-between gap-3 sm:gap-4 group border-b border-rule/50 pb-3 last:border-b-0 last:pb-0"
+                    >
+                      {/* Left: Time string */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                        <span className="text-xs font-semibold text-ink w-16 tabular-nums">
+                          {entry.time}
+                        </span>
+                      </div>
 
-              <div className="space-y-3 text-xs">
-                {/* Career */}
-                <div className="flex items-center justify-between text-[#A5A7A3]">
-                  <span>Career</span>
-                  <span className="font-semibold text-[#F2F3F0]">
-                    {overview.career}
-                  </span>
-                </div>
+                      {/* Center: Icon + Content */}
+                      <div className="flex items-start gap-2.5 flex-1 min-w-0 pr-2">
+                        <div className="w-7 h-7 rounded-md bg-surface border border-rule flex items-center justify-center shrink-0 mt-0.5">
+                          {getTimelineIcon(entry.time, entry.title, entry.iconType)}
+                        </div>
 
-                {/* Location */}
-                <div className="flex items-center justify-between text-[#A5A7A3]">
-                  <span>Location</span>
-                  <span className="font-semibold text-[#F2F3F0]">
-                    {overview.location}
-                  </span>
-                </div>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-xs font-semibold text-ink leading-snug">
+                            {entry.title}
+                          </h4>
+                          <p className="text-xs text-muted mt-0.5 leading-relaxed line-clamp-2">
+                            {entry.description}
+                          </p>
+                        </div>
+                      </div>
 
-                {/* Lifestyle */}
-                <div className="flex items-center justify-between text-[#A5A7A3]">
-                  <span>Lifestyle</span>
-                  <span className="font-semibold text-[#F2F3F0]">
-                    {overview.lifestyle}
-                  </span>
-                </div>
-
-                {/* Happiness with progress bar */}
-                <div className="pt-1">
-                  <div className="flex items-center justify-between text-[#A5A7A3] mb-1">
-                    <span>Happiness</span>
-                    <span className="font-semibold text-[#F2F3F0]">
-                      {overview.happiness}
-                    </span>
-                  </div>
-                  <div className="w-full bg-[#161a15] h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className="bg-[#C8E9A9] h-full rounded-full"
-                      style={{
-                        width:
-                          typeof overview.happiness === "string" &&
-                          overview.happiness.includes("%")
-                            ? overview.happiness
-                            : "92%",
-                      }}
-                    />
-                  </div>
-                  <span className="text-[9px] text-[#A5A7A3]/60 italic block mt-1">
-                    Fictional happiness index
-                  </span>
-                </div>
+                      {/* Right: Rectangular Photo Thumbnail */}
+                      <div className="w-20 sm:w-24 h-12 sm:h-14 rounded-lg overflow-hidden bg-paper-3 border border-rule shrink-0 relative">
+                        <img
+                          src={
+                            entry.image ||
+                            DEFAULT_TIMELINE_IMAGES.work
+                          }
+                          alt={entry.title}
+                          className="w-full h-full object-cover opacity-80"
+                        />
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: REALITY OVERVIEW & HIGHLIGHTS (3 Cols) */}
+        <div className="lg:col-span-3 space-y-4">
+          {/* Card 1: Reality Overview */}
+          <div className="bg-card border border-rule rounded-card p-5 overflow-hidden">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-ink mb-3">
+              <Layers size={14} className="text-accent" aria-hidden="true" />
+              <span>Reality overview</span>
             </div>
 
-            {/* Card 2: Key Highlights */}
-            <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              <div className="flex items-center gap-2 text-xs font-bold text-[#F2F3F0] tracking-wide mb-3">
-                <Trophy size={14} className="text-[#C8E9A9]" />
-                <span>Key Highlights</span>
-              </div>
-
-              <div className="space-y-2.5">
-                {(overview.highlights || []).map((highlight, hIdx) => (
-                  <div
-                    key={hIdx}
-                    className="flex items-start gap-2 text-xs text-[#A5A7A3] leading-relaxed"
-                  >
-                    <CheckCircle2
-                      size={14}
-                      className="text-[#C8E9A9] shrink-0 mt-0.5"
-                    />
-                    <span>{highlight}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Card 3: Quote Card */}
-            <div className="relative bg-[#0B0D0F] border border-white/[0.08] rounded-2xl p-5 shadow-xl overflow-hidden min-h-[140px] flex flex-col justify-between">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              <div className="relative z-10">
-                <span className="text-2xl text-[#C8E9A9] font-serif font-black leading-none block mb-1">
-                  “
+            <div className="space-y-2.5 text-xs divide-y divide-rule/60">
+              {/* Career */}
+              <div className="flex items-center justify-between text-muted pt-1">
+                <span>Career</span>
+                <span className="font-medium text-ink">
+                  {overview.career}
                 </span>
-                <p className="text-xs text-[#A5A7A3] italic leading-relaxed">
-                  {overview.quote ||
-                    "Sometimes, a different choice leads to a happier you."}
-                </p>
               </div>
 
-              {/* Cosmic sphere in bottom-right corner */}
-              <div className="absolute -bottom-8 -right-8 w-28 h-28 rounded-full overflow-hidden pointer-events-none opacity-85">
-                <img
-                  src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=85"
-                  alt="Planet from orbit"
-                  className="w-full h-full object-cover brightness-[0.8] contrast-[1.1]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0B0D0E] via-transparent to-transparent" />
+              {/* Location */}
+              <div className="flex items-center justify-between text-muted pt-2">
+                <span>Location</span>
+                <span className="font-medium text-ink">
+                  {overview.location}
+                </span>
+              </div>
+
+              {/* Lifestyle */}
+              <div className="flex items-center justify-between text-muted pt-2">
+                <span>Lifestyle</span>
+                <span className="font-medium text-ink">
+                  {overview.lifestyle}
+                </span>
+              </div>
+
+              {/* Happiness with progress bar */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between text-muted mb-1">
+                  <span>Satisfaction rate</span>
+                  <span className="font-medium text-ink tabular-nums">
+                    {overview.happiness}
+                  </span>
+                </div>
+                <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-accent h-full rounded-full"
+                    style={{
+                      width:
+                        typeof overview.happiness === "string" &&
+                        overview.happiness.includes("%")
+                          ? overview.happiness
+                          : "92%",
+                    }}
+                  />
+                </div>
+                <span className="text-[11px] text-muted italic block mt-1">
+                  Simulated self-reported score
+                </span>
               </div>
             </div>
+          </div>
 
-            {/* Speculative fiction disclaimer */}
-            <div className="text-[10px] text-center text-[#A5A7A3]/70 pt-2">
-              All daily itineraries are AI-generated speculative fictional narratives.
+          {/* Card 2: Key Highlights */}
+          <div className="bg-card border border-rule rounded-card p-5 overflow-hidden">
+            <div className="flex items-center gap-2 text-xs font-semibold text-ink mb-3">
+              <Trophy size={14} className="text-accent" aria-hidden="true" />
+              <span>Key highlights</span>
             </div>
+
+            <div className="space-y-2">
+              {(overview.highlights || []).map((highlight, hIdx) => (
+                <div
+                  key={hIdx}
+                  className="flex items-start gap-2 text-xs text-muted leading-relaxed"
+                >
+                  <CheckCircle2
+                    size={13}
+                    className="text-accent shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>{highlight}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 3: Quote Inset */}
+          <div className="bg-surface/50 border border-rule rounded-card p-4 overflow-hidden">
+            <p className="text-xs text-muted italic leading-relaxed">
+              &ldquo;{overview.quote || "Sometimes, a different choice leads to a happier you."}&rdquo;
+            </p>
+          </div>
+
+          {/* Speculative fiction disclaimer */}
+          <div className="text-[11px] text-center text-muted/70 pt-1">
+            All daily itineraries are AI-generated speculative fictional narratives.
           </div>
         </div>
       </div>
+    </div>
   );
 }

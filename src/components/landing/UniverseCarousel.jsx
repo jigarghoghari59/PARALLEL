@@ -418,27 +418,21 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
       ref={rootRef}
       tabIndex={0}
       onKeyDown={onKeyDown}
-      className="relative z-20 w-full min-h-[820px] lg:min-h-[920px] flex flex-col justify-between bg-[#050505] overflow-hidden select-none py-10 lg:py-14 outline-none"
+      className="relative z-20 w-full min-h-[820px] lg:min-h-[920px] flex flex-col justify-between bg-paper overflow-hidden select-none py-10 lg:py-14 outline-none"
       style={{
         "--jsc-w": "920px",
         "--jsc-h": "580px",
       }}
     >
       {/* Background ambient lighting */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(100%_70%_at_50%_40%,rgba(200,233,169,0.035)_0%,transparent_75%)]" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(100%_70%_at_50%_40%,var(--color-accent)_0%,transparent_75%)] opacity-[0.035]" />
 
       {/* Top Header Row matching PARALLEL design */}
       <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-12 mb-6 shrink-0 relative z-30">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C8E9A9]">
-                Explore Universes
-              </span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#F2F3F0] leading-none">
-              Step into Different Possibilities
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-ink leading-none">
+              Step into different possibilities
             </h2>
           </div>
 
@@ -446,10 +440,10 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
           <div className="flex items-center gap-4">
             <Link
               to="/explore"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A5A7A3] hover:text-[#C8E9A9] transition-colors group cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted hover:text-accent transition-colors group cursor-pointer"
             >
-              <span>View All Universes</span>
-              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              <span>View all universes</span>
+              <ArrowRight size={13} className="motion-safe:transition-transform motion-safe:group-hover:translate-x-1" aria-hidden="true" />
             </Link>
 
             {/* Prev / Next Buttons */}
@@ -462,9 +456,9 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                 }}
                 disabled={index === 0}
                 aria-label="Previous universe"
-                className="w-9 h-9 rounded-full bg-white/[0.04] hover:bg-[#C8E9A9] text-white hover:text-[#050505] disabled:opacity-30 disabled:pointer-events-none border border-white/[0.1] hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-md active:scale-95"
+                className="w-9 h-9 rounded-full bg-surface hover:bg-accent text-ink hover:text-accent-ink disabled:opacity-30 disabled:pointer-events-none border border-rule hover:border-accent flex items-center justify-center transition-colors cursor-pointer active:scale-95 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={16} aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -474,9 +468,9 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                 }}
                 disabled={index === n - 1}
                 aria-label="Next universe"
-                className="w-9 h-9 rounded-full bg-white/[0.04] hover:bg-[#C8E9A9] text-white hover:text-[#050505] disabled:opacity-30 disabled:pointer-events-none border border-white/[0.1] hover:border-[#C8E9A9] flex items-center justify-center transition-all cursor-pointer shadow-md active:scale-95"
+                className="w-9 h-9 rounded-full bg-surface hover:bg-accent text-ink hover:text-accent-ink disabled:opacity-30 disabled:pointer-events-none border border-rule hover:border-accent flex items-center justify-center transition-colors cursor-pointer active:scale-95 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={16} aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -542,7 +536,7 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                         pages.current[i * 2 + sideIdx] = el;
                       }}
                       data-side={side}
-                      className="absolute overflow-hidden bg-[#0A0C0E] border border-white/[0.08] shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
+                      className="absolute overflow-hidden bg-card border border-rule shadow-2xl"
                       style={{
                         top: "calc(var(--jsc-h) * -0.5)",
                         width: "calc(var(--jsc-w) * 0.5)",
@@ -559,9 +553,9 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                       {/* PAGE CONTENT */}
                       {isLeft ? (
                         /* LEFT PAGE: Cinematic Visual Cover */
-                        <div className="relative w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-[#07080A] overflow-hidden">
-                          {/* Background Artwork with Subtle Zoom on Active */}
-                          <div className="absolute inset-0 bg-black">
+                        <div className="relative w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-paper-2 overflow-hidden">
+                          {/* Background Artwork */}
+                          <div className="absolute inset-0 bg-paper">
                             <img
                               src={card.image}
                               alt={card.title}
@@ -569,24 +563,24 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                               onError={(e) => {
                                 e.currentTarget.src = card.fallbackImage;
                               }}
-                              className="w-full h-full object-cover brightness-[0.75] contrast-[1.1] transition-transform duration-700 select-none pointer-events-none"
+                              className="w-full h-full object-cover opacity-75 contrast-105 select-none pointer-events-none"
                             />
                             {/* Layered Gradient Overlays */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#07080a] via-[#07080a]/30 to-black/60" />
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/50" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/30 to-paper/60" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-paper/50" />
                           </div>
 
                           {/* Top Specular Hairline */}
-                          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8E9A9]/40 to-transparent z-10 pointer-events-none" />
+                          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent z-10 pointer-events-none" />
 
                           {/* Top Meta Bar */}
                           <div className="relative z-10 flex items-center justify-between">
-                            <span className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C8E9A9] bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/10">
+                            <span className="text-xs font-medium text-accent bg-paper/60 px-2.5 py-1 rounded-md border border-rule">
                               {card.sector}
                             </span>
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/75 border border-white/15 backdrop-blur-md">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-                              <span className="text-[10px] font-bold tracking-wider text-[#F2F3F0] uppercase">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-paper/75 border border-rule">
+                              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                              <span className="text-xs font-semibold text-ink">
                                 {card.tag}
                               </span>
                             </span>
@@ -594,38 +588,35 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
 
                           {/* Center Pinned Polaroid / Branch Snippet */}
                           <div className="relative z-10 my-auto py-2">
-                            <div className="inline-block transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-                              <span className="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest text-[#050505] bg-[#C8E9A9] font-bold rounded shadow-lg mb-2">
-                                DIVERGENCE ACTIVE
+                            <div className="inline-block">
+                              <span className="inline-block px-3 py-1 text-xs text-accent-ink bg-accent font-semibold rounded mb-2">
+                                Divergence active
                               </span>
                             </div>
                           </div>
 
                           {/* Bottom Left Page Typography */}
                           <div className="relative z-10 pt-4">
-                            <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-black text-[#F2F3F0] tracking-tight leading-tight drop-shadow-md mb-1.5">
+                            <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-black text-ink tracking-tight leading-tight mb-1.5">
                               {card.title}
                             </h3>
-                            <p className="text-xs sm:text-sm font-semibold text-[#C8E9A9] tracking-wide flex items-center gap-2">
+                            <p className="text-xs sm:text-sm font-semibold text-accent tracking-wide flex items-center gap-2">
                               <span>{card.subtitle}</span>
                             </p>
                           </div>
                         </div>
                       ) : (
                         /* RIGHT PAGE: Archival Field Dossier & Action */
-                        <div className="relative w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-[#090B0D] overflow-hidden text-[#F2F3F0]">
-                          {/* Subtle paper grid texture */}
-                          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-
+                        <div className="relative w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-paper-2 overflow-hidden text-ink">
                           {/* Right Page Header */}
-                          <div className="relative z-10 pb-3 border-b border-white/[0.08] flex items-center justify-between">
+                          <div className="relative z-10 pb-3 border-b border-rule flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <GitBranch size={13} className="text-[#C8E9A9]" />
-                              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-[#A5A7A3]">
-                                ARCHIVE LOG // {card.id.toUpperCase()}
+                              <GitBranch size={13} className="text-accent" aria-hidden="true" />
+                              <span className="text-xs text-muted">
+                                Archive log : {card.id}
                               </span>
                             </div>
-                            <span className="text-[10px] font-mono text-[#C8E9A9] bg-[#C8E9A9]/10 px-2 py-0.5 rounded border border-[#C8E9A9]/20">
+                            <span className="text-xs text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">
                               {card.divergence}
                             </span>
                           </div>
@@ -634,49 +625,49 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                           <div className="relative z-10 flex-1 flex flex-col justify-center py-4 space-y-4">
                             {/* Universe Overview */}
                             <div>
-                              <p className="text-xs sm:text-[13px] font-normal leading-relaxed text-[#A5A7A3]">
+                              <p className="text-xs sm:text-sm font-normal leading-relaxed text-muted">
                                 {card.description}
                               </p>
                             </div>
 
                             {/* Speculative Branch Log Card */}
-                            <div className="p-3.5 sm:p-4 rounded-xl bg-white/[0.025] border border-white/[0.08] relative overflow-hidden">
+                            <div className="p-3.5 sm:p-4 rounded-md border border-rule/50 relative overflow-hidden">
                               <div className="flex items-center gap-2 mb-1.5">
-                                <Compass size={12} className="text-[#9678C9]" />
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#9678C9]">
-                                  Branch Observation
+                                <Compass size={12} className="text-purple" aria-hidden="true" />
+                                <span className="text-xs font-semibold text-purple">
+                                  Branch observation
                                 </span>
                               </div>
-                              <p className="text-[11px] sm:text-xs font-serif italic text-white/90 leading-snug">
-                                "{card.log}"
+                              <p className="text-xs italic text-ink/90 leading-snug">
+                                &ldquo;{card.log}&rdquo;
                               </p>
-                              <div className="mt-2 pt-2 border-t border-white/[0.05] flex items-center justify-between text-[10px] font-mono text-[#A5A7A3]">
+                              <div className="mt-2 pt-2 border-t border-rule/50 flex items-center justify-between text-xs text-muted">
                                 <span>Anchor: {card.branchPoint}</span>
-                                <span className="text-[#C8E9A9]">{card.nodes} Nodes</span>
+                                <span className="text-accent">{card.nodes} Nodes</span>
                               </div>
                             </div>
 
-                            {/* Speculative Fiction Notice (Rule 4) */}
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 border border-white/[0.06]">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#9678C9]" />
-                              <span className="text-[10px] font-mono text-[#A5A7A3]/80">
-                                Speculative fiction — branch reflects simulated probability.
+                            {/* Speculative Fiction Notice */}
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface/40 border border-rule">
+                              <span className="w-1.5 h-1.5 rounded-full bg-purple" aria-hidden="true" />
+                              <span className="text-xs text-muted/80">
+                                Speculative fiction: branch reflects simulated probability.
                               </span>
                             </div>
                           </div>
 
                           {/* Right Page Action Footer */}
-                          <div className="relative z-10 pt-3 border-t border-white/[0.08] flex items-center justify-between gap-3">
+                          <div className="relative z-10 pt-3 border-t border-rule flex items-center justify-between gap-3">
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 navigate(`/explore?search=${encodeURIComponent(card.title)}`);
                               }}
-                              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#C8E9A9] text-[#050505] font-bold text-xs uppercase tracking-wider hover:bg-[#d5f3b7] active:scale-[0.98] transition-all shadow-md group cursor-pointer"
+                              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-accent text-accent-ink font-semibold text-xs hover:bg-accent/90 active:scale-[0.98] transition-colors shadow-sm group cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                             >
-                              <span>Explore Timeline</span>
-                              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                              <span>Explore timeline</span>
+                              <ArrowRight size={13} className="motion-safe:transition-transform motion-safe:group-hover:translate-x-1" aria-hidden="true" />
                             </button>
 
                             <button
@@ -686,15 +677,15 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                                 navigate(`/simulate?name=${encodeURIComponent(card.title)}`);
                               }}
                               title="Simulate Divergence"
-                              className="w-10 h-10 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 flex items-center justify-center text-[#A5A7A3] hover:text-[#C8E9A9] transition-all cursor-pointer"
+                              className="w-10 h-10 rounded-btn bg-surface hover:bg-surface/80 border border-rule flex items-center justify-center text-muted hover:text-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                             >
-                              <Compass size={16} />
+                              <Compass size={16} aria-hidden="true" />
                             </button>
                           </div>
                         </div>
                       )}
 
-                      {/* Spine Gutter Realistic Lighting Shadows */}
+                      {/* Spine Gutter Lighting */}
                       <div
                         className="absolute inset-0 pointer-events-none"
                         style={{
@@ -706,7 +697,7 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
 
                       {/* Dynamic 3D Curvature Shading */}
                       <div
-                        className="absolute inset-0 pointer-events-none bg-[#050505]"
+                        className="absolute inset-0 pointer-events-none bg-paper"
                         style={{ opacity: "var(--jsc-s, 0)" }}
                       />
                     </div>
@@ -719,18 +710,18 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
       </div>
 
       {/* Bottom Spread Indicators & Controls */}
-      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-12 mt-4 shrink-0 relative z-30">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10 mt-4 shrink-0 relative z-30">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
           {/* Active Spread Title and Counter */}
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-[#C8E9A9] font-bold">
+            <span className="text-xs text-accent font-semibold tabular-nums">
               0{index + 1} / 0{n}
             </span>
-            <span className="w-1 h-1 rounded-full bg-white/20" />
-            <span className="text-xs font-semibold text-[#F2F3F0] truncate max-w-[200px] sm:max-w-[280px]">
+            <span className="w-1 h-1 rounded-full bg-rule" />
+            <span className="text-xs font-semibold text-ink truncate max-w-[200px] sm:max-w-[280px]">
               {current.title}
             </span>
-            <span className="text-[11px] font-mono text-[#A5A7A3]">
+            <span className="text-xs text-muted">
               ({current.subtitle})
             </span>
           </div>
@@ -746,10 +737,10 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                   go(i);
                 }}
                 aria-label={`Jump to universe ${i + 1}`}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                className={`transition-colors duration-150 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                   i === index
-                    ? "w-8 h-2 bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9]"
-                    : "w-2 h-2 bg-white/20 hover:bg-white/40"
+                    ? "w-7 h-1.5 bg-accent"
+                    : "w-1.5 h-1.5 bg-rule hover:bg-muted"
                 }`}
               />
             ))}
@@ -763,16 +754,16 @@ export const UniverseCarousel = ({ customUniverses = [] }) => {
                 setIsAutoPlayActive((prev) => !prev);
                 touched.current = false;
               }}
-              className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               {isAutoPlayActive ? (
                 <>
-                  <Pause size={12} className="text-[#C8E9A9]" />
-                  <span>Autoplay On</span>
+                  <Pause size={12} className="text-accent" aria-hidden="true" />
+                  <span>Autoplay on</span>
                 </>
               ) : (
                 <>
-                  <Play size={12} />
+                  <Play size={12} aria-hidden="true" />
                   <span>Paused</span>
                 </>
               )}

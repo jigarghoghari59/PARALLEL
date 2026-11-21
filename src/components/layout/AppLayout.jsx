@@ -52,7 +52,7 @@ export const AppLayout = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F2F3F0] font-sans antialiased selection:bg-[#C8E9A9] selection:text-[#050505] overflow-x-hidden flex flex-col justify-between">
+    <div className="relative min-h-dvh bg-paper text-ink font-sans antialiased selection:bg-accent selection:text-accent-ink overflow-x-clip flex flex-col justify-between">
       {/* 1. Global Scroll Progress Indicator */}
       <ScrollProgressBar />
 
@@ -63,7 +63,7 @@ export const AppLayout = ({ children }) => {
       <LandingNav />
 
       {/* 4. Main Page Content Container */}
-      <main className="w-full flex-1 flex flex-col relative z-10 pt-20 sm:pt-24 min-h-[calc(100vh-160px)]">
+      <main className="w-full flex-1 flex flex-col relative z-10 pt-20 sm:pt-24 min-h-[calc(100dvh-160px)]">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}

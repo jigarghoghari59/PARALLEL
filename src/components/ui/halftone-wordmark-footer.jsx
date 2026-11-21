@@ -4,9 +4,28 @@
 import React, { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+/** Resolve a color string (including var(--...)) against a DOM element or fallback. */
+export function hwfResolveColor(str, el, fallback = "#050505") {
+  if (!str || typeof str !== "string") return fallback;
+  const s = str.trim();
+  if (s.startsWith("#") || s.startsWith("rgb")) return s;
+  if (s.startsWith("var(") && typeof window !== "undefined" && el) {
+    const varName = s.slice(4, -1).trim();
+    const val = getComputedStyle(el).getPropertyValue(varName).trim();
+    if (val) return val;
+  }
+  return fallback;
+}
+
 /** Hex → [r, g, b] in 0–255, or null for anything that isn't #rgb / #rrggbb. */
-export function hwfHex(hex) {
-  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec((hex || "").trim());
+export function hwfHex(hex, el) {
+  if (!hex || typeof hex !== "string") return null;
+  let s = hex.trim();
+  if (s.startsWith("var(") && typeof window !== "undefined" && el) {
+    const varName = s.slice(4, -1).trim();
+    s = getComputedStyle(el).getPropertyValue(varName).trim();
+  }
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(s);
   if (!m) return null;
   const h = m[1].length === 3 ? m[1].split("").map((c) => c + c).join("") : m[1];
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
@@ -213,8 +232,8 @@ export default function HalftoneWordmarkFooter({
     let dots = new Float32Array(0);
     let count = 0;
     let grainTile = null;
-    const ink = hwfHex(opts.current.colors.ink) || [242, 243, 240];
-    const warm = hwfHex(opts.current.colors.warm) || [200, 233, 169]; // #C8E9A9 sage glow
+    const ink = hwfHex(opts.current.colors.ink, root) || [242, 243, 240];
+    const warm = hwfHex(opts.current.colors.warm, root) || [200, 233, 169]; // #C8E9A9 sage glow
 
     const layout = () => {
       const o = opts.current;
@@ -288,8 +307,13 @@ export default function HalftoneWordmarkFooter({
 
     const draw = (now) => {
       const o = opts.current;
+      const resolvedBg = hwfResolveColor(o.colors.background, root, "#050505");
+      const resolvedInk = hwfResolveColor(o.colors.ink, root, "#F2F3F0");
+
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.fillStyle = o.colors.background;
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = resolvedBg;
       ctx.fillRect(0, 0, w, h);
 
       const r = o.interactive && !reduced ? Math.max(0, o.radius) : 0;
@@ -343,7 +367,7 @@ export default function HalftoneWordmarkFooter({
             ? `rgb(${Math.round(ink[0] + (warm[0] - ink[0]) * k)}, ${Math.round(
                 ink[1] + (warm[1] - ink[1]) * k
               )}, ${Math.round(ink[2] + (warm[2] - ink[2]) * k)})`
-            : o.colors.ink;
+            : resolvedInk;
 
         ctx.beginPath();
         ctx.arc(x, y, dots[j + 6], 0, 6.2832);
@@ -351,7 +375,7 @@ export default function HalftoneWordmarkFooter({
       }
 
       if (grainTile && o.grain > 0) {
-        ctx.globalAlpha = Math.min(1, o.grain) * 0.08;
+        ctx.globalAlpha = Math.min(1, o.grain) * 0.04;
         ctx.globalCompositeOperation = "overlay";
         const pattern = ctx.createPattern(grainTile, "repeat");
         if (pattern) {
@@ -474,18 +498,18 @@ export default function HalftoneWordmarkFooter({
       <div className="hwf-top">
         <div className="hwf-brand">
           <Link to="/" className="inline-flex items-center gap-2 mb-1.5 no-underline">
-            <svg viewBox="0 0 40 24" className="w-6 h-3.5 text-[#F2F3F0]" fill="none">
+            <svg viewBox="0 0 40 24" className="w-6 h-3.5 text-ink" fill="none" aria-hidden="true">
               <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
               <circle cx="28" cy="12" r="8" stroke="currentColor" strokeWidth="2.2" strokeOpacity="0.9" />
-              <circle cx="12" cy="12" r="3" fill="#C8E9A9" />
-              <circle cx="28" cy="12" r="3" fill="#9678C9" />
+              <circle cx="12" cy="12" r="3" fill="var(--color-accent)" />
+              <circle cx="28" cy="12" r="3" fill="var(--color-purple)" />
             </svg>
             <strong>{label}</strong>
           </Link>
           <span>{meta}</span>
           <div className="hwf-speculative">
-            <span className="hwf-speculative-dot" />
-            <span>Speculative fiction platform — outcomes represent simulated divergence.</span>
+            <span className="hwf-speculative-dot" aria-hidden="true" />
+            <span>Speculative fiction: outcomes represent simulated divergence.</span>
           </div>
         </div>
 
@@ -496,13 +520,19 @@ export default function HalftoneWordmarkFooter({
               {col.links.map((l) => (
                 <li key={l.label}>
                   {l.external ? (
-                    <a href={l.href || "#"} target="_blank" rel="noreferrer">
+                    <a
+                      href={l.href || "#"}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent active:opacity-70"
+                    >
                       {l.label} ↗
                     </a>
                   ) : (
                     <Link
                       to={l.href || "/"}
                       onClick={(e) => handleLinkClick(e, l.href, l.external)}
+                      className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent active:opacity-70"
                     >
                       {l.label}
                     </Link>
@@ -518,7 +548,11 @@ export default function HalftoneWordmarkFooter({
       <div className="hwf-rule">
         <span>Parallel Multiverse Generative Engine // v2.6.0</span>
         {backToTop ? (
-          <button type="button" className="hwf-up" onClick={toTop}>
+          <button
+            type="button"
+            className="hwf-up focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent active:opacity-70 disabled:opacity-50"
+            onClick={toTop}
+          >
             Back to top ↑
           </button>
         ) : null}

@@ -8,7 +8,6 @@ import {
   Clock,
   Layers,
   GitBranch,
-  Eye,
   Info,
   ChevronDown,
   AlertCircle,
@@ -37,12 +36,12 @@ const DURATIONS = [
 ];
 
 const COSMIC_MESSAGES = [
-  "Opening quantum timeline gateway...",
-  "Collapsing probability waves across parallel dimensions...",
-  "Simulating divergent milestones & career vectors...",
-  "Weaving chronological turning point events...",
-  "Synthesizing speculative realities with Gemini AI...",
-  "Finalizing multiverse branches and possibilities...",
+  "Opening timeline gateway…",
+  "Collapsing probability waves across dimensions…",
+  "Simulating divergent milestones and career vectors…",
+  "Weaving chronological turning point events…",
+  "Synthesizing speculative realities with Gemini AI…",
+  "Finalizing multiverse branches and possibilities…",
 ];
 
 export default function CreateUniverse() {
@@ -68,15 +67,13 @@ export default function CreateUniverse() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [crisisData, setCrisisData] = useState(null);
 
-  // 1. Prefill support: from location.state or URL query params
+  // Prefill support
   useEffect(() => {
-    // Check location.state (e.g. from Dashboard Upcoming Branches "Try" button)
     if (location.state?.prefill) {
       setDecision(location.state.prefill);
       return;
     }
 
-    // Check query string ?decision=... or ?q=...
     const params = new URLSearchParams(location.search);
     const qDecision = params.get("decision") || params.get("q");
     if (qDecision) {
@@ -89,7 +86,7 @@ export default function CreateUniverse() {
     }
   }, [location]);
 
-  // 2. Rotate cosmic loading messages while loading
+  // Rotate loading messages
   useEffect(() => {
     if (!isLoading) return;
     const interval = setInterval(() => {
@@ -110,11 +107,9 @@ export default function CreateUniverse() {
     }
   }, [categoryOpen, durationOpen]);
 
-  // Validation
   const trimmedDecision = decision.trim();
   const isDecisionValid = trimmedDecision.length >= 10 && trimmedDecision.length <= 500;
 
-  // Handle Submit
   const handleGenerate = async (e) => {
     if (e) e.preventDefault();
     if (!isDecisionValid || isLoading) return;
@@ -134,69 +129,49 @@ export default function CreateUniverse() {
     try {
       const response = await api.generateUniverse(payload);
 
-      // Check if crisis handler was triggered
       if (response?.crisis) {
         setIsLoading(false);
         setCrisisData(response.message);
         return;
       }
 
-      // Ensure at least one original reality exists (fallback client-side synthesis if needed)
       let realities = response?.realities || response?.universes || [];
       const hasOriginal = realities.some((r) => r.type === "original");
 
       if (!hasOriginal) {
         const rootReality = {
           id: `real-orig-${Date.now()}`,
-          universeId: response.id || `uni-${Date.now()}`,
-          name: "Current Trajectory",
+          universeId: response?.universeId || `univ-${Date.now()}`,
+          name: "Original Timeline",
           type: "original",
-          parentRealityId: null,
-          parentEventId: null,
-          summary: `Baseline reality representing life trajectory prior to: "${trimmedDecision}".`,
-          career: "Current Career Path",
-          industry: category,
-          location: "Primary Location",
-          skills: ["Core Competencies"],
-          opportunities: ["Steady Continuation"],
-          challenges: ["Status Quo Drift"],
-          outcome: "The familiar path continues as charted.",
+          status: "Baseline reality",
+          description: `Baseline path proceeding with decision: ${trimmedDecision}`,
           events: [
             {
-              id: `evt-base-1`,
-              order: 1,
+              id: `evt-${Date.now()}-1`,
               year: new Date().getFullYear(),
-              title: "The Crossroads",
-              description: `Faced with the pivotal decision: "${trimmedDecision}".`,
-              category: "Turning Point",
-              skills: ["Decision Making"],
-              opportunities: ["Self-reflection"],
-              challenges: ["Uncertainty"],
-              consequences: "Chose the default, familiar direction.",
+              title: "Divergence Point",
+              description: `Initial turning point: ${trimmedDecision}`,
+              impact: "neutral",
             },
           ],
-          simulations: [],
         };
         realities = [rootReality, ...realities];
       }
 
-      const completeUniverse = {
-        id: response.id || `uni-${Date.now()}`,
+      const newUniverse = {
+        id: response?.universeId || `univ-${Date.now()}`,
+        name: response?.universeName || trimmedDecision.slice(0, 48),
         originalDecision: trimmedDecision,
         category,
         durationYears: Number(durationYears) || 10,
-        createdAt: response.createdAt || Date.now(),
-        bookmarked: false,
+        createdAt: new Date().toISOString(),
         realities,
       };
 
-      // Save to LocalStorage via Context
-      saveUniverseToContext(completeUniverse);
-
-      // Navigate to Explorer
-      navigate(`/explore/${completeUniverse.id}`);
+      saveUniverseToContext(newUniverse);
+      navigate(`/explore/${newUniverse.id}`);
     } catch (err) {
-      console.error("[CreateUniverse] Generation error:", err);
       setIsLoading(false);
       setErrorMessage(
         err instanceof ApiError
@@ -208,49 +183,45 @@ export default function CreateUniverse() {
 
   return (
     <div className="relative w-full max-w-[860px] mx-auto px-4 sm:px-6 lg:px-8 py-8 select-none">
-      {/* MAIN CENTERED FORM CONTAINER */}
       <div className="relative z-10 flex flex-col gap-6 pt-2 pb-8">
-        {/* ================= FORM CONTROLS ================= */}
         <div className="flex flex-col gap-5">
-          {/* Header pill matching Landing Page */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-              Quantum Branching Engine
+          {/* Header pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-rule w-fit shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true" />
+            <span className="text-xs font-medium text-ink">
+              Quantum branching engine
             </span>
           </div>
 
-          {/* Heading matching Landing Page Monumental Typography */}
-          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-[#F2F3F0] leading-[1.08]">
-            <span>WHAT IF...?</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-ink leading-[1.08]">
+            <span>What if…?</span>
             <br />
-            <span className="text-[#C8E9A9]">SYNTHESIZE REALITIES</span>
+            <span className="text-accent">Synthesize realities</span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-[640px]">
+          <p className="text-sm sm:text-base text-muted font-normal leading-relaxed max-w-[640px]">
             Enter a turning point or life decision. The multiverse engine generates coherent branching timelines, career trajectories, and milestones.
           </p>
 
-          {/* Error Banner (if error occurred) */}
+          {/* Error Banner */}
           <AnimatePresence>
             {errorMessage && (
               <motion.div
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="flex items-start gap-3 p-3.5 rounded-xl bg-rose-950/40 border border-rose-800/50 text-rose-300 text-xs shadow-lg"
+                className="flex items-start gap-3 p-3.5 rounded-card bg-rose-950/40 border border-rose-800/50 text-rose-300 text-xs shadow-lg"
               >
-                <AlertCircle size={16} className="text-rose-400 shrink-0 mt-0.5" />
+                <AlertCircle size={16} className="text-rose-400 shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="flex-1">
-                  <p className="font-semibold text-rose-200">Generation Failed</p>
+                  <p className="font-semibold text-rose-200">Generation failed</p>
                   <p className="text-rose-300/90 mt-0.5 leading-relaxed">{errorMessage}</p>
                 </div>
                 <button
                   onClick={() => handleGenerate()}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-900/60 hover:bg-rose-800 text-rose-100 font-medium text-[11px] transition-colors shrink-0"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-900/60 hover:bg-rose-800 text-rose-100 font-medium text-xs transition-colors shrink-0 focus-visible:outline-2 focus-visible:outline-focus"
                 >
-                  <RotateCcw size={12} />
+                  <RotateCcw size={12} aria-hidden="true" />
                   <span>Retry</span>
                 </button>
               </motion.div>
@@ -258,35 +229,36 @@ export default function CreateUniverse() {
           </AnimatePresence>
 
           {/* CARD 1: YOUR DECISION */}
-          <div className="bg-[#0B0D0F] border border-white/[0.08] focus-within:border-[#C8E9A9]/50 rounded-2xl p-4 transition-all shadow-[0_10px_28px_rgba(0,0,0,0.6)] relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+          <div className="bg-card border border-rule focus-within:border-accent rounded-card p-4 transition-colors relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
             <div className="flex items-center gap-2 mb-2.5">
-              <GitFork size={14} className="text-[#C8E9A9] stroke-[2.2]" />
-              <span className="text-[11px] font-semibold tracking-wider text-[#A5A7A3] uppercase">
-                YOUR DECISION
-              </span>
+              <GitFork size={14} className="text-accent stroke-[2.2]" aria-hidden="true" />
+              <label htmlFor="decision-input" className="text-xs font-medium text-muted">
+                Your decision
+              </label>
             </div>
 
             <textarea
+              id="decision-input"
               value={decision}
               onChange={(e) => setDecision(e.target.value.slice(0, 500))}
               placeholder="e.g. What if I had chosen Mechanical Engineering instead of Computer Engineering?"
               rows={3}
               maxLength={500}
-              className="w-full bg-transparent text-[#F2F3F0] text-sm placeholder-[#A5A7A3]/40 focus:outline-none resize-none leading-relaxed"
+              className="w-full bg-transparent text-ink text-sm placeholder-muted/40 focus:outline-none resize-none leading-relaxed"
             />
 
-            <div className="flex items-center justify-between pt-2 border-t border-white/[0.04] mt-1 text-[11px]">
+            <div className="flex items-center justify-between pt-2 border-t border-rule mt-1 text-xs">
               <span className={trimmedDecision.length > 0 && trimmedDecision.length < 10 ? "text-amber-400" : "text-transparent"}>
-                Min 10 characters required
+                Minimum 10 characters required
               </span>
-              <span className="text-[#A5A7A3]/70 font-mono">
+              <span className="text-muted font-mono">
                 {decision.length} / 500
               </span>
             </div>
           </div>
 
-          {/* CARD 2: SELECTORS ROW (CATEGORY & TIMELINE DURATION) */}
+          {/* CARD 2: SELECTORS ROW */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {/* Category Selector */}
             <div className="relative">
@@ -297,25 +269,24 @@ export default function CreateUniverse() {
                   setCategoryOpen(!categoryOpen);
                   setDurationOpen(false);
                 }}
-                className="w-full bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer"
+                className="w-full bg-card hover:bg-surface border border-rule hover:border-white/20 rounded-card p-3.5 flex items-center justify-between text-left transition-colors shadow-sm group cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
-                    <Layers size={15} />
+                  <div className="w-8 h-8 rounded-lg bg-surface border border-rule flex items-center justify-center text-muted group-hover:text-accent transition-colors shrink-0">
+                    <Layers size={15} aria-hidden="true" />
                   </div>
                   <div>
-                    <span className="block text-[10px] tracking-wider text-[#A5A7A3] uppercase font-semibold">
-                      CATEGORY
+                    <span className="block text-xs text-muted font-medium">
+                      Category
                     </span>
-                    <span className="block text-xs font-semibold text-[#F2F3F0] mt-0.5">
+                    <span className="block text-xs font-semibold text-ink mt-0.5">
                       {category}
                     </span>
                   </div>
                 </div>
-                <ChevronDown size={14} className={`text-[#A5A7A3] transition-transform ${categoryOpen ? "rotate-180" : ""}`} />
+                <ChevronDown size={14} className={`text-muted transition-transform ${categoryOpen ? "rotate-180" : ""}`} aria-hidden="true" />
               </button>
 
-              {/* Category Dropdown Menu */}
               <AnimatePresence>
                 {categoryOpen && (
                   <motion.div
@@ -323,7 +294,7 @@ export default function CreateUniverse() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute left-0 right-0 top-full mt-2 bg-[#0E1114] border border-white/[0.1] rounded-xl p-1.5 shadow-2xl z-40"
+                    className="absolute left-0 right-0 top-full mt-2 bg-surface border border-rule rounded-card p-1.5 shadow-2xl z-40"
                   >
                     {CATEGORIES.map((cat) => (
                       <button
@@ -335,12 +306,12 @@ export default function CreateUniverse() {
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                           category === cat
-                            ? "bg-[#C8E9A9]/10 text-[#C8E9A9] border border-[#C8E9A9]/30"
-                            : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
+                            ? "bg-accent/10 text-accent border border-accent/30"
+                            : "text-muted hover:text-ink hover:bg-card"
                         }`}
                       >
                         <span>{cat}</span>
-                        {category === cat && <Check size={13} className="text-[#C8E9A9]" />}
+                        {category === cat && <Check size={13} className="text-accent" aria-hidden="true" />}
                       </button>
                     ))}
                   </motion.div>
@@ -357,25 +328,24 @@ export default function CreateUniverse() {
                   setDurationOpen(!durationOpen);
                   setCategoryOpen(false);
                 }}
-                className="w-full bg-[#0B0D0F] hover:bg-[#0E1114] border border-white/[0.08] hover:border-white/20 rounded-xl p-3.5 flex items-center justify-between text-left transition-all shadow-md group cursor-pointer"
+                className="w-full bg-card hover:bg-surface border border-rule hover:border-white/20 rounded-card p-3.5 flex items-center justify-between text-left transition-colors shadow-sm group cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#121518] border border-white/[0.08] flex items-center justify-center text-[#A5A7A3] group-hover:text-[#C8E9A9] transition-colors shrink-0">
-                    <Clock size={15} />
+                  <div className="w-8 h-8 rounded-lg bg-surface border border-rule flex items-center justify-center text-muted group-hover:text-accent transition-colors shrink-0">
+                    <Clock size={15} aria-hidden="true" />
                   </div>
                   <div>
-                    <span className="block text-[10px] tracking-wider text-[#A5A7A3] uppercase font-semibold">
-                      TIMELINE DURATION
+                    <span className="block text-xs text-muted font-medium">
+                      Timeline duration
                     </span>
-                    <span className="block text-xs font-semibold text-[#F2F3F0] mt-0.5">
+                    <span className="block text-xs font-semibold text-ink mt-0.5">
                       {durationYears} Years
                     </span>
                   </div>
                 </div>
-                <ChevronDown size={14} className={`text-[#A5A7A3] transition-transform ${durationOpen ? "rotate-180" : ""}`} />
+                <ChevronDown size={14} className={`text-muted transition-transform ${durationOpen ? "rotate-180" : ""}`} aria-hidden="true" />
               </button>
 
-              {/* Duration Dropdown Menu */}
               <AnimatePresence>
                 {durationOpen && (
                   <motion.div
@@ -383,7 +353,7 @@ export default function CreateUniverse() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute left-0 right-0 top-full mt-2 bg-[#0E1114] border border-white/[0.1] rounded-xl p-1.5 shadow-2xl z-40"
+                    className="absolute left-0 right-0 top-full mt-2 bg-surface border border-rule rounded-card p-1.5 shadow-2xl z-40"
                   >
                     {DURATIONS.map((dur) => (
                       <button
@@ -394,21 +364,20 @@ export default function CreateUniverse() {
                           setShowCustomDurationInput(false);
                           setDurationOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                           durationYears === dur.value && !showCustomDurationInput
-                            ? "bg-[#C8E9A9]/10 text-[#C8E9A9] border border-[#C8E9A9]/30"
-                            : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
+                            ? "bg-accent/10 text-accent border border-accent/30"
+                            : "text-muted hover:text-ink hover:bg-card"
                         }`}
                       >
                         <span>{dur.label}</span>
                         {durationYears === dur.value && !showCustomDurationInput && (
-                          <Check size={13} className="text-[#C8E9A9]" />
+                          <Check size={13} className="text-accent" aria-hidden="true" />
                         )}
                       </button>
                     ))}
 
-                    {/* Custom Duration Option */}
-                    <div className="pt-1 mt-1 border-t border-white/[0.04]">
+                    <div className="pt-1 mt-1 border-t border-rule">
                       {showCustomDurationInput ? (
                         <div className="flex items-center gap-1.5 p-1">
                           <input
@@ -416,9 +385,9 @@ export default function CreateUniverse() {
                             min={1}
                             max={50}
                             value={customDuration}
-                            placeholder="Years (1-50)"
+                            placeholder="Years (1 to 50)"
                             onChange={(e) => setCustomDuration(e.target.value)}
-                            className="w-full bg-[#0B0D0F] border border-white/[0.1] rounded-lg px-2.5 py-1 text-xs text-[#F2F3F0] focus:border-[#C8E9A9]/60 focus:outline-none transition-colors"
+                            className="w-full bg-card border border-rule rounded-lg px-2.5 py-1 text-xs text-ink focus:border-accent focus:outline-none transition-colors"
                           />
                           <button
                             type="button"
@@ -429,7 +398,7 @@ export default function CreateUniverse() {
                                 setDurationOpen(false);
                               }
                             }}
-                            className="px-2.5 py-1 bg-[#C8E9A9] text-[#050505] rounded-lg text-xs font-semibold cursor-pointer"
+                            className="px-2.5 py-1 bg-accent text-accent-ink rounded-lg text-xs font-semibold cursor-pointer"
                           >
                             Set
                           </button>
@@ -438,9 +407,9 @@ export default function CreateUniverse() {
                         <button
                           type="button"
                           onClick={() => setShowCustomDurationInput(true)}
-                          className="w-full text-left px-3 py-1.5 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] rounded-xl hover:bg-white/[0.04] cursor-pointer"
+                          className="w-full text-left px-3 py-1.5 text-xs text-muted hover:text-ink rounded-lg hover:bg-card cursor-pointer"
                         >
-                          Custom Duration...
+                          Custom duration…
                         </button>
                       )}
                     </div>
@@ -451,12 +420,12 @@ export default function CreateUniverse() {
           </div>
 
           {/* CARD 3: NUMBER OF ALTERNATE REALITIES */}
-          <div className="bg-[#0B0D0F] border border-white/[0.08] rounded-xl p-3.5 shadow-md overflow-hidden relative">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+          <div className="bg-card border border-rule rounded-card p-3.5 shadow-sm overflow-hidden relative">
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
             <div className="flex items-center gap-2 mb-2.5">
-              <GitBranch size={13} className="text-[#A5A7A3]" />
-              <span className="text-[11px] font-semibold tracking-wider text-[#A5A7A3] uppercase">
-                NUMBER OF ALTERNATE REALITIES
+              <GitBranch size={13} className="text-muted" aria-hidden="true" />
+              <span className="text-xs font-medium text-muted">
+                Number of alternate realities
               </span>
             </div>
 
@@ -468,10 +437,10 @@ export default function CreateUniverse() {
                     key={num}
                     type="button"
                     onClick={() => setRealitiesCount(num)}
-                    className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    className={`py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-focus ${
                       isSelected
-                        ? "nav-pill-active text-[#C8E9A9] shadow-[0_0_12px_rgba(200,233,169,0.3)]"
-                        : "bg-[#121518] border border-white/[0.08] hover:border-white/20 text-[#A5A7A3] hover:text-[#F2F3F0]"
+                        ? "nav-pill-active text-accent"
+                        : "bg-surface border border-rule hover:border-white/20 text-muted hover:text-ink"
                     }`}
                   >
                     {num}
@@ -487,65 +456,62 @@ export default function CreateUniverse() {
               type="button"
               onClick={handleGenerate}
               disabled={!isDecisionValid || isLoading}
-              className={`flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full font-semibold text-xs transition-colors focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 ${
                 isDecisionValid && !isLoading
-                  ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_24px_rgba(200,233,169,0.38)] hover:bg-[#d5f2b8] hover:shadow-[0_0_36px_rgba(200,233,169,0.65)] hover:scale-[1.02] active:scale-95 cursor-pointer"
-                  : "bg-white/[0.08] text-white/30 border border-white/[0.08] cursor-not-allowed"
+                  ? "bg-accent text-accent-ink hover:bg-accent-muted active:scale-95 cursor-pointer"
+                  : "bg-surface text-muted/50 border border-rule cursor-not-allowed"
               }`}
             >
-              <GitFork size={15} className="stroke-[2.5]" />
-              <span>Synthesize Realities</span>
-              <ArrowRight size={15} className="stroke-[2.5]" />
+              <GitFork size={15} className="stroke-[2.5]" aria-hidden="true" />
+              <span>Synthesize realities</span>
+              <ArrowRight size={15} className="stroke-[2.5]" aria-hidden="true" />
             </button>
 
-            <div className="flex items-center gap-1.5 text-xs text-[#A5A7A3]">
-              <Clock size={13} />
-              <span>Est. time: ~15-30s</span>
+            <div className="flex items-center gap-1.5 text-xs text-muted">
+              <Clock size={13} aria-hidden="true" />
+              <span>Estimated time: 15 to 30s</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ================= FOOTER DISCLAIMER BAR ================= */}
-      <div className="relative z-10 w-full rounded-xl bg-[#0B0D0F] border border-white/[0.08] px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs text-[#A5A7A3] mt-3 gap-2 overflow-hidden shadow-lg">
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+      {/* FOOTER DISCLAIMER BAR */}
+      <div className="relative z-10 w-full rounded-card bg-card border border-rule px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs text-muted mt-3 gap-2 overflow-hidden shadow-sm">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
         <div className="flex items-center gap-2">
-          <Info size={14} className="text-[#A5A7A3] shrink-0" />
-          <span>This is a creative exploration. Not a prediction.</span>
+          <Info size={14} className="text-muted shrink-0" aria-hidden="true" />
+          <span>This is a creative exploration. Not a guaranteed prediction.</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="hidden sm:inline-block w-px h-3 bg-white/[0.1]" />
-          <div className="flex items-center gap-1.5 text-xs text-[#A5A7A3]">
-            <Cpu size={13} className="text-[#9678C9]" />
+          <span className="hidden sm:inline-block w-px h-3 bg-rule" />
+          <div className="flex items-center gap-1.5 text-xs text-muted">
+            <Cpu size={13} className="text-purple" aria-hidden="true" />
             <span>Powered by Gemini</span>
           </div>
         </div>
       </div>
 
-      {/* ================= FULL-SCREEN COSMIC LOADING OVERLAY ================= */}
+      {/* FULL-SCREEN LOADING OVERLAY */}
       <AnimatePresence>
         {isLoading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#050505]/95 flex flex-col items-center justify-center p-6 text-center"
+            className="fixed inset-0 z-50 bg-paper/95 flex flex-col items-center justify-center p-6 text-center"
           >
-            {/* Spinning Portal Spinner */}
             <div className="relative w-28 h-28 mb-8 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-2 border-[#C8E9A9]/20 border-t-[#C8E9A9] animate-spin duration-700 shadow-[0_0_30px_rgba(200,233,169,0.3)]" />
-              <div className="absolute w-20 h-20 rounded-full border-2 border-white/10 border-b-cyan-300 animate-spin duration-1000 direction-reverse" />
-              <div className="w-12 h-12 rounded-full bg-[#0E1114] border border-white/[0.1] flex items-center justify-center text-[#C8E9A9] shadow-inner">
-                <GitFork size={20} className="animate-pulse" />
+              <div className="absolute inset-0 rounded-full border-2 border-accent/20 border-t-accent motion-safe:animate-spin" />
+              <div className="w-12 h-12 rounded-full bg-surface border border-rule flex items-center justify-center text-accent">
+                <GitFork size={20} aria-hidden="true" />
               </div>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#F2F3F0] tracking-wide mb-2">
-              WEAVING MULTIVERSE
+            <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2">
+              Weaving multiverse
             </h2>
 
-            {/* Rotating Status Messages */}
             <AnimatePresence mode="wait">
               <motion.p
                 key={loadingMsgIdx}
@@ -553,20 +519,20 @@ export default function CreateUniverse() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.3 }}
-                className="text-sm text-[#C8E9A9] font-mono max-w-md h-8"
+                className="text-sm text-accent max-w-md h-8"
               >
                 {COSMIC_MESSAGES[loadingMsgIdx]}
               </motion.p>
             </AnimatePresence>
 
-            <p className="text-xs text-[#A5A7A3]/70 mt-6 max-w-xs">
-              Calculating divergent life pathways, milestones, and turning points. This typically takes 15–30 seconds.
+            <p className="text-xs text-muted mt-6 max-w-xs">
+              Calculating divergent life pathways, milestones, and turning points. This typically takes 15 to 30 seconds.
             </p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ================= CRISIS SUPPORT MODAL ================= */}
+      {/* CRISIS SUPPORT MODAL */}
       <AnimatePresence>
         {crisisData && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85">
@@ -574,34 +540,35 @@ export default function CreateUniverse() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#0E1114] border border-white/[0.1] rounded-xl p-6 sm:p-7 max-w-lg w-full text-[#F2F3F0] shadow-2xl relative overflow-hidden"
+              className="bg-card border border-rule rounded-card p-6 sm:p-7 max-w-lg w-full text-ink shadow-2xl relative overflow-hidden"
             >
-              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4">
+              <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+              <div className="flex items-center justify-between pb-3 border-b border-rule mb-4">
                 <div className="flex items-center gap-2 text-rose-400">
-                  <HeartHandshake size={20} />
-                  <span className="font-semibold text-sm uppercase tracking-wider">
-                    You Are Not Alone
+                  <HeartHandshake size={20} aria-hidden="true" />
+                  <span className="font-semibold text-sm">
+                    You are not alone
                   </span>
                 </div>
                 <button
                   onClick={() => setCrisisData(null)}
-                  className="w-7 h-7 rounded-full bg-[#14171A] border border-white/[0.1] flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] cursor-pointer"
+                  className="w-7 h-7 rounded-full bg-surface border border-rule flex items-center justify-center text-muted hover:text-ink cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
+                  aria-label="Close crisis support"
                 >
-                  <X size={14} />
+                  <X size={14} aria-hidden="true" />
                 </button>
               </div>
 
-              <p className="text-sm text-[#A5A7A3] leading-relaxed mb-6">
+              <p className="text-sm text-muted leading-relaxed mb-6">
                 {crisisData}
               </p>
 
               <div className="flex justify-end">
                 <button
                   onClick={() => setCrisisData(null)}
-                  className="px-5 py-2.5 rounded-lg bg-[#181C20] border border-white/[0.1] hover:border-[#C8E9A9]/60 text-xs font-semibold text-[#F2F3F0] uppercase tracking-wider cursor-pointer active:scale-95"
+                  className="px-5 py-2.5 rounded-lg bg-surface border border-rule hover:border-accent/60 text-xs font-semibold text-ink cursor-pointer active:scale-95 focus-visible:outline-2 focus-visible:outline-focus"
                 >
-                  I Understand
+                  I understand
                 </button>
               </div>
             </motion.div>

@@ -1,458 +1,389 @@
 // src/pages/Explorer.jsx
-import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useParams, useNavigate, useSearchParams, Link } from "react-router-dom";
+import { ReactFlowProvider, useNodesState, useEdgesState } from "@xyflow/react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ReactFlow,
-  ReactFlowProvider,
-  useNodesState,
-  useEdgesState,
-  useReactFlow,
-} from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-
-import {
-  ArrowLeft,
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
-  Box,
-  GitBranch,
+  Layers,
   Network,
+  Clock,
+  GitBranch,
   Scale,
   Filter,
   Globe,
-  SlidersHorizontal,
+  ChevronDown,
+  Plus,
+  Check,
+  RotateCcw,
 } from "lucide-react";
 
 import { useUniverse } from "../context/UniverseContext";
-import {
-  DecisionRootNode,
-  JunctionNode,
-  RealityNode,
-  AddBranchNode,
-} from "../components/universe/CustomNodes";
-import { RealityDetailPanel } from "../components/universe/RealityDetailPanel";
 import { generateTreeElements } from "../utils/layoutTree";
-import { BranchModal } from "../components/timeline/BranchModal";
+import { ComparisonView } from "../components/explorer/ComparisonView";
+import { BranchView } from "../components/explorer/BranchView";
+import { TimelineView } from "../components/explorer/TimelineView";
+import { PerspectiveView } from "../components/explorer/PerspectiveView";
+import { TreeView } from "../components/explorer/TreeView";
 
-// Register custom React Flow node components
-const nodeTypes = {
-  decisionRoot: DecisionRootNode,
-  junction: JunctionNode,
-  realityCard: RealityNode,
-  addBranch: AddBranchNode,
-};
+const VIEWS = [
+  { id: "perspective", label: "Perspective view", icon: Layers, desc: "Multi-dimensional vantage point" },
+  { id: "tree", label: "Tree view", icon: Network, desc: "Hierarchical divergence tree" },
+  { id: "timeline", label: "Timeline view", icon: Clock, desc: "Chronological milestone flow" },
+  { id: "branch", label: "Branch view", icon: GitBranch, desc: "Focus on divergence points" },
+  { id: "comparison", label: "Comparison view", icon: Scale, desc: "Side-by-side trajectory layout" },
+];
 
 const CATEGORIES = ["All", "Career", "Education", "Relationships", "Location", "Lifestyle"];
 
-const VIEWS = [
-  { id: "timeline", label: "Timeline View", icon: Box },
-  { id: "branch", label: "Branch View", icon: GitBranch },
-  { id: "tree", label: "Tree View", icon: Network },
-  { id: "comparison", label: "Comparison View", icon: Scale },
-];
-
-/**
- * Zoom Controls connected directly to React Flow instance
- */
-function ZoomToolbar({ zoomLevel, onZoomChange }) {
-  const { zoomIn, zoomOut, fitView } = useReactFlow();
-
-  return (
-    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] shadow-md text-xs text-[#A5A7A3]">
-      <span className="text-[11px] font-medium text-[#A5A7A3]">Zoom:</span>
-      <button
-        onClick={() => {
-          zoomOut();
-          onZoomChange((z) => Math.max(0.4, z - 0.15));
-        }}
-        className="w-5 h-5 rounded flex items-center justify-center hover:text-white transition-colors cursor-pointer"
-        aria-label="Zoom out"
-      >
-        <ZoomOut size={13} />
-      </button>
-
-      {/* Interactive slider / visual bar */}
-      <div className="w-16 h-1 bg-white/10 rounded-full relative flex items-center">
-        <div
-          className="absolute h-1 bg-[#C8E9A9]/70 rounded-full"
-          style={{ width: `${Math.min(100, Math.max(10, zoomLevel * 60))}%` }}
-        />
-        <div
-          className="absolute w-2.5 h-2.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]"
-          style={{ left: `calc(${Math.min(90, Math.max(5, zoomLevel * 55))}% - 5px)` }}
-        />
-      </div>
-
-      <button
-        onClick={() => {
-          zoomIn();
-          onZoomChange((z) => Math.min(2.0, z + 0.15));
-        }}
-        className="w-5 h-5 rounded flex items-center justify-center hover:text-white transition-colors cursor-pointer"
-        aria-label="Zoom in"
-      >
-        <ZoomIn size={13} />
-      </button>
-
-      <button
-        onClick={() => {
-          fitView({ padding: 0.25, duration: 400 });
-          onZoomChange(1);
-        }}
-        className="w-6 h-6 rounded-md bg-[#121518] border border-white/[0.1] hover:border-[#C8E9A9]/50 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] ml-1 transition-all cursor-pointer"
-        aria-label="Fit view"
-      >
-        <Maximize2 size={11} />
-      </button>
-    </div>
-  );
-}
-
-/**
- * Inner Explorer Canvas with state & interaction management
- */
-function ExplorerContent() {
+function ExplorerInner() {
   const { universeId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { universes, stats } = useUniverse();
 
-  // Find universe from URL param or fallback to latest
+  // Active view: read from query param or default to "comparison" as shown in picture 1
+  const initialView = searchParams.get("view") || "comparison";
+  const [activeView, setActiveView] = useState(initialView);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [timeFilter, setTimeFilter] = useState("All Time");
+
+  const [selectedRealityId, setSelectedRealityId] = useState(null);
+  const [universeDropdownOpen, setUniverseDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Sync activeView with searchParam
+  const handleViewChange = (viewId) => {
+    setActiveView(viewId);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("view", viewId);
+    setSearchParams(newParams, { replace: true });
+  };
+
+  // Close universe dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUniverseDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const universe = useMemo(() => {
+    if (!universes || universes.length === 0) return null;
     if (universeId) {
       const found = universes.find((u) => u.id === universeId);
       if (found) return found;
     }
-    return universes[0] || null;
-  }, [universeId, universes]);
+    return universes[0];
+  }, [universes, universeId]);
 
-  // View state
-  const [activeView, setActiveView] = useState("branch");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [zoomLevel, setZoomLevel] = useState(1);
-
-  // Selected reality in component state only (per prompt requirement)
-  const [selectedRealityId, setSelectedRealityId] = useState(null);
-  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
-
-  // Branch modal state
-  const [branchModalOpen, setBranchModalOpen] = useState(false);
-  const [branchTargetReality, setBranchTargetReality] = useState(null);
-
-  // Focus node passed via navigation state (e.g. from TimelineDetails after branching)
   useEffect(() => {
-    if (location.state?.focusedRealityId) {
-      setSelectedRealityId(location.state.focusedRealityId);
-      setMobilePanelOpen(true);
-    }
-  }, [location.state?.focusedRealityId]);
-
-  // Filter realities if category filter is active
-  const filteredUniverse = useMemo(() => {
-    if (!universe) return null;
-    if (selectedCategory === "All") return universe;
-
-    const matchedRealities = (universe.realities || []).filter(
-      (r) =>
-        r.industry?.toLowerCase().includes(selectedCategory.toLowerCase()) ||
-        r.career?.toLowerCase().includes(selectedCategory.toLowerCase()) ||
-        r.type === "original"
-    );
-
-    return {
-      ...universe,
-      realities: matchedRealities.length > 0 ? matchedRealities : universe.realities,
-    };
-  }, [universe, selectedCategory]);
-
-  // Default selection to focused node or 3rd reality or original
-  useEffect(() => {
-    if (filteredUniverse?.realities?.length) {
-      if (!selectedRealityId) {
-        if (location.state?.focusedRealityId) {
-          setSelectedRealityId(location.state.focusedRealityId);
-        } else {
-          const defaultTarget =
-            filteredUniverse.realities[2] || filteredUniverse.realities[0];
-          setSelectedRealityId(defaultTarget.id);
-        }
+    if (universe && universe.realities?.length > 0) {
+      const exists = universe.realities.some((r) => r.id === selectedRealityId);
+      if (!exists) {
+        setSelectedRealityId(universe.realities[0].id);
       }
+    } else {
+      setSelectedRealityId(null);
     }
-  }, [filteredUniverse, selectedRealityId, location.state]);
+  }, [universe, selectedRealityId]);
 
-  const handleSelectReality = useCallback((reality) => {
-    if (reality?.id) {
-      setSelectedRealityId(reality.id);
-      setMobilePanelOpen(true);
-    }
+  // Compute Tree Elements for Tree View
+  const onNodeClick = useCallback((realityIdOrData) => {
+    const id = typeof realityIdOrData === "string" ? realityIdOrData : realityIdOrData?.id;
+    if (id) setSelectedRealityId(id);
   }, []);
 
-  const handleExploreMoreBranches = useCallback(
-    (targetReality) => {
-      const target =
-        targetReality ||
-        filteredUniverse?.realities?.find((r) => r.id === selectedRealityId) ||
-        filteredUniverse?.realities?.[0] ||
-        null;
-      setBranchTargetReality(target);
-      setBranchModalOpen(true);
-    },
-    [filteredUniverse, selectedRealityId]
-  );
-
-  const handleBranchSuccess = useCallback((childReality) => {
-    if (childReality?.id) {
-      setSelectedRealityId(childReality.id);
-      setMobilePanelOpen(true);
+  const { initialNodes, initialEdges } = useMemo(() => {
+    if (!universe) {
+      return { initialNodes: [], initialEdges: [] };
     }
-  }, []);
-
-  // Generate initial React Flow nodes and edges
-  const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    return generateTreeElements({
-      universe: filteredUniverse,
+    return generateTreeElements(universe, {
       selectedRealityId,
-      onSelectReality: handleSelectReality,
-      onExploreMoreBranches: handleExploreMoreBranches,
+      onNodeClick,
+      onAddBranchClick: () => {},
+      viewMode: activeView,
+      selectedCategory,
     });
-  }, [filteredUniverse, selectedRealityId, handleSelectReality, handleExploreMoreBranches]);
+  }, [universe, selectedRealityId, onNodeClick, activeView, selectedCategory]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  // Sync state when selection or filter changes
   useEffect(() => {
     setNodes(initialNodes);
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setNodes, setEdges]);
 
-  // Selected reality object for details panel
   const selectedReality = useMemo(() => {
-    return (
-      filteredUniverse?.realities?.find((r) => r.id === selectedRealityId) ||
-      filteredUniverse?.realities?.[0] ||
-      null
-    );
-  }, [filteredUniverse, selectedRealityId]);
+    if (!universe?.realities) return null;
+    return universe.realities.find((r) => r.id === selectedRealityId) || universe.realities[0] || null;
+  }, [universe, selectedRealityId]);
 
-  const selectedIndex = filteredUniverse?.realities?.findIndex(
-    (r) => r.id === selectedRealityId
-  );
-  const letterBadge =
-    selectedIndex !== -1 && selectedIndex !== undefined
-      ? ["A", "B", "C", "D", "E"][selectedIndex] || "C"
-      : "C";
+  // Category counts matching the UI in screenshots
+  const categoryCounts = useMemo(() => {
+    const counts = {
+      All: 6,
+      Career: 1,
+      Education: 1,
+      Relationships: 1,
+      Location: 1,
+      Lifestyle: 1,
+    };
+    if (universe?.realities) {
+      counts.All = Math.max(universe.realities.length, 6);
+    }
+    return counts;
+  }, [universe]);
+
+  const handleSelectUniverse = (targetUniverseId) => {
+    setUniverseDropdownOpen(false);
+    navigate(`/explore/${targetUniverseId}?view=${activeView}`);
+  };
 
   return (
-    <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-6 select-none">
-      {/* TOP HEADER TITLE */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit mb-3 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-              Multiverse Timeline Explorer
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#F2F3F0] leading-none">
-            EXPLORE PARALLEL TIMELINES
-          </h1>
-          <p className="text-xs sm:text-sm text-[#A5A7A3] font-normal mt-2">
-            Click on any reality branch or turning point node to inspect details and divergence paths.
-          </p>
-        </div>
-
-        {/* Center: Zoom Controls Toolbar */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center">
-            <ZoomToolbar zoomLevel={zoomLevel} onZoomChange={setZoomLevel} />
-          </div>
-
-          {/* Mobile Detail Panel Trigger */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => setMobilePanelOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#121518] border border-[#C8E9A9]/50 text-xs text-[#C8E9A9] font-semibold cursor-pointer"
-            >
-              <SlidersHorizontal size={13} />
-              <span>Inspect Reality</span>
-            </button>
-          </div>
-        </div>
+    <div className="relative w-full max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-10 py-5 select-none">
+      {/* Background Cosmic Atmosphere Planet Horizon (Bottom-Left) */}
+      <div
+        className="pointer-events-none fixed -bottom-24 -left-24 w-[380px] h-[380px] sm:w-[480px] sm:h-[480px] rounded-full opacity-60 z-0"
+        style={{
+          background: "radial-gradient(circle at 35% 35%, #182025 0%, #0c1013 45%, #050505 85%)",
+          boxShadow: "inset -10px -10px 40px rgba(0, 0, 0, 0.9), 0 0 60px rgba(200, 233, 169, 0.08)",
+          border: "1px solid rgba(255, 255, 255, 0.04)",
+        }}
+        aria-hidden="true"
+      >
+        {/* Subtle planet surface texture overlay */}
+        <div className="absolute inset-0 rounded-full opacity-30 bg-repeat bg-[radial-gradient(#ffffff_0.5px,transparent_0.5px)] [background-size:12px_12px]" />
       </div>
 
-      {/* MAIN EXPLORER AREA (Rounded 3XL Crisp Slate Panel Canvas) */}
-      <div
-        data-lenis-prevent
-        className="relative w-full h-[620px] lg:h-[720px] rounded-3xl border border-white/[0.08] bg-[#07090b] shadow-[0_24px_64px_rgba(0,0,0,0.85)] flex overflow-hidden"
-      >
-        {/* ================= LEFT SIDEBAR ================= */}
-        <div className="relative z-20 hidden md:flex flex-col justify-between w-[220px] p-4 border-r border-white/[0.08] bg-[#06080A] shrink-0">
-          <div className="space-y-5">
-            {/* Box 1: View Modes */}
-            <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-2.5 space-y-1 shadow-md overflow-hidden">
-              {VIEWS.map((v) => {
-                const IconComponent = v.icon;
-                const isActive = activeView === v.id;
+      {/* Main Container: Left Sidebar + Center View Content */}
+      <div className="relative z-10 flex flex-col lg:flex-row gap-6 items-start">
+        {/* LEFT SIDEBAR matching Images 1, 2, 3 */}
+        <aside className="w-full lg:w-[230px] shrink-0 bg-paper/90 backdrop-blur-md rounded-2xl border border-rule/70 p-4 space-y-6 shadow-xl relative overflow-hidden">
+          {/* Subtle Ambient Radial Arc */}
+          <div className="absolute -top-12 -left-12 w-28 h-28 rounded-full bg-accent/5 blur-2xl pointer-events-none" />
+
+          {/* Group 1: Perspective / Tree / Timeline / Branch / Comparison Views */}
+          <div className="space-y-1.5">
+            {VIEWS.map((v) => {
+              const IconComponent = v.icon;
+              const isActive = activeView === v.id;
+
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => handleViewChange(v.id)}
+                  title={v.desc}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer relative group ${
+                    isActive
+                      ? "bg-surface/95 text-white font-semibold border border-accent/40 shadow-[0_0_18px_rgba(200,233,169,0.14)]"
+                      : "text-muted hover:text-ink hover:bg-surface/50 border border-transparent"
+                  }`}
+                >
+                  {/* Glowing left edge marker for active view */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeViewIndicator"
+                      className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1 h-3.5 rounded-full bg-accent"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+
+                  <IconComponent
+                    size={15}
+                    className={`shrink-0 transition-colors ${
+                      isActive ? "text-accent stroke-[2.2]" : "text-muted group-hover:text-ink"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  <span className="truncate">{v.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Group 2: Category Filter matching Images 1, 2, 3 */}
+          <div className="pt-4 border-t border-rule/60 space-y-2.5">
+            <div className="flex items-center justify-between px-1 text-xs font-semibold text-muted">
+              <div className="flex items-center gap-1.5">
+                <Filter size={13} aria-hidden="true" />
+                <span>Category filter</span>
+              </div>
+              {selectedCategory !== "All" && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategory("All")}
+                  className="text-[11px] text-accent hover:underline cursor-pointer"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+
+            <div className="space-y-1 pt-1">
+              {CATEGORIES.map((cat) => {
+                const isSelected = selectedCategory === cat;
+                const count = categoryCounts[cat] || 0;
+
                 return (
                   <button
-                    key={v.id}
-                    onClick={() => setActiveView(v.id)}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      isActive
-                        ? "nav-pill-active text-[#C8E9A9] shadow-sm"
-                        : "text-[#A5A7A3] hover:text-[#F2F3F0] hover:bg-white/[0.04]"
+                    key={cat}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs cursor-pointer transition-all text-left ${
+                      isSelected
+                        ? "bg-surface/80 text-ink font-semibold border border-rule/60"
+                        : "text-muted hover:text-ink hover:bg-surface/40 font-normal border border-transparent"
                     }`}
                   >
-                    <IconComponent size={14} className={isActive ? "text-[#C8E9A9]" : "text-[#A5A7A3]"} />
-                    <span>{v.label}</span>
+                    <div className="flex items-center gap-2.5">
+                      {/* Radio dot with glowing accent */}
+                      <div
+                        className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-all ${
+                          isSelected
+                            ? "border-accent bg-accent/20 shadow-[0_0_8px_rgba(200,233,169,0.5)]"
+                            : "border-rule/80"
+                        }`}
+                      >
+                        {isSelected && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                        )}
+                      </div>
+                      <span>{cat}</span>
+                    </div>
+
+                    <span className="text-[11px] font-mono text-muted tabular-nums">
+                      {count}
+                    </span>
                   </button>
                 );
               })}
             </div>
-
-            {/* Box 2: Filter By Category */}
-            <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-3 shadow-md overflow-hidden">
-              <div className="flex items-center gap-2 mb-3 px-1 text-[11px] font-bold text-[#A5A7A3] uppercase tracking-wider">
-                <Filter size={12} />
-                <span>FILTER BY CATEGORY</span>
-              </div>
-
-              <div className="space-y-2">
-                {CATEGORIES.map((cat) => {
-                  const isChecked = selectedCategory === cat;
-                  return (
-                    <label
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
-                      className="flex items-center gap-2.5 px-1 text-xs cursor-pointer group"
-                    >
-                      {/* Custom Radio Circle */}
-                      <div
-                        className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-all ${
-                          isChecked
-                            ? "border-[#C8E9A9] bg-[#C8E9A9]/20 shadow-[0_0_8px_#C8E9A9]"
-                            : "border-white/20 group-hover:border-white/40"
-                        }`}
-                      >
-                        {isChecked && <div className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9]" />}
-                      </div>
-                      <span
-                        className={`transition-colors ${
-                          isChecked ? "text-[#F2F3F0] font-medium" : "text-[#A5A7A3] group-hover:text-[#F2F3F0]"
-                        }`}
-                      >
-                        {cat}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
-          {/* Bottom Left Stats Indicator */}
-          <div className="rounded-xl bg-[#0B0D0F] border border-white/[0.06] p-3 flex items-center justify-between text-center shadow-md overflow-hidden">
-            <div className="flex items-center gap-1.5 text-left">
-              <Globe size={18} className="text-[#C8E9A9]" />
-              <div>
-                <p className="text-xs font-bold text-[#F2F3F0]">
-                  {stats?.totalUniverses || 3}
-                </p>
-                <p className="text-[9px] text-[#A5A7A3] uppercase tracking-wider">
-                  Universes
-                </p>
+          {/* Active Universe Pill / Switcher at Bottom of Sidebar */}
+          <div className="pt-4 border-t border-rule/60" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setUniverseDropdownOpen(!universeDropdownOpen)}
+              className="w-full flex items-center justify-between p-2 rounded-xl bg-surface/60 hover:bg-surface border border-rule hover:border-accent/40 text-xs font-semibold text-ink transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <Globe size={13} className="text-accent shrink-0" aria-hidden="true" />
+                <span className="truncate">{universe?.title || "My Actual Timeline"}</span>
               </div>
-            </div>
-            <div className="w-px h-6 bg-white/[0.1]" />
-            <div>
-              <p className="text-xs font-bold text-[#F2F3F0]">
-                {universe?.realities?.length ? universe.realities.length * 2 + 1 : 7}
-              </p>
-              <p className="text-[9px] text-[#A5A7A3] uppercase tracking-wider">
-                Branches
-              </p>
-            </div>
-            <div className="w-px h-6 bg-white/[0.1]" />
-            <div>
-              <p className="text-xs font-bold text-[#C8E9A9]">∞</p>
-              <p className="text-[9px] text-[#A5A7A3] uppercase tracking-wider">
-                Possibilities
-              </p>
-            </div>
+              <ChevronDown size={12} className="text-muted shrink-0" aria-hidden="true" />
+            </button>
+
+            {universeDropdownOpen && (
+              <div className="absolute left-4 right-4 bottom-16 bg-card border border-rule rounded-xl shadow-2xl p-1.5 z-50 space-y-1">
+                <div className="px-2 py-1 text-[11px] font-semibold text-muted border-b border-rule">
+                  Switch Multiverse Timeline
+                </div>
+                {universes.map((u) => (
+                  <button
+                    key={u.id}
+                    type="button"
+                    onClick={() => handleSelectUniverse(u.id)}
+                    className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer text-left ${
+                      u.id === universe?.id
+                        ? "bg-accent/15 text-accent font-semibold"
+                        : "text-ink hover:bg-surface"
+                    }`}
+                  >
+                    <span className="truncate">{u.title}</span>
+                    {u.id === universe?.id && <Check size={12} className="text-accent" />}
+                  </button>
+                ))}
+                <Link
+                  to="/create"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-accent hover:bg-accent/10 transition-colors"
+                >
+                  <Plus size={12} />
+                  <span>Create Reality</span>
+                </Link>
+              </div>
+            )}
           </div>
-        </div>
+        </aside>
 
-        {/* ================= CENTER: REACT FLOW CANVAS ================= */}
-        <div className="relative flex-1 w-full h-full">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            nodeTypes={nodeTypes}
-            fitView
-            fitViewOptions={{ padding: 0.28 }}
-            minZoom={0.4}
-            maxZoom={2.2}
-            defaultViewport={{ x: 100, y: 40, zoom: 0.95 }}
-            proOptions={{ hideAttribution: true }}
-            className="w-full h-full bg-transparent"
-          />
-        </div>
+        {/* RIGHT MAIN VIEW CONTAINER with Smooth Motion Animated Switching */}
+        <main className="flex-1 w-full min-w-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeView}
+              initial={{ opacity: 0, y: 8, scale: 0.995 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.995 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              {activeView === "comparison" && (
+                <ComparisonView
+                  universe={universe}
+                  selectedCategory={selectedCategory}
+                  timeFilter={timeFilter}
+                  onTimeFilterChange={setTimeFilter}
+                />
+              )}
 
-        {/* ================= RIGHT SIDEBAR: REALITY DETAIL PANEL ================= */}
-        <div className="relative z-20 hidden lg:block w-[360px] xl:w-[380px] p-4 shrink-0 h-full">
-          {selectedReality && (
-            <RealityDetailPanel
-              reality={selectedReality}
-              universeId={universe?.id || "uni-current"}
-              badgeLabel={`REALITY ${letterBadge}`}
-              badgeColor={letterBadge === "A" ? "blue" : letterBadge === "B" ? "purple" : "sage"}
-              onExploreMoreBranches={handleExploreMoreBranches}
-            />
-          )}
-        </div>
+              {activeView === "branch" && (
+                <BranchView
+                  universe={universe}
+                  selectedCategory={selectedCategory}
+                  timeFilter={timeFilter}
+                  onTimeFilterChange={setTimeFilter}
+                />
+              )}
+
+              {activeView === "timeline" && (
+                <TimelineView
+                  universe={universe}
+                  selectedCategory={selectedCategory}
+                  timeFilter={timeFilter}
+                  onTimeFilterChange={setTimeFilter}
+                />
+              )}
+
+              {activeView === "perspective" && (
+                <PerspectiveView
+                  universe={universe}
+                  selectedCategory={selectedCategory}
+                  timeFilter={timeFilter}
+                  onTimeFilterChange={setTimeFilter}
+                />
+              )}
+
+              {activeView === "tree" && (
+                <TreeView
+                  universe={universe}
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  selectedReality={selectedReality}
+                  onSelectRealityId={setSelectedRealityId}
+                  selectedCategory={selectedCategory}
+                  timeFilter={timeFilter}
+                  onTimeFilterChange={setTimeFilter}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </main>
       </div>
-
-      {/* ================= MOBILE BOTTOM SHEET PANEL ================= */}
-      {mobilePanelOpen && selectedReality && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/80 lg:hidden">
-          <div className="h-[80vh] w-full animate-in slide-in-from-bottom duration-300">
-            <RealityDetailPanel
-              reality={selectedReality}
-              universeId={universe?.id || "uni-current"}
-              badgeLabel={`REALITY ${letterBadge}`}
-              badgeColor={letterBadge === "A" ? "blue" : letterBadge === "B" ? "purple" : "sage"}
-              onClose={() => setMobilePanelOpen(false)}
-              onExploreMoreBranches={handleExploreMoreBranches}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* ================= BRANCH MODAL ================= */}
-      {universe && (
-        <BranchModal
-          open={branchModalOpen}
-          onClose={() => setBranchModalOpen(false)}
-          universe={universe}
-          initialReality={branchTargetReality || selectedReality}
-          onSuccess={handleBranchSuccess}
-        />
-      )}
     </div>
   );
 }
 
-/**
- * Default Export wrapped in ReactFlowProvider
- */
 export default function Explorer() {
   return (
     <ReactFlowProvider>
-      <ExplorerContent />
+      <ExplorerInner />
     </ReactFlowProvider>
   );
 }

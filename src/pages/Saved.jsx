@@ -11,15 +11,12 @@ import {
   Trash2,
   MoreHorizontal,
   Search,
-  Filter,
   Lightbulb,
   ArrowRight,
   ChevronLeft,
   ChevronRight,
   AlertTriangle,
   GitFork,
-  Layers,
-  ArrowLeft,
 } from "lucide-react";
 import { useUniverse } from "../context/UniverseContext";
 import { Modal } from "../components/common/Modal";
@@ -104,91 +101,71 @@ export default function Saved() {
     }
   };
 
-  const totalCount = universes.length;
-
   return (
-    <div className="relative min-h-[calc(100vh-65px)] bg-[#050505] text-[#F2F3F0] overflow-x-hidden select-none pb-12">
-      {/* Background Star Dots (Subtle) */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-12 left-1/4 w-1 h-1 bg-white rounded-full opacity-60" />
-        <div className="absolute top-40 left-1/3 w-1.5 h-1.5 bg-[#C8E9A9] rounded-full opacity-40" />
-        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-white rounded-full opacity-50" />
-        <div className="absolute bottom-1/3 left-1/6 w-1 h-1 bg-white rounded-full opacity-30" />
-        <div className="absolute bottom-24 right-1/3 w-1.5 h-1.5 bg-[#9678C9] rounded-full opacity-30" />
-      </div>
-
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-8 space-y-8 select-none">
-        {/* ======================================================== */}
-        {/* TOP HEADER SECTION (Title + Planet Inset Banner)        */}
-        {/* ======================================================== */}
+    <div className="relative min-h-dvh bg-paper text-ink overflow-x-hidden select-none pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 space-y-8 select-none">
+        {/* TOP HEADER SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Title Block (7 Cols) */}
           <div className="lg:col-span-7 space-y-3">
-            {/* Pill Counter Badge matching Landing Page */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0E1114] border border-white/[0.08] w-fit shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_8px_#C8E9A9] animate-pulse" />
-              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#F2F3F0]">
-                {isArchivePage ? "Bookmarked Archive" : "Multiverse Archive"}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-rule w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
+              <span className="text-xs font-medium text-ink">
+                {isArchivePage ? "Bookmarked archive" : "Multiverse archive"}
               </span>
             </div>
 
-            {/* Main Page Heading */}
-            <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-extrabold text-[#F2F3F0] tracking-tight leading-[1.08]">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
               {isArchivePage ? (
                 <>
-                  MULTIVERSE <span className="text-[#C8E9A9]">ARCHIVE</span>
+                  Multiverse <span className="text-accent">archive</span>
                 </>
               ) : (
                 <>
-                  SAVED <span className="text-[#C8E9A9]">UNIVERSES</span>
+                  Saved <span className="text-accent">universes</span>
                 </>
               )}
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-sm sm:text-base text-[#A5A7A3] font-normal leading-relaxed max-w-lg">
+            <p className="text-sm text-muted font-normal leading-relaxed max-w-lg">
               {isArchivePage
                 ? "Your bookmarked turning points and high-priority alternate timelines."
                 : "Revisit your explored realities, branch points, and divergent life journeys."}
             </p>
           </div>
 
-          {/* Right Celestial Planet Inset Banner (5 Cols) */}
+          {/* Right Inset Banner (5 Cols) */}
           <div className="lg:col-span-5">
-            <div className="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden flex items-center justify-between p-6 sm:p-7 shadow-xl group border border-white/[0.08] bg-[#0B0D0F]">
-              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-              {/* Left Quote */}
-              <div className="relative z-10 max-w-[220px]">
-                <p className="text-[11px] font-bold text-[#C8E9A9] uppercase tracking-[0.22em] mb-1">
+            <div className="relative w-full h-32 sm:h-36 rounded-card overflow-hidden flex items-center justify-between p-5 border border-rule bg-card">
+              <div className="relative z-10 max-w-xs">
+                <p className="text-xs font-semibold text-accent mb-0.5">
                   Reflection
                 </p>
-                <p className="text-xs sm:text-sm font-semibold text-[#F2F3F0] leading-snug">
+                <p className="text-xs sm:text-sm font-medium text-ink leading-snug">
                   Some possibilities are worth exploring again.
                 </p>
               </div>
 
-              {/* Planet sphere with glowing horizon */}
-              <div className="absolute -right-16 -top-10 -bottom-10 w-64 sm:w-72 rounded-full overflow-hidden pointer-events-none opacity-85 group-hover:scale-105 transition-transform duration-700">
+              {/* Sphere visual */}
+              <div className="absolute -right-12 -top-8 -bottom-8 w-56 rounded-full overflow-hidden pointer-events-none opacity-40">
                 <img
                   src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=85"
                   alt="Planet from orbit"
-                  className="w-full h-full object-cover brightness-[0.9] contrast-[1.1]"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0B0D0F] via-transparent to-transparent" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* SEARCH & FILTER CONTROLS BAR                             */}
-        {/* ======================================================== */}
+        {/* SEARCH & FILTER CONTROLS BAR */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
           {/* Search Box */}
-          <div className="relative w-full sm:w-88">
+          <div className="relative w-full sm:w-80">
             <Search
               size={14}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A5A7A3]"
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+              aria-hidden="true"
             />
             <input
               type="text"
@@ -197,16 +174,16 @@ export default function Saved() {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search realities, paths, industries..."
+              placeholder="Search realities, paths, industries…"
               aria-label="Search saved universes"
-              className="w-full bg-[#0B0D0F] border border-white/[0.08] focus:border-[#C8E9A9] focus-visible:ring-1 focus-visible:ring-[#C8E9A9]/50 rounded-full pl-10 pr-4 py-2.5 text-xs text-[#F2F3F0] placeholder:text-[#A5A7A3]/60 outline-none transition-all shadow-inner"
+              className="w-full bg-surface border border-rule focus:border-accent rounded-full pl-9 pr-4 py-2 text-xs text-ink placeholder:text-muted outline-none transition-colors focus-visible:ring-1 focus-visible:ring-accent"
             />
           </div>
 
           {/* Filter Pills */}
           <div className="flex items-center gap-2 self-start sm:self-auto overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
             {[
-              { id: "all", label: "All Realities" },
+              { id: "all", label: "All realities" },
               { id: "original", label: "Original" },
               { id: "alternative", label: "Alternative" },
               { id: "bookmarked", label: "Bookmarked" },
@@ -219,10 +196,10 @@ export default function Saved() {
                     setSelectedFilter(f.id);
                     setCurrentPage(1);
                   }}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                     active
-                      ? "bg-[#C8E9A9] text-[#050505] shadow-[0_0_16px_rgba(200,233,169,0.35)]"
-                      : "bg-[#0E1114] text-[#A5A7A3] hover:text-white border border-white/[0.08] hover:border-white/20"
+                      ? "bg-accent text-accent-ink font-semibold"
+                      : "bg-surface text-muted hover:text-ink border border-rule hover:border-rule/80"
                   }`}
                 >
                   {f.label}
@@ -232,28 +209,25 @@ export default function Saved() {
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* CARDS GRID (3 Columns × 2 Rows matching reference UI)    */}
-        {/* ======================================================== */}
+        {/* CARDS GRID */}
         {paginatedUniverses.length === 0 ? (
-          <div className="rounded-2xl p-12 text-center shadow-xl relative overflow-hidden bg-[#0B0D0F] border border-white/[0.08]">
-            <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-            <Database size={32} className="text-[#C8E9A9] mx-auto mb-3 opacity-80" />
-            <h3 className="text-base font-bold text-[#F2F3F0] mb-1">
-              No Universes Found
+          <div className="rounded-card p-10 text-center bg-card border border-rule">
+            <Database size={32} className="text-accent mx-auto mb-3 opacity-80" aria-hidden="true" />
+            <h3 className="text-sm font-semibold text-ink mb-1">
+              No universes found
             </h3>
-            <p className="text-xs text-[#A5A7A3] max-w-sm mx-auto mb-5 leading-relaxed">
+            <p className="text-xs text-muted max-w-sm mx-auto mb-5 leading-relaxed">
               {searchQuery
                 ? `No timelines matched "${searchQuery}". Try a different search term or clear filters.`
                 : isArchivePage
                 ? "No bookmarked universes yet. Click the bookmark icon on any universe card to add it to your archive."
-                : "You haven't generated any alternate realities yet. Start exploring turning points to build your library."}
+                : "You have not generated any alternate realities yet. Start exploring turning points to build your library."}
             </p>
             <Link
               to="/create"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#C8E9A9] text-[#050505] font-bold text-xs shadow-[0_0_20px_rgba(200,233,169,0.35)] hover:bg-[#d5f2b8] transition-all active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
-              <GitFork size={14} className="stroke-[2.5]" /> Create a Universe
+              <GitFork size={13} className="stroke-[2.5]" aria-hidden="true" /> Create a universe
             </Link>
           </div>
         ) : (
@@ -265,9 +239,9 @@ export default function Saved() {
                   : 1;
 
               const isOriginal =
-                uni.status === "original" || idx === 0 && !uni.status;
+                uni.status === "original" || (idx === 0 && !uni.status);
 
-              const badgeColor = uni.badgeColor || (isOriginal ? "sage" : idx % 2 === 0 ? "blue" : "purple");
+              const badgeColor = uni.badgeColor || (isOriginal ? "sage" : "purple");
 
               const thumbnail =
                 uni.image ||
@@ -278,97 +252,91 @@ export default function Saved() {
                 uni.title ||
                 uni.realities?.[0]?.name ||
                 uni.originalDecision ||
-                "Alternate Timeline";
+                "Alternate timeline";
 
               const displayPath =
                 uni.pathText ||
                 (uni.realities?.[0]
-                  ? `${uni.category || "Career"} → ${uni.realities[0].career || uni.realities[0].name}`
-                  : `${uni.category || "Career"} → Exploration`);
+                  ? `${uni.category || "Career"} : ${uni.realities[0].career || uni.realities[0].name}`
+                  : `${uni.category || "Career"} : Exploration`);
 
               const dateString = formatDate(uni.createdAt);
 
               return (
                 <div
                   key={uni.id || idx}
-                  className="hover:border-white/20 rounded-2xl p-5 transition-all duration-300 shadow-xl flex flex-col justify-between group relative overflow-hidden bg-[#0B0D0F] border border-white/[0.08]"
+                  className="rounded-card p-4 transition-colors duration-150 flex flex-col justify-between group relative overflow-hidden bg-card border border-rule hover:border-rule/80"
                 >
-                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                   {/* Card Upper Half */}
                   <div>
-                    <div className="flex items-start gap-4 mb-3">
-                      {/* Left Square Thumbnail */}
-                      <div className="w-24 h-24 sm:w-26 sm:h-26 rounded-xl overflow-hidden bg-black/60 border border-white/10 shrink-0 relative group-hover:scale-[1.03] transition-transform duration-300">
+                    <div className="flex items-start gap-3 mb-3">
+                      {/* Left Thumbnail */}
+                      <div className="w-20 h-20 rounded-lg overflow-hidden bg-paper-3 border border-rule shrink-0 relative">
                         <img
                           src={thumbnail}
                           alt={displayTitle}
-                          className="w-full h-full object-cover brightness-[0.8] contrast-[1.05]"
+                          className="w-full h-full object-cover opacity-80"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                       </div>
 
                       {/* Right Details */}
                       <div className="flex-1 min-w-0">
                         {/* Top Row: Badge + More Options Button */}
-                        <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <div className="flex items-center justify-between gap-1 mb-1">
                           {isOriginal ? (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#141a15] border border-[#C8E9A9]/40 text-[#C8E9A9] text-[9px] font-bold tracking-wider uppercase shadow-[0_0_10px_rgba(200,233,169,0.2)]">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#C8E9A9] shadow-[0_0_6px_#C8E9A9]" />
-                              ORIGINAL
+                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-medium">
+                              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                              Original
                             </span>
                           ) : (
                             <span
-                              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border ${
+                              className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium border ${
                                 badgeColor === "purple"
-                                  ? "bg-[#181520] border-[#9678C9]/40 text-[#9678C9] shadow-[0_0_10px_rgba(150,120,201,0.2)]"
-                                  : badgeColor === "blue"
-                                  ? "bg-[#121820] border-[#78a9c9]/40 text-[#78a9c9]"
-                                  : "bg-[#141a15] border-[#C8E9A9]/40 text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.2)]"
+                                  ? "bg-purple/10 border-purple/30 text-purple"
+                                  : "bg-accent/10 border-accent/30 text-accent"
                               }`}
                             >
                               <span
                                 className={`w-1.5 h-1.5 rounded-full ${
                                   badgeColor === "purple"
-                                    ? "bg-[#9678C9]"
-                                    : badgeColor === "blue"
-                                    ? "bg-[#78a9c9]"
-                                    : "bg-[#C8E9A9]"
+                                    ? "bg-purple"
+                                    : "bg-accent"
                                 }`}
                               />
-                              ALTERNATIVE
+                              Alternative
                             </span>
                           )}
 
                           <button
                             aria-label="More actions"
                             onClick={() => navigate(`/explore/${uni.id}`)}
-                            className="w-6 h-6 rounded-full bg-[#121518] border border-white/[0.08] hover:border-white/20 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+                            className="w-6 h-6 rounded-full bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 flex items-center justify-center text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                           >
-                            <MoreHorizontal size={14} />
+                            <MoreHorizontal size={13} aria-hidden="true" />
                           </button>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-sm font-bold text-[#F2F3F0] group-hover:text-white transition-colors truncate leading-snug">
+                        <h3 className="text-xs font-bold text-ink truncate leading-snug">
                           {displayTitle}
                         </h3>
 
                         {/* Subtitle / Path */}
-                        <p className="text-[11px] text-[#A5A7A3] truncate mt-0.5 font-medium leading-relaxed">
+                        <p className="text-[11px] text-muted truncate mt-0.5 leading-relaxed">
                           {displayPath}
                         </p>
 
                         {/* Meta: Date & Branch Count */}
-                        <div className="flex items-center gap-3 mt-2 text-[10px] sm:text-[11px] text-[#A5A7A3]">
-                          <div className="flex items-center gap-1.5">
-                            <Calendar size={11} className="text-[#A5A7A3]" />
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-muted">
+                          <div className="flex items-center gap-1">
+                            <Calendar size={11} className="text-muted" aria-hidden="true" />
                             <span>{dateString}</span>
                           </div>
-                          <div className="flex items-center gap-1.5">
-                            <GitBranch size={11} className="text-[#A5A7A3]" />
+                          <div className="flex items-center gap-1">
+                            <GitBranch size={11} className="text-muted" aria-hidden="true" />
                             <span>
                               {branchesCount}{" "}
-                              {branchesCount === 1 ? "Branch" : "Branches"}
+                              {branchesCount === 1 ? "branch" : "branches"}
                             </span>
                           </div>
                         </div>
@@ -377,55 +345,54 @@ export default function Saved() {
                   </div>
 
                   {/* Card Bottom Action Row */}
-                  <div className="flex items-center justify-between pt-3 border-t border-white/[0.08] gap-2">
-                    {/* Left: Explore Again Button */}
+                  <div className="flex items-center justify-between pt-2.5 border-t border-rule gap-2">
+                    {/* Left: Explore Button */}
                     <button
                       onClick={() => navigate(`/explore/${uni.id}`)}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-[#C8E9A9]/60 text-xs text-[#F2F3F0] font-semibold flex items-center gap-1.5 transition-all shadow-sm group/btn cursor-pointer active:scale-95"
+                      className="px-3 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs text-ink font-medium flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                     >
                       <Play
                         size={10}
-                        className="fill-[#C8E9A9] text-[#C8E9A9] group-hover/btn:scale-110 transition-transform"
+                        className="fill-accent text-accent"
+                        aria-hidden="true"
                       />
-                      <span>Explore Again</span>
+                      <span>Explore again</span>
                     </button>
 
                     {/* Right: Compare, Bookmark, Delete Icons */}
                     <div className="flex items-center gap-1.5">
-                      {/* Compare Button */}
                       <button
                         onClick={() => navigate("/compare")}
                         aria-label="Compare realities"
-                        className="w-7 h-7 rounded-full bg-[#121518] hover:bg-[#181C20] border border-white/[0.08] hover:border-white/20 flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+                        className="w-7 h-7 rounded-full bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 flex items-center justify-center text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                       >
-                        <Scale size={13} />
+                        <Scale size={12} aria-hidden="true" />
                       </button>
 
-                      {/* Bookmark Button */}
                       <button
                         onClick={() => toggleBookmark(uni.id)}
                         aria-label={
                           uni.bookmarked ? "Remove bookmark" : "Bookmark universe"
                         }
-                        className={`w-7 h-7 rounded-full bg-[#121518] hover:bg-[#181C20] border transition-colors flex items-center justify-center cursor-pointer ${
+                        className={`w-7 h-7 rounded-full bg-surface hover:bg-surface/80 active:bg-paper-2 border transition-colors flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                           uni.bookmarked
-                            ? "border-[#C8E9A9]/60 text-[#C8E9A9] shadow-[0_0_10px_rgba(200,233,169,0.3)]"
-                            : "border-white/[0.08] hover:border-white/20 text-[#A5A7A3] hover:text-[#F2F3F0]"
+                            ? "border-accent/40 text-accent"
+                            : "border-rule hover:border-accent/40 text-muted hover:text-ink"
                         }`}
                       >
                         <Bookmark
-                          size={13}
-                          className={uni.bookmarked ? "fill-[#C8E9A9]" : ""}
+                          size={12}
+                          className={uni.bookmarked ? "fill-accent" : ""}
+                          aria-hidden="true"
                         />
                       </button>
 
-                      {/* Delete Button */}
                       <button
                         onClick={() => setUniverseToDelete(uni)}
                         aria-label="Delete universe"
-                        className="w-7 h-7 rounded-full bg-[#121518] hover:bg-red-500/10 border border-white/[0.08] hover:border-red-500/50 flex items-center justify-center text-[#A5A7A3] hover:text-red-400 transition-colors cursor-pointer"
+                        className="w-7 h-7 rounded-full bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-rule/80 flex items-center justify-center text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                       >
-                        <Trash2 size={13} />
+                        <Trash2 size={12} aria-hidden="true" />
                       </button>
                     </div>
                   </div>
@@ -435,36 +402,34 @@ export default function Saved() {
           </div>
         )}
 
-        {/* ======================================================== */}
-        {/* BOTTOM NAVIGATION & TIP BAR                              */}
-        {/* ======================================================== */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/[0.04]">
-          {/* Left Tip */}
+        {/* BOTTOM NAVIGATION & TIP BAR */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-rule">
           <Link
             to="/create"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0B0D0F] hover:bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/40 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-all group"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-btn bg-surface hover:bg-surface/80 active:bg-paper-2 border border-rule hover:border-accent/40 text-xs text-muted hover:text-ink transition-colors group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           >
             <Lightbulb
               size={13}
-              className="text-[#C8E9A9] group-hover:scale-110 transition-transform"
+              className="text-accent"
+              aria-hidden="true"
             />
-            <span>Tip: Generate more universes to discover even more possibilities.</span>
+            <span>Tip: Generate more universes to discover alternate paths.</span>
             <ArrowRight
               size={12}
-              className="group-hover:translate-x-1 transition-transform"
+              aria-hidden="true"
             />
           </Link>
 
-          {/* Right Pagination Controls */}
+          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex items-center gap-1.5 self-center sm:self-auto">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 aria-label="Previous page"
-                className="w-8 h-8 rounded-full bg-[#121518] border border-white/[0.08] hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-full bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
               >
-                <ChevronLeft size={14} />
+                <ChevronLeft size={13} aria-hidden="true" />
               </button>
 
               {Array.from({ length: totalPages }).map((_, pIdx) => {
@@ -475,10 +440,10 @@ export default function Saved() {
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    className={`w-7 h-7 rounded-full text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${
                       isActive
-                        ? "bg-[#C8E9A9] text-[#050505] font-bold shadow-[0_0_12px_rgba(200,233,169,0.4)]"
-                        : "bg-[#121518] border border-white/[0.08] hover:border-white/20 text-[#A5A7A3] hover:text-[#F2F3F0]"
+                        ? "bg-accent text-accent-ink font-semibold"
+                        : "bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 text-muted hover:text-ink"
                     }`}
                   >
                     {pageNum}
@@ -490,23 +455,21 @@ export default function Saved() {
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 aria-label="Next page"
-                className="w-8 h-8 rounded-full bg-[#121518] border border-white/[0.08] hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-full bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
               >
-                <ChevronRight size={14} />
+                <ChevronRight size={13} aria-hidden="true" />
               </button>
             </div>
           )}
         </div>
 
         {/* Speculative fiction disclaimer */}
-        <p className="text-[10px] text-center text-[#A5A7A3]/60 pt-4">
+        <p className="text-[11px] text-center text-muted/70 pt-2">
           All universes, timelines, and outcomes are AI-generated speculative fiction and do not guarantee future predictions.
         </p>
       </div>
 
-      {/* ======================================================== */}
-      {/* DELETE CONFIRMATION MODAL                                */}
-      {/* ======================================================== */}
+      {/* DELETE CONFIRMATION MODAL */}
       <Modal
         open={Boolean(universeToDelete)}
         onClose={() => setUniverseToDelete(null)}
@@ -514,29 +477,29 @@ export default function Saved() {
         maxWidth="max-w-md"
       >
         <div className="space-y-4 pt-1">
-          <div className="flex items-start gap-3 p-3 rounded-xl bg-red-950/20 border border-red-500/20">
-            <AlertTriangle size={18} className="text-red-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-[#A5A7A3] leading-relaxed">
+          <div className="flex items-start gap-2.5 p-3 rounded-card bg-surface border border-rule">
+            <AlertTriangle size={16} className="text-accent shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="text-xs text-muted leading-relaxed">
               Are you sure you want to permanently delete{" "}
-              <span className="font-semibold text-[#F2F3F0]">
-                "{universeToDelete?.title || universeToDelete?.originalDecision}"
+              <span className="font-semibold text-ink">
+                &ldquo;{universeToDelete?.title || universeToDelete?.originalDecision}&rdquo;
               </span>
-              ? All child realities, branch points, and simulations will be removed from local memory.
+              ? All child realities, branch points, and simulations will be removed from local storage.
             </div>
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               onClick={() => setUniverseToDelete(null)}
-              className="px-4 py-2 rounded-lg bg-[#121518] border border-white/[0.08] hover:border-[#C8E9A9]/50 text-xs text-[#A5A7A3] hover:text-[#F2F3F0] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-btn bg-surface border border-rule hover:border-accent/40 active:bg-paper-2 text-xs text-muted hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
               Cancel
             </button>
             <button
               onClick={handleDeleteConfirm}
-              className="px-5 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-btn bg-accent hover:bg-accent/90 active:scale-[0.98] text-accent-ink font-semibold text-xs transition-transform cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
             >
-              Delete Universe
+              Delete universe
             </button>
           </div>
         </div>

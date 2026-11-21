@@ -12,7 +12,7 @@ export const Spinner = ({ size = "md", className = "" }) => {
   return (
     <div
       className={cn(
-        "animate-spin rounded-full border-t-[#C8E9A9] border-r-transparent border-b-[#C8E9A9]/20 border-l-transparent",
+        "animate-spin rounded-full border-t-accent border-r-transparent border-b-accent/20 border-l-transparent",
         sizes[size] || sizes.md,
         className
       )}

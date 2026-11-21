@@ -1,0 +1,17 @@
+[
+  {
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "site",
+    "theme": "brand",
+    "genre": "atmospheric",
+    "failsBefore": 1211,
+    "failsAfter": 0,
+    "kept": {
+      "links": "10/11",
+      "fields": "2/7",
+      "handlers": "129/134"
+    },
+    "at": "2026-11-18T14:12:51.567Z"
+  }
+]

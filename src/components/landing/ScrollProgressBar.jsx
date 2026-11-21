@@ -18,9 +18,9 @@ export const ScrollProgressBar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[2px] z-[100] bg-transparent pointer-events-none">
+    <div className="fixed top-0 left-0 right-0 h-[2px] z-50 bg-transparent pointer-events-none">
       <div
-        className="h-full bg-gradient-to-r from-[#91B77A] via-[#C8E9A9] to-[#9678C9] shadow-[0_0_8px_rgba(200,233,169,0.7)] transition-all duration-75 ease-out"
+        className="h-full bg-gradient-to-r from-accent to-purple opacity-80"
         style={{ width: `${progress}%` }}
       />
     </div>

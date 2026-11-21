@@ -5,53 +5,50 @@ export const ParticlesBackground = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
 
+    const ctx = canvas.getContext("2d");
     let animationFrameId;
+
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     const handleResize = () => {
+      if (!canvas) return;
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
+
     window.addEventListener("resize", handleResize);
 
-    // Subtle starfield
-    const starCount = Math.floor((width * height) / 9000);
-    const stars = Array.from({ length: Math.min(starCount, 120) }, () => ({
+    const starCount = width < 768 ? 90 : 180;
+    const stars = Array.from({ length: starCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 1.2 + 0.3,
+      size: Math.random() * 1.4 + 0.3,
       alpha: Math.random() * 0.7 + 0.2,
-      speed: prefersReducedMotion ? 0 : Math.random() * 0.15 + 0.05,
+      baseAlpha: Math.random() * 0.7 + 0.2,
       twinkleSpeed: Math.random() * 0.02 + 0.005,
+      direction: Math.random() > 0.5 ? 1 : -1,
     }));
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
       stars.forEach((star) => {
-        star.alpha += Math.sin(Date.now() * star.twinkleSpeed) * 0.005;
-        const currentAlpha = Math.max(0.1, Math.min(0.85, star.alpha));
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(242, 243, 240, ${currentAlpha})`;
-        ctx.fill();
-
-        if (!prefersReducedMotion) {
-          star.y -= star.speed;
-          if (star.y < 0) {
-            star.y = height;
-            star.x = Math.random() * width;
-          }
+        star.alpha += star.twinkleSpeed * star.direction;
+        if (star.alpha > star.baseAlpha + 0.25 || star.alpha < star.baseAlpha - 0.25) {
+          star.direction *= -1;
         }
+
+        ctx.fillStyle = `rgba(242, 243, 240, ${Math.max(0.1, Math.min(1, star.alpha))})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -67,22 +64,16 @@ export const ParticlesBackground = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Deep space base radial gradients */}
-      <div className="absolute inset-0 bg-[#050505]" />
-      
-      {/* Subtle atmospheric nebula glow top right (purple sparingly) */}
-      <div className="absolute -top-32 right-[-10%] w-[600px] h-[600px] rounded-full bg-[#9678C9]/[0.035] blur-[140px]" />
-      
-      {/* Subtle sage green cosmic rim aura */}
-      <div className="absolute top-[20%] left-[-15%] w-[700px] h-[700px] rounded-full bg-[#C8E9A9]/[0.025] blur-[160px]" />
-      
-      {/* Starfield canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
+      <div className="absolute inset-0 bg-paper" />
 
-      {/* Subtle SVG Orbital Paths in background */}
+      {/* Starfield canvas */}
+      <canvas ref={canvasRef} className="absolute inset-0 opacity-80" aria-hidden="true" />
+
+      {/* SVG Orbital Paths in background */}
       <svg
         className="absolute inset-0 w-full h-full opacity-15 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
       >
         <ellipse
           cx="50%"
@@ -109,9 +100,8 @@ export const ParticlesBackground = () => {
           rx="55%"
           ry="25%"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.06)"
+          stroke="rgba(150, 120, 201, 0.08)"
           strokeWidth="1"
-          strokeDasharray="6 12"
         />
       </svg>
     </div>

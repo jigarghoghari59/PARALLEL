@@ -7,7 +7,7 @@ export const Input = React.forwardRef(
     return (
       <div className="w-full flex flex-col gap-1.5">
         {label && (
-          <label className="text-[11px] font-semibold text-[#A5A7A3] tracking-wider uppercase">
+          <label className="text-xs font-medium text-muted">
             {label}
           </label>
         )}
@@ -15,16 +15,16 @@ export const Input = React.forwardRef(
           <input
             ref={ref}
             className={cn(
-              "w-full bg-[#0B0D0F] border border-white/[0.08] focus:border-[#C8E9A9] focus-visible:ring-1 focus-visible:ring-[#C8E9A9]/50 rounded-xl px-4 py-2.5 text-sm text-[#F2F3F0] placeholder-[#A5A7A3]/50 focus:outline-none transition-all shadow-inner",
-              error && "border-rose-500/60 focus:border-rose-500 focus:shadow-[0_0_16px_rgba(244,63,94,0.25)]",
+              "w-full bg-card border border-rule focus:border-accent rounded-card px-4 py-2.5 text-sm text-ink placeholder-muted/50 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-1 transition-colors",
+              error && "border-rose-500/60 focus:border-rose-500",
               className
             )}
             {...props}
           />
         </div>
-        {error && <span className="text-[11px] text-rose-400 font-medium">{error}</span>}
+        {error && <span className="text-xs text-rose-400 font-medium">{error}</span>}
         {!error && helperText && (
-          <span className="text-[11px] text-[#A5A7A3]">{helperText}</span>
+          <span className="text-xs text-muted">{helperText}</span>
         )}
       </div>
     );
